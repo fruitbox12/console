@@ -3,11 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@types/jest": "^24.0.19",
+    "@types/node": "^12.11.2",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
     "babel-plugin-relay": "^7.0.0",
     "flow-bin": "^0.110.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "typescript": "^3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
