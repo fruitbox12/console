@@ -2,26 +2,16 @@
   "name": "frontend",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {
-    "@types/jest": "^24.0.19",
-    "@types/node": "^12.11.2",
-    "@types/react": "^16.9.9",
-    "@types/react-dom": "^16.9.2",
-    "babel-plugin-relay": "^7.0.0",
-    "flow-bin": "^0.110.0",
-    "node-sass": "^4.12.0",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
-    "typescript": "^3.6.4"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "flow": "flow"
+    "relay": "relay-compiler --src ./src --schema ./schema/schema.graphql",
+    "flow": "flow",
+    "lint": "eslint src",
+    "fixlint": "eslint --fix --ext .jsx --ext .js src",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,6 +26,41 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.6.0",
+    "@material-ui/icons": "^4.5.1",
+    "graphql-relay": "^0.6.0",
+    "node-sass": "^4.13.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-relay": "^7.1.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.7",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "babel-plugin-macros": "^2.6.1",
+    "babel-plugin-relay": "^7.1.0",
+    "flow-bin": "^0.111.3",
+    "graphql": "^14.5.8",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "prettier": "^1.19.0",
+    "relay-compiler": "^7.1.0",
+    "relay-config": "^7.1.0",
+    "typescript": "^3.7.2"
+  },
+  "pre-commit": "lint:staged",
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --write --single-quote true --trailing-comma all --print-width 150",
+      "npm run fixlint",
+      "git add"
     ]
   }
 }
