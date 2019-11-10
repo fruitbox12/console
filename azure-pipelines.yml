@@ -1,0 +1,48 @@
+trigger:
+  tags:
+    include:
+      - v*
+  branches:
+    include:
+      - master
+      - release/*
+      - feature/*
+      - bug/*
+  paths:
+    exclude:
+      - README.md
+      - helm-charts/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  DOCKER_CONTAINER_REGISTRY: 'Decentralized Cloud Docker Hub'
+  DOCKER_REPOSITORY_NAME: 'decentralizedcloud/frontend'
+
+steps:
+- task: Bash@3
+  displayName: "Generating version"
+  inputs:
+    filePath: '$(system.defaultWorkingDirectory)/script/generate-version.sh'
+    arguments: $(Build.SourceBranch)
+
+- task: Docker@2
+  displayName: "Test and Coverage"
+  inputs:
+    command: 'build'
+    Dockerfile: '$(system.defaultWorkingDirectory)/docker/Dockerfile.testAndCoverage'
+    buildContext: '$(system.defaultWorkingDirectory)'
+    arguments: '--build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)'
+
+- task: Docker@2
+  displayName: "Docker Login"
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    command: 'login'
+
+- task: Docker@2
+  displayName: "Docker Logout"
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    command: 'logout'
