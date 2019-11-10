@@ -28,6 +28,16 @@ steps:
     arguments: $(Build.SourceBranch)
 
 - task: Docker@2
+  displayName: "Build docker image"
+  inputs:
+    repository: $(DOCKER_REPOSITORY_NAME)
+    command: 'build'
+    Dockerfile: '$(system.defaultWorkingDirectory)/docker/Dockerfile.build'
+    buildContext: '$(system.defaultWorkingDirectory)'
+    arguments: '--build-arg VERSION=$(VERSION)'
+    tags: $(VERSION)
+
+- task: Docker@2
   displayName: "Test and Coverage"
   inputs:
     command: 'build'
@@ -40,6 +50,15 @@ steps:
   inputs:
     containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
     command: 'login'
+
+- task: Docker@2
+  displayName: "Push docker image"
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    repository: $(DOCKER_REPOSITORY_NAME)
+    command: 'push'
+    buildContext: '$(system.defaultWorkingDirectory)'
+    tags: $(VERSION)
 
 - task: Docker@2
   displayName: "Docker Logout"

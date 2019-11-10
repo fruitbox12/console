@@ -1,9 +1,7 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
-import Config from '../config';
-
 const fetchQuery = async (operation, variables) => {
-  const response = await fetch(Config['api-gateway'].URL, {
+  const response = await fetch(window._env_.API_GATEWAY_PUBLIC_URL, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
