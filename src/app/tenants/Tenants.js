@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { QueryRenderer } from 'react-relay';
 import { RelayEnvironment } from '../../framework/relay';
-import SignInRelayContainer from './SignInRelayContainer';
+import TenantsRelayContainer from './TenantsRelayContainer';
 
-class SignIn extends Component {
+class Tenants extends Component {
   renderRelayComponent = ({ props, error }) => {
     if (props && props.user) {
-      return <SignInRelayContainer user={props.user} />;
+      return <TenantsRelayContainer user={props.user} />;
     } else if (error) {
       return <div>{error.message}</div>;
     }
@@ -20,9 +20,9 @@ class SignIn extends Component {
       <QueryRenderer
         environment={RelayEnvironment}
         query={graphql`
-          query SignInQuery {
+          query TenantsQuery {
             user {
-              ...SignInRelayContainer_user
+              ...TenantsRelayContainer_user
             }
           }
         `}
@@ -33,4 +33,4 @@ class SignIn extends Component {
   };
 }
 
-export default SignIn;
+export default Tenants;

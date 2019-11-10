@@ -1,10 +1,10 @@
 import graphql from 'babel-plugin-relay/macro';
 import { createFragmentContainer } from 'react-relay';
-import SignInContainer from './SignInContainer';
+import TenantsContainer from './TenantsContainer';
 
-export default createFragmentContainer(SignInContainer, {
+export default createFragmentContainer(TenantsContainer, {
   user: graphql`
-    fragment SignInRelayContainer_user on User {
+    fragment TenantsRelayContainer_user on User {
       id
       tenants(first: 1000) @connection(key: "User_tenants") {
         edges {
