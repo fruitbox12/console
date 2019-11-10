@@ -1,7 +1,8 @@
 {
   "name": "frontend",
   "version": "0.0.1",
-  "private": true,
+  "private": true,  
+  "proxy":"http://localhost:10004",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

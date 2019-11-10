@@ -1,7 +1,7 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
 const fetchQuery = async (operation, variables) => {
-  const response = await fetch('http://0.0.0.0:10004/graphql', {
+  const response = await fetch('/graphql', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
