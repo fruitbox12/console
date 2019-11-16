@@ -4,37 +4,37 @@ import { ConnectionHandler } from 'relay-runtime';
 import cuid from 'cuid';
 
 const mutation = graphql`
-  mutation DeleteTenantMutation($input: DeleteTenantInput!) {
-    deleteTenant(input: $input) {
-      deletedTenantID
+  mutation DeleteEdgeClusterMutation($input: DeleteEdgeClusterInput!) {
+    deleteEdgeCluster(input: $input) {
+      deletedEdgeClusterID
     }
   }
 `;
 
-const sharedUpdater = (store, user, tenantID) => {
+const sharedUpdater = (store, user, edgeClusterID) => {
   const userProxy = store.get(user.id);
-  const connection = ConnectionHandler.getConnection(userProxy, 'User_tenants');
+  const connection = ConnectionHandler.getConnection(userProxy, 'User_edgeClusters');
 
-  ConnectionHandler.deleteNode(connection, tenantID);
+  ConnectionHandler.deleteNode(connection, edgeClusterID);
 };
 
-const commit = (environment, { tenantID }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { edgeClusterID }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
       input: {
-        tenantID,
+        edgeClusterID,
         clientMutationId: cuid(),
       },
     },
     updater: store => {
-      const payload = store.getRootField('deleteTenant');
-      const deletedTenantID = payload.getValue('deletedTenantID');
+      const payload = store.getRootField('deleteEdgeCluster');
+      const deletedEdgeClusterID = payload.getValue('deletedEdgeClusterID');
 
-      sharedUpdater(store, user, deletedTenantID);
+      sharedUpdater(store, user, deletedEdgeClusterID);
     },
     optimisticUpdater: store => {
-      sharedUpdater(store, user, tenantID);
+      sharedUpdater(store, user, edgeClusterID);
     },
     onCompleted: (response, errors) => {
       if (errors && errors.length > 0) {
