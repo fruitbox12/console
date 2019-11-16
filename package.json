@@ -78,5 +78,5 @@
       "text"
     ]
   },
-  "proxy": "http://localhost:10004"
+  "proxy": "http://api-gateway"
 }
