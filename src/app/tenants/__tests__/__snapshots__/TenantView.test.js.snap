@@ -10,7 +10,7 @@ exports[`renders correctly 1`] = `
   >
     <span
       aria-disabled={false}
-      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-24 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-31 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
       onBlur={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
@@ -29,7 +29,7 @@ exports[`renders correctly 1`] = `
       >
         <input
           checked={false}
-          className="PrivateSwitchBase-input-27"
+          className="PrivateSwitchBase-input-34"
           data-indeterminate={false}
           disabled={false}
           onChange={[Function]}
@@ -54,7 +54,13 @@ exports[`renders correctly 1`] = `
     className="MuiTableCell-root MuiTableCell-paddingNone"
     scope="row"
   >
-    Tenant Name
+    <a
+      className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link-7 MuiTypography-colorPrimary"
+      onBlur={[Function]}
+      onFocus={[Function]}
+    >
+      Tenant Name
+    </a>
   </th>
 </tr>
 `;

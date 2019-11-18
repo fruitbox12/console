@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const styles = makeStyles(theme => ({
   root: {
+    backgroundColor: theme.palette.background.paper,
     width: '100%',
     marginTop: theme.spacing(3),
   },
@@ -25,6 +26,14 @@ const styles = makeStyles(theme => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  link: {
+    margin: theme.spacing(1),
   },
 }));
 

@@ -1,6 +1,5 @@
 import graphql from 'babel-plugin-relay/macro';
 import { commitMutation } from 'react-relay';
-import { ConnectionHandler } from 'relay-runtime';
 import cuid from 'cuid';
 
 const mutation = graphql`

@@ -28,7 +28,7 @@ exports[`renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -47,7 +47,7 @@ exports[`renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-62"
+                    className="PrivateSwitchBase-input-64"
                     data-indeterminate={false}
                     disabled={false}
                     onChange={[Function]}
@@ -88,7 +88,7 @@ exports[`renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -107,7 +107,7 @@ exports[`renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-62"
+                    className="PrivateSwitchBase-input-64"
                     data-indeterminate={false}
                     disabled={false}
                     onChange={[Function]}
@@ -132,7 +132,13 @@ exports[`renders correctly 1`] = `
               className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone"
               scope="row"
             >
-              Tenant Name1
+              <a
+                className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link-7 MuiTypography-colorPrimary"
+                onBlur={[Function]}
+                onFocus={[Function]}
+              >
+                Tenant Name1
+              </a>
             </th>
           </tr>
           <tr
@@ -144,7 +150,7 @@ exports[`renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -163,7 +169,7 @@ exports[`renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-62"
+                    className="PrivateSwitchBase-input-64"
                     data-indeterminate={false}
                     disabled={false}
                     onChange={[Function]}
@@ -188,7 +194,13 @@ exports[`renders correctly 1`] = `
               className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone"
               scope="row"
             >
-              Tenant Name2
+              <a
+                className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link-7 MuiTypography-colorPrimary"
+                onBlur={[Function]}
+                onFocus={[Function]}
+              >
+                Tenant Name2
+              </a>
             </th>
           </tr>
           <tr
@@ -200,7 +212,7 @@ exports[`renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -219,7 +231,7 @@ exports[`renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-62"
+                    className="PrivateSwitchBase-input-64"
                     data-indeterminate={false}
                     disabled={false}
                     onChange={[Function]}
@@ -244,12 +256,52 @@ exports[`renders correctly 1`] = `
               className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone"
               scope="row"
             >
-              Tenant Name3
+              <a
+                className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link-7 MuiTypography-colorPrimary"
+                onBlur={[Function]}
+                onFocus={[Function]}
+              >
+                Tenant Name3
+              </a>
             </th>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <button
+    aria-label="add"
+    className="MuiButtonBase-root MuiFab-root makeStyles-fab-6 MuiFab-primary"
+    disabled={false}
+    onBlur={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span
+      className="MuiFab-label"
+    >
+      <svg
+        aria-hidden="true"
+        className="MuiSvgIcon-root"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+        />
+      </svg>
+    </span>
+  </button>
 </div>
 `;
