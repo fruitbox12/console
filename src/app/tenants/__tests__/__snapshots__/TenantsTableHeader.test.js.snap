@@ -58,7 +58,7 @@ exports[`renders correctly 1`] = `
       className="MuiTableCell-root MuiTableCell-head"
       scope="col"
     >
-      Tenants Name
+      Name
     </th>
   </tr>
 </thead>

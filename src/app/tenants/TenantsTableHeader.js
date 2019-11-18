@@ -10,7 +10,7 @@ const TenantsTableHeader = () => (
       <TableCell padding="checkbox">
         <Checkbox checked={false} />
       </TableCell>
-      <TableCell>Tenants Name</TableCell>
+      <TableCell>Name</TableCell>
     </TableRow>
   </TableHead>
 );
