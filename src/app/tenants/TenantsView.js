@@ -1,11 +1,12 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 
 import { tenantsProp } from './PropTypes';
 import Styles from './Styles';
 import TenantsTableHeader from './TenantsTableHeader';
-import TenantsTableBody from './TenantsTableBody';
+import TenantView from './TenantView';
 
 const TenantsView = ({ tenants }) => {
   const classes = Styles();
@@ -16,7 +17,11 @@ const TenantsView = ({ tenants }) => {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
             <TenantsTableHeader />
-            <TenantsTableBody tenants={tenants} />
+            <TableBody>
+              {tenants.map(tenant => (
+                <TenantView key={tenant.id} tenant={tenant} />
+              ))}
+            </TableBody>
           </Table>
         </div>
       </Paper>
