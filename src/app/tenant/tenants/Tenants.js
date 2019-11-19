@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { QueryRenderer } from 'react-relay';
-import { RelayEnvironment } from '../../framework/relay';
+import { RelayEnvironment } from '../../../framework/relay';
 import TenantsRelayContainer from './TenantsRelayContainer';
 
 class Tenants extends Component {

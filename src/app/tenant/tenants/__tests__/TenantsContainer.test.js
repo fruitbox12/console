@@ -4,7 +4,7 @@ import cuid from 'cuid';
 import { Range } from 'immutable';
 import Chance from 'chance';
 
-import TenantsContainer from '../TenantsContainer';
+import { TenantsContainer } from '../TenantsContainer';
 import TenantsView from '../TenantsView';
 
 const chance = new Chance();

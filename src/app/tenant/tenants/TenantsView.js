@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +11,7 @@ import Styles from './Styles';
 import TenantsTableHeader from './TenantsTableHeader';
 import TenantView from './TenantView';
 
-const TenantsView = ({ tenants }) => {
+const TenantsView = ({ tenants, onCreateTenantClick }) => {
   const classes = Styles();
 
   return (
@@ -28,7 +29,7 @@ const TenantsView = ({ tenants }) => {
         </div>
       </Paper>
 
-      <Fab color="primary" aria-label="add" className={classes.fab} size="large">
+      <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={onCreateTenantClick}>
         <AddIcon />
       </Fab>
     </div>
@@ -37,6 +38,7 @@ const TenantsView = ({ tenants }) => {
 
 TenantsView.propTypes = {
   tenants: tenantsProp.isRequired,
+  onCreateTenantClick: PropTypes.func.isRequired,
 };
 
 export default TenantsView;

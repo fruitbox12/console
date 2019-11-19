@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`<TenantsView /> renders correctly 1`] = `
 <div
   className="makeStyles-root-1"
 >
@@ -274,6 +274,7 @@ exports[`renders correctly 1`] = `
     className="MuiButtonBase-root MuiFab-root makeStyles-fab-6 MuiFab-primary"
     disabled={false}
     onBlur={[Function]}
+    onClick={[MockFunction]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
