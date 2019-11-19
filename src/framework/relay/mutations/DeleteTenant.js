@@ -12,6 +12,10 @@ const mutation = graphql`
 `;
 
 const sharedUpdater = (store, user, tenantID) => {
+  if (!user) {
+    return;
+  }
+
   const userProxy = store.get(user.id);
   const connection = ConnectionHandler.getConnection(userProxy, 'User_tenants');
 

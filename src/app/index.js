@@ -1,1 +1,1 @@
-export { default as Tenants } from './tenants';
+export { Tenants, CreateTenantContainer } from './tenant';
