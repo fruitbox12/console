@@ -1,6 +1,6 @@
 const validate = values => {
   const errors = {};
-  const requiredFields = ['name'];
+  const requiredFields = ['name', 'clusterSecret'];
 
   requiredFields.forEach(field => {
     if (!values[field]) {

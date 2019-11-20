@@ -9,8 +9,12 @@ describe('<TenantView />', () => {
     name: 'Tenant Name',
   };
 
+  const props = {
+    onTenantClick: jest.fn(),
+  };
+
   it('renders correctly', () => {
-    const tree = renderer.create(<TenantView tenant={tenant} />).toJSON();
+    const tree = renderer.create(<TenantView tenant={tenant} {...props} />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });

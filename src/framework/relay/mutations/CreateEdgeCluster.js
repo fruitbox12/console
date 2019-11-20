@@ -29,14 +29,14 @@ const sharedUpdater = (store, user, newEdge) => {
   ConnectionHandler.insertEdgeAfter(connection, newEdge);
 };
 
-const commit = (environment, { tenantID, name, k3SClusterSecret }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { tenantID, name, clusterSecret }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
       input: {
         tenantID,
         name,
-        k3SClusterSecret,
+        clusterSecret,
         clientMutationId: cuid(),
       },
     },

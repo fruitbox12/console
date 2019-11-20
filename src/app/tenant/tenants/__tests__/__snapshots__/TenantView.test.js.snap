@@ -57,6 +57,7 @@ exports[`<TenantView /> renders correctly 1`] = `
     <a
       className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link-7 MuiTypography-colorPrimary"
       onBlur={[Function]}
+      onClick={[Function]}
       onFocus={[Function]}
     >
       Tenant Name
