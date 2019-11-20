@@ -37,7 +37,7 @@ const getOptimisticResponse = (id, { name }, user) => {
   };
 };
 
-const commit = (environment, { edgeClusterID, tenantID, name, k3SClusterSecret }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
@@ -45,7 +45,7 @@ const commit = (environment, { edgeClusterID, tenantID, name, k3SClusterSecret }
         edgeClusterID,
         tenantID,
         name,
-        k3SClusterSecret,
+        clusterSecret,
         clientMutationId: cuid(),
       },
     },

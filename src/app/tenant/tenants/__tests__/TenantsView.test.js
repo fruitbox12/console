@@ -6,6 +6,7 @@ import TenantsView from '../TenantsView';
 describe('<TenantsView />', () => {
   const props = {
     onCreateTenantClick: jest.fn(),
+    onTenantClick: jest.fn(),
   };
 
   const tenants = [

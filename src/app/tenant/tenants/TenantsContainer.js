@@ -12,11 +12,18 @@ export class TenantsContainer extends Component {
     history.push('/create-tenant');
   };
 
+  handleTenantClick = id => {
+    const { history } = this.props;
+    const linkToEdgeClusters = `/${id}/edge-clusters`;
+
+    history.push(linkToEdgeClusters);
+  };
+
   render = () => {
     const { user } = this.props;
     const tenants = user.tenants.edges.map(edge => edge.node);
 
-    return <TenantsView tenants={tenants} onCreateTenantClick={this.createTenant} />;
+    return <TenantsView tenants={tenants} onCreateTenantClick={this.createTenant} onTenantClick={this.handleTenantClick} />;
   };
 }
 
