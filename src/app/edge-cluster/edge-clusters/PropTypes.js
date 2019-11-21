@@ -4,6 +4,7 @@ export const edgeClusterProp = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   clusterSecret: PropTypes.string.isRequired,
+  clusterType: PropTypes.string.isRequired,
 });
 
 export const edgeClustersProp = PropTypes.arrayOf(edgeClusterProp);

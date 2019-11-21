@@ -12,6 +12,8 @@ const mutation = graphql`
         node {
           id
           name
+          clusterSecret
+          clusterType
         }
       }
     }
@@ -29,7 +31,7 @@ const sharedUpdater = (store, user, newEdge) => {
   ConnectionHandler.insertEdgeAfter(connection, newEdge);
 };
 
-const commit = (environment, { tenantID, name, clusterSecret }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { tenantID, name, clusterSecret, clusterType }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
@@ -37,6 +39,7 @@ const commit = (environment, { tenantID, name, clusterSecret }, user, { onSucces
         tenantID,
         name,
         clusterSecret,
+        clusterType,
         clientMutationId: cuid(),
       },
     },

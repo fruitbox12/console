@@ -12,6 +12,7 @@ export default createFragmentContainer(EdgeClustersContainer, {
             id
             name
             clusterSecret
+            clusterType
           }
         }
       }

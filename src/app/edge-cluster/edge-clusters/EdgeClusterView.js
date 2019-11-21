@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { edgeClusterProp } from './PropTypes';
 import Styles from './Styles';
 
-const EdgeClusterView = ({ edgeCluster: { name, clusterSecret } }) => {
+const EdgeClusterView = ({ edgeCluster: { name, clusterSecret, clusterType } }) => {
   const classes = Styles();
 
   return (
@@ -22,6 +22,11 @@ const EdgeClusterView = ({ edgeCluster: { name, clusterSecret } }) => {
       <TableCell component="th" scope="row" padding="none">
         <Typography variant="body1" gutterBottom>
           {clusterSecret}
+        </Typography>
+      </TableCell>
+      <TableCell component="th" scope="row" padding="none">
+        <Typography variant="body1" gutterBottom>
+          {clusterType}
         </Typography>
       </TableCell>
     </TableRow>
