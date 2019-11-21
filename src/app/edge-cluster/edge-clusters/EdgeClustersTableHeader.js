@@ -12,6 +12,7 @@ const EdgeClustersTableHeader = () => (
       </TableCell>
       <TableCell>Name</TableCell>
       <TableCell>Secret</TableCell>
+      <TableCell>Cluster Type</TableCell>
     </TableRow>
   </TableHead>
 );

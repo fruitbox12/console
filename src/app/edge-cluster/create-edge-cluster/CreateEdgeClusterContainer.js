@@ -15,7 +15,12 @@ export class CreateEdgeClusterContainer extends Component {
       match: { params: tenantID },
     } = this.props;
 
-    createEdgeCluster(environment, { name, clusterSecret, tenantID: tenantID.tenantID });
+    createEdgeCluster(environment, {
+      name,
+      clusterSecret,
+      tenantID: tenantID.tenantID,
+      clusterType: 'K3S',
+    });
 
     history.push(`/${tenantID.tenantID}/edge-clusters`);
   };

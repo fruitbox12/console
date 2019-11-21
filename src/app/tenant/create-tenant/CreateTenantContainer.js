@@ -10,7 +10,9 @@ export class CreateTenantContainer extends Component {
   createTenant = ({ name }) => {
     const { history, environment, createTenant } = this.props;
 
-    createTenant(environment, { name });
+    createTenant(environment, {
+      name,
+    });
 
     history.push('/tenants');
   };

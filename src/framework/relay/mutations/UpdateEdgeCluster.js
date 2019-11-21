@@ -11,6 +11,8 @@ const mutation = graphql`
         node {
           id
           name
+          clusterSecret
+          clusterType
         }
       }
     }
@@ -37,7 +39,7 @@ const getOptimisticResponse = (id, { name }, user) => {
   };
 };
 
-const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret, clusterType }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
@@ -46,6 +48,7 @@ const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret }, u
         tenantID,
         name,
         clusterSecret,
+        clusterType,
         clientMutationId: cuid(),
       },
     },
