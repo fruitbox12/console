@@ -36,7 +36,7 @@ pod:
     url: "http://api-gateway/graphql"
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   httpsport: 80
 
 ingress:
