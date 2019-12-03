@@ -88,5 +88,5 @@
       "text"
     ]
   },
-  "proxy": "http://api-gateway"
+  "proxy": "http://edge-cloud.com"
 }
