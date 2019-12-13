@@ -36,7 +36,6 @@
     "cuid": "^2.1.6",
     "graphql-relay": "^0.6.0",
     "immutable": "^4.0.0-rc.12",
-    "keycloak-js": "^8.0.1",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
