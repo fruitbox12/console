@@ -34,7 +34,7 @@ spec:
               value: "{{ .Values.pod.idp.clientAuthorityUrl }}"
             - name: ODIC_CLIENT_ID
               value: "{{ .Values.pod.idp.clientId }}"
-            ports:
+          ports:
             - name: https
               containerPort: {{ .Values.pod.httpsport }}
               protocol: TCP
