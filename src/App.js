@@ -22,7 +22,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Router history={browserHistory}>
           <Oidc store={reduxStore} configuration={odicConfigurations} isEnabled={true}>
-            <AuthenticationProvider configuration={odicConfigurations}>
+            <AuthenticationProvider configuration={odicConfigurations} isEnabled={true}>
               <Routes />
             </AuthenticationProvider>
           </Oidc>
