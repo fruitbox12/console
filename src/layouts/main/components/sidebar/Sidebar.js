@@ -13,7 +13,7 @@ import { Profile, SidebarNav } from './components';
 import styles from './Styles';
 
 const Sidebar = props => {
-  const { open, variant, onClose, className, onSignOutClick, ...rest } = props;
+  const { open, variant, onClose, className, ...rest } = props;
   const classes = styles();
   const pages = [
     {
@@ -43,7 +43,7 @@ const Sidebar = props => {
     },
     {
       title: 'Sign Out',
-      href: '/sign-out',
+      href: '/signout',
       icon: <InputIcon />,
     },
   ];
@@ -64,7 +64,6 @@ Sidebar.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
   variant: PropTypes.string.isRequired,
-  onSignOutClick: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
