@@ -30,7 +30,11 @@ spec:
           env:
             - name: API_GATEWAY_PUBLIC_URL
               value: "{{ .Values.pod.apiGateway.url }}"
-          ports:
+            - name: ODIC_AUTHORITY
+              value: "{{ .Values.idp.clientAuthorityUrl }}"
+            - name: ODIC_CLIENT_ID
+            value: "{{ .Values.idp.clientId }}"
+            ports:
             - name: https
               containerPort: {{ .Values.pod.httpsport }}
               protocol: TCP
