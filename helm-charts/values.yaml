@@ -32,8 +32,11 @@ securityContext: {}
 
 pod:
   httpsport: 80
+  idp:
+    clientAuthorityUrl: "https://idp.edge-cloud.com/auth/realms/master"
+    clientId: "edge-cloud"
   apiGateway:
-    url: "http://api-gateway/graphql"
+    url: "https://api.edge-cloud.com/graphql"
 
 service:
   type: ClusterIP
