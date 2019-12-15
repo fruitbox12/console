@@ -1,11 +1,16 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
+import { reduxStore } from '../redux';
+
 const fetchQuery = async (operation, variables) => {
+  const state = reduxStore.getState();
+
   const response = await fetch(window._env_.API_GATEWAY_PUBLIC_URL, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${state.oidc.user.access_token}`,
     },
     body: JSON.stringify({
       query: operation.text,

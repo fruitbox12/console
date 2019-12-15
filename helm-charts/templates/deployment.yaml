@@ -31,9 +31,9 @@ spec:
             - name: API_GATEWAY_PUBLIC_URL
               value: "{{ .Values.pod.apiGateway.url }}"
             - name: ODIC_AUTHORITY
-              value: "{{ .Values.idp.clientAuthorityUrl }}"
+              value: "{{ .Values.pod.idp.clientAuthorityUrl }}"
             - name: ODIC_CLIENT_ID
-            value: "{{ .Values.idp.clientId }}"
+            value: "{{ .Values.pod.idp.clientId }}"
             ports:
             - name: https
               containerPort: {{ .Values.pod.httpsport }}
