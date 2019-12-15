@@ -43,7 +43,7 @@ const Sidebar = props => {
     },
     {
       title: 'Sign Out',
-      href: '/signout',
+      href: '/sign-out',
       icon: <InputIcon />,
     },
   ];
