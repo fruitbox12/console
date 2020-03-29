@@ -5,7 +5,7 @@ exports[`<TenantsView /> renders correctly 1`] = `
   className="makeStyles-root-1"
 >
   <div
-    className="MuiPaper-root MuiPaper-elevation1 makeStyles-paper-2 MuiPaper-rounded"
+    className="MuiPaper-root makeStyles-paper-2 MuiPaper-elevation1 MuiPaper-rounded"
   >
     <div
       className="makeStyles-tableWrapper-4"
@@ -28,7 +28,7 @@ exports[`<TenantsView /> renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-62 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -47,9 +47,8 @@ exports[`<TenantsView /> renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-64"
+                    className="PrivateSwitchBase-input-65"
                     data-indeterminate={false}
-                    disabled={false}
                     onChange={[Function]}
                     type="checkbox"
                   />
@@ -57,7 +56,6 @@ exports[`<TenantsView /> renders correctly 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -88,7 +86,7 @@ exports[`<TenantsView /> renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-62 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -107,9 +105,8 @@ exports[`<TenantsView /> renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-64"
+                    className="PrivateSwitchBase-input-65"
                     data-indeterminate={false}
-                    disabled={false}
                     onChange={[Function]}
                     type="checkbox"
                   />
@@ -117,7 +114,6 @@ exports[`<TenantsView /> renders correctly 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -151,7 +147,7 @@ exports[`<TenantsView /> renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-62 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -170,9 +166,8 @@ exports[`<TenantsView /> renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-64"
+                    className="PrivateSwitchBase-input-65"
                     data-indeterminate={false}
-                    disabled={false}
                     onChange={[Function]}
                     type="checkbox"
                   />
@@ -180,7 +175,6 @@ exports[`<TenantsView /> renders correctly 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -214,7 +208,7 @@ exports[`<TenantsView /> renders correctly 1`] = `
             >
               <span
                 aria-disabled={false}
-                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-61 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+                className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-62 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
                 onBlur={[Function]}
                 onDragLeave={[Function]}
                 onFocus={[Function]}
@@ -233,9 +227,8 @@ exports[`<TenantsView /> renders correctly 1`] = `
                 >
                   <input
                     checked={false}
-                    className="PrivateSwitchBase-input-64"
+                    className="PrivateSwitchBase-input-65"
                     data-indeterminate={false}
-                    disabled={false}
                     onChange={[Function]}
                     type="checkbox"
                   />
@@ -243,7 +236,6 @@ exports[`<TenantsView /> renders correctly 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -298,7 +290,6 @@ exports[`<TenantsView /> renders correctly 1`] = `
         aria-hidden="true"
         className="MuiSvgIcon-root"
         focusable="false"
-        role="presentation"
         viewBox="0 0 24 24"
       >
         <path

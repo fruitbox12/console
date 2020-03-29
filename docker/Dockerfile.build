@@ -1,5 +1,5 @@
 # => Build container
-FROM node:12.3.0-alpine as react-build
+FROM node:12.16.1-alpine as react-build
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ADD . /src
@@ -9,7 +9,7 @@ RUN npm run relay
 RUN npm run build
 
 # => Run container
-FROM nginx:1.17.5-alpine
+FROM nginx:1.17.9-alpine
 
 # Nginx config
 RUN rm -rf /etc/nginx/conf.d

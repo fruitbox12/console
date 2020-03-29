@@ -35,7 +35,6 @@ exports[`<TenantView /> renders correctly 1`] = `
             checked={false}
             className="PrivateSwitchBase-input-28"
             data-indeterminate={false}
-            disabled={false}
             onChange={[Function]}
             type="checkbox"
           />
@@ -43,7 +42,6 @@ exports[`<TenantView /> renders correctly 1`] = `
             aria-hidden="true"
             className="MuiSvgIcon-root"
             focusable="false"
-            role="presentation"
             viewBox="0 0 24 24"
           >
             <path
