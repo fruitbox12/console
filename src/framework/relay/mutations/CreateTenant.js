@@ -6,14 +6,7 @@ import cuid from 'cuid';
 const mutation = graphql`
   mutation CreateTenantMutation($input: CreateTenantInput!) {
     createTenant(input: $input) {
-      tenant {
-        __typename
-        cursor
-        node {
-          id
-          name
-        }
-      }
+      clientMutationId
     }
   }
 `;
@@ -38,16 +31,21 @@ const commit = (environment, { name }, user, { onSuccess, onError } = {}) => {
         clientMutationId: cuid(),
       },
     },
-    updater: store => {
+    updater: (store) => {
       const payload = store.getRootField('createTenant');
       const newEdge = payload.getLinkedRecord('tenant');
 
+      if (!newEdge) {
+        return;
+      }
+
       sharedUpdater(store, user, newEdge);
     },
-    optimisticUpdater: store => {
+    optimisticUpdater: (store) => {
       // Create a Tenant record in our store with a temporary ID
       const id = 'client:newTenant:' + cuid();
       const node = store.create(id, 'Tenant');
+
       node.setValue(id, 'id');
       node.setValue(name, 'name');
 
@@ -67,7 +65,7 @@ const commit = (environment, { name }, user, { onSuccess, onError } = {}) => {
         return;
       }
 
-      onSuccess(response.createTenant.tenant.node);
+      onSuccess(response.createTenant.tenant ? response.createTenant.tenant.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {

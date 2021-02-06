@@ -1,7 +1,10 @@
-import { makeStyles } from '@material-ui/styles';
+import makeStyles from '@material-ui/styles/makeStyles';
 
-const styles = makeStyles(theme => ({
+const styles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
     paddingTop: 56,
     height: '100%',
     [theme.breakpoints.up('sm')]: {

@@ -4,8 +4,12 @@
 rm -rf ./env-config.js
 touch ./env-config.js
 
+export FRONTEND_VERSION="$(jq -r '.version' < "./package.json")"
+
 # Add assignment 
 echo "window._env_ = {" >> ./env-config.js
+
+echo "  FRONTEND_VERSION: \"$FRONTEND_VERSION\"," >> ./env-config.js
 
 # Read each line in .env file
 # Each line represents key=value pairs

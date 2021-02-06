@@ -31,13 +31,13 @@ const commit = (environment, { edgeClusterID }, user, { onSuccess, onError } = {
         clientMutationId: cuid(),
       },
     },
-    updater: store => {
+    updater: (store) => {
       const payload = store.getRootField('deleteEdgeCluster');
       const deletedEdgeClusterID = payload.getValue('deletedEdgeClusterID');
 
       sharedUpdater(store, user, deletedEdgeClusterID);
     },
-    optimisticUpdater: store => {
+    optimisticUpdater: (store) => {
       sharedUpdater(store, user, edgeClusterID);
     },
     onCompleted: (response, errors) => {

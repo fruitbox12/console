@@ -1,13 +1,20 @@
 import { createMuiTheme } from '@material-ui/core';
 
-import palette from './palette';
-import typography from './typography';
-import overrides from './overrides';
+import palette from './Palette';
+import typography from './Typography';
+import { MuiButton, MuiIconButton, MuiPaper, MuiTableCell, MuiTableHead, MuiTypography } from './overrides';
 
 const theme = createMuiTheme({
   palette,
   typography,
-  overrides,
+  overrides: {
+    MuiButton,
+    MuiIconButton,
+    MuiPaper,
+    MuiTableCell,
+    MuiTableHead,
+    MuiTypography,
+  },
   zIndex: {
     appBar: 1200,
     drawer: 1100,

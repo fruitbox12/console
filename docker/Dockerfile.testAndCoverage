@@ -1,4 +1,4 @@
-FROM node:12.16.1-alpine
+FROM node:14.15.4-alpine
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG COVERALLS_SERVICE_NAME
@@ -6,6 +6,6 @@ ARG COVERALLS_REPO_TOKEN
 
 ADD . /src
 WORKDIR /src
-RUN npm install
-RUN npm run relay
-RUN npm run test:ci
+RUN yarn install
+RUN yarn run relay
+RUN yarn run test:ci

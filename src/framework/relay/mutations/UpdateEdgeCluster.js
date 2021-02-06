@@ -5,21 +5,12 @@ import cuid from 'cuid';
 const mutation = graphql`
   mutation UpdateEdgeClusterMutation($input: UpdateEdgeClusterInput!) {
     updateEdgeCluster(input: $input) {
-      edgeCluster {
-        __typename
-        cursor
-        node {
-          id
-          name
-          clusterSecret
-          clusterType
-        }
-      }
+      clientMutationId
     }
   }
 `;
 
-const getOptimisticResponse = (id, { name }, user) => {
+const getOptimisticResponse = (id, { tenantID, name, clusterType, clusterSecret }, user) => {
   if (!user) {
     return {};
   }
@@ -31,7 +22,10 @@ const getOptimisticResponse = (id, { name }, user) => {
         edgeCluster: {
           node: {
             id,
+            tenantID,
             name,
+            clusterType,
+            clusterSecret,
           },
         },
       },
@@ -39,7 +33,7 @@ const getOptimisticResponse = (id, { name }, user) => {
   };
 };
 
-const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret, clusterType }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { edgeClusterID, tenantID, name, clusterType, clusterSecret }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
@@ -47,12 +41,12 @@ const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret, clu
         edgeClusterID,
         tenantID,
         name,
-        clusterSecret,
         clusterType,
+        clusterSecret,
         clientMutationId: cuid(),
       },
     },
-    optimisticResponse: getOptimisticResponse(edgeClusterID, { name }, user),
+    optimisticResponse: getOptimisticResponse(edgeClusterID, { tenantID, name, clusterType, clusterSecret }, user),
     onCompleted: (response, errors) => {
       if (errors && errors.length > 0) {
         return;
@@ -62,7 +56,7 @@ const commit = (environment, { edgeClusterID, tenantID, name, clusterSecret, clu
         return;
       }
 
-      onSuccess(response.updateEdgeCluster.edgeCluster.node);
+      onSuccess(response.updateEdgeCluster.edgeCluster ? response.updateEdgeCluster.edgeCluster.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {

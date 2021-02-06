@@ -31,13 +31,13 @@ const commit = (environment, { tenantID }, user, { onSuccess, onError } = {}) =>
         clientMutationId: cuid(),
       },
     },
-    updater: store => {
+    updater: (store) => {
       const payload = store.getRootField('deleteTenant');
       const deletedTenantID = payload.getValue('deletedTenantID');
 
       sharedUpdater(store, user, deletedTenantID);
     },
-    optimisticUpdater: store => {
+    optimisticUpdater: (store) => {
       sharedUpdater(store, user, tenantID);
     },
     onCompleted: (response, errors) => {

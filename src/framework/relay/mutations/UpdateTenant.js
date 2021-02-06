@@ -5,14 +5,7 @@ import cuid from 'cuid';
 const mutation = graphql`
   mutation UpdateTenantMutation($input: UpdateTenantInput!) {
     updateTenant(input: $input) {
-      tenant {
-        __typename
-        cursor
-        node {
-          id
-          name
-        }
-      }
+      clientMutationId
     }
   }
 `;
@@ -57,7 +50,7 @@ const commit = (environment, { tenantID, name }, user, { onSuccess, onError } = 
         return;
       }
 
-      onSuccess(response.updateTenant.tenant.node);
+      onSuccess(response.updateTenant.tenant ? response.updateTenant.tenant.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {

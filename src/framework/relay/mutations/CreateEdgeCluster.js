@@ -6,16 +6,7 @@ import cuid from 'cuid';
 const mutation = graphql`
   mutation CreateEdgeClusterMutation($input: CreateEdgeClusterInput!) {
     createEdgeCluster(input: $input) {
-      edgeCluster {
-        __typename
-        cursor
-        node {
-          id
-          name
-          clusterSecret
-          clusterType
-        }
-      }
+      clientMutationId
     }
   }
 `;
@@ -31,30 +22,37 @@ const sharedUpdater = (store, user, newEdge) => {
   ConnectionHandler.insertEdgeAfter(connection, newEdge);
 };
 
-const commit = (environment, { tenantID, name, clusterSecret, clusterType }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { tenantID, name, clusterType, clusterSecret }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
       input: {
         tenantID,
         name,
-        clusterSecret,
         clusterType,
+        clusterSecret,
         clientMutationId: cuid(),
       },
     },
-    updater: store => {
+    updater: (store) => {
       const payload = store.getRootField('createEdgeCluster');
       const newEdge = payload.getLinkedRecord('edgeCluster');
 
+      if (!newEdge) {
+        return;
+      }
+
       sharedUpdater(store, user, newEdge);
     },
-    optimisticUpdater: store => {
+    optimisticUpdater: (store) => {
       // Create a EdgeCluster record in our store with a temporary ID
       const id = 'client:newEdgeCluster:' + cuid();
       const node = store.create(id, 'EdgeCluster');
+
       node.setValue(id, 'id');
       node.setValue(name, 'name');
+      node.setValue(clusterType, 'clusterType');
+      node.setValue(clusterSecret, 'clusterSecret');
 
       // Create a new edge that contains the newly created EdgeCluster record
       const newEdge = store.create('client:newEdge:' + cuid(), 'EdgeCluster');
@@ -72,7 +70,7 @@ const commit = (environment, { tenantID, name, clusterSecret, clusterType }, use
         return;
       }
 
-      onSuccess(response.createEdgeCluster.edgeCluster.node);
+      onSuccess(response.createEdgeCluster.edgeCluster ? response.createEdgeCluster.edgeCluster.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {

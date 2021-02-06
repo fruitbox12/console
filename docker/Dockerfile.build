@@ -1,15 +1,15 @@
 # => Build container
-FROM node:12.16.1-alpine as react-build
+FROM node:14.15.4-alpine as react-build
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ADD . /src
 WORKDIR /src
-RUN npm install
-RUN npm run relay
-RUN npm run build
+RUN yarn install
+RUN yarn run relay
+RUN yarn run build
 
 # => Run container
-FROM nginx:1.17.9-alpine
+FROM nginx:1.19.6-alpine
 
 # Nginx config
 RUN rm -rf /etc/nginx/conf.d
