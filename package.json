@@ -115,5 +115,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "proxy": "https://api.edge-cloud.com"
+  "proxy": "https://apiedgecloud.micro-business.co.nz/"
 }
