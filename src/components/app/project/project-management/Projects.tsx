@@ -5,25 +5,25 @@ import { QueryRenderer } from 'react-relay';
 import { RelayEnvironment } from '../../../../framework/relay';
 import LoadingContainer from '../../../common/loading';
 import GenericErrorContainer from '../../../common/generic-error';
-import TenantManagementContainer from './TenantManagementContainer';
+import ProjectManagementContainer from './ProjectManagementContainer';
 
-import { TenantsQuery } from './__generated__/TenantsQuery.graphql';
+import { ProjectsQuery } from './__generated__/ProjectsQuery.graphql';
 
 export default React.memo(() => {
   return (
-    <QueryRenderer<TenantsQuery>
+    <QueryRenderer<ProjectsQuery>
       environment={RelayEnvironment}
       query={graphql`
-        query TenantsQuery {
+        query ProjectsQuery {
           user {
-            ...TenantManagementContainer_user
+            ...ProjectManagementContainer_user
           }
         }
       `}
       variables={{}}
       render={({ props, error }) => {
         if (props && props.user) {
-          return <TenantManagementContainer user={props.user} />;
+          return <ProjectManagementContainer user={props.user} />;
         } else if (error) {
           return <GenericErrorContainer message={error.message} />;
         }

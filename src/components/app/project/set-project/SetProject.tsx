@@ -6,41 +6,41 @@ import { withRouter } from 'react-router-dom';
 import { RelayEnvironment } from '../../../../framework/relay';
 import LoadingContainer from '../../../common/loading';
 import GenericErrorContainer from '../../../common/generic-error';
-import SetTenantContainer from './SetTenantContainer';
+import SetProjectContainer from './SetProjectContainer';
 
-import { SetTenantQuery } from './__generated__/SetTenantQuery.graphql';
+import { SetProjectQuery } from './__generated__/SetProjectQuery.graphql';
 
-interface SetTenantProps {
+interface SetProjectProps {
   match: {
     params: {
-      tenantId?: string;
+      projectId?: string;
     };
   };
 }
 
-const SetTenant = React.memo<SetTenantProps>(
+const SetProject = React.memo<SetProjectProps>(
   ({
     match: {
-      params: { tenantId },
+      params: { projectId },
     },
   }) => {
     return (
-      <QueryRenderer<SetTenantQuery>
+      <QueryRenderer<SetProjectQuery>
         environment={RelayEnvironment}
         query={graphql`
-          query SetTenantQuery($tenantId: ID!, $isUpdating: Boolean!) {
+          query SetProjectQuery($projectId: ID!, $isUpdating: Boolean!) {
             user {
-              ...SetTenantContainer_user
+              ...SetProjectContainer_user
             }
           }
         `}
         variables={{
-          tenantId: tenantId ? tenantId : 'No ID',
-          isUpdating: !!tenantId,
+          projectId: projectId ? projectId : 'No ID',
+          isUpdating: !!projectId,
         }}
         render={({ props, error }) => {
           if (props && props.user) {
-            return <SetTenantContainer user={props.user} />;
+            return <SetProjectContainer user={props.user} />;
           } else if (error) {
             return <GenericErrorContainer message={error.message} />;
           }
@@ -52,4 +52,4 @@ const SetTenant = React.memo<SetTenantProps>(
   },
 );
 
-export default withRouter(SetTenant);
+export default withRouter(SetProject);

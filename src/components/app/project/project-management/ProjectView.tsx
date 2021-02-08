@@ -6,15 +6,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 
-import { TenantView_tenant } from './__generated__/TenantView_tenant.graphql';
+import { ProjectView_project } from './__generated__/ProjectView_project.graphql';
 import Styles from './Styles';
 
-interface TenantViewProps {
-  tenant: TenantView_tenant;
-  onTenantClick: (id: string) => void;
+interface ProjectViewProps {
+  project: ProjectView_project;
+  onProjectClick: (id: string) => void;
 }
 
-export const TenantView = React.memo<TenantViewProps>(({ tenant: { id, name }, onTenantClick }) => {
+export const ProjectView = React.memo<ProjectViewProps>(({ project: { id, name }, onProjectClick }) => {
   const classes = Styles();
 
   return (
@@ -23,7 +23,7 @@ export const TenantView = React.memo<TenantViewProps>(({ tenant: { id, name }, o
         <Checkbox checked={false} />
       </TableCell>
       <TableCell component="th" scope="row" padding="none">
-        <Link className={classes.link} onClick={() => onTenantClick(id)}>
+        <Link className={classes.link} onClick={() => onProjectClick(id)}>
           {name}
         </Link>
       </TableCell>
@@ -31,9 +31,9 @@ export const TenantView = React.memo<TenantViewProps>(({ tenant: { id, name }, o
   );
 });
 
-export default createFragmentContainer(TenantView, {
-  tenant: graphql`
-    fragment TenantView_tenant on Tenant {
+export default createFragmentContainer(ProjectView, {
+  project: graphql`
+    fragment ProjectView_project on Project {
       id
       name
     }

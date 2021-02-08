@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-import { SetTenantView_tenant } from './__generated__/SetTenantView_tenant.graphql';
+import { SetProjectView_project } from './__generated__/SetProjectView_project.graphql';
 import styles from './Styles';
 import { renderTextField } from '../../../common/react-final-form-components';
 
@@ -16,15 +16,15 @@ export interface Values {
   name?: string;
 }
 
-interface SetTenantViewProps extends WithTranslation {
-  tenant?: SetTenantView_tenant;
+interface SetProjectViewProps extends WithTranslation {
+  project?: SetProjectView_project;
   onCancelButtonClick: () => void;
   onSubmit: (values: Values) => void;
 }
 
 const requiredValidation = (value: string) => (value && value.trim() ? undefined : 'Required');
 
-const SetTenantView: React.FC<SetTenantViewProps> = ({ t, onSubmit, onCancelButtonClick, tenant }) => {
+const SetProjectView: React.FC<SetProjectViewProps> = ({ t, onSubmit, onCancelButtonClick, project }) => {
   const classes = styles();
 
   return (
@@ -32,11 +32,11 @@ const SetTenantView: React.FC<SetTenantViewProps> = ({ t, onSubmit, onCancelButt
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          {tenant ? t('updateTenant.title') : t('createTenant.title')}
+          {project ? t('updateProject.title') : t('createProject.title')}
         </Typography>
         <Form
           onSubmit={onSubmit}
-          initialValues={{ name: tenant ? tenant.name : '' }}
+          initialValues={{ name: project ? project.name : '' }}
           render={({ handleSubmit, form, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
               <div>
@@ -53,7 +53,7 @@ const SetTenantView: React.FC<SetTenantViewProps> = ({ t, onSubmit, onCancelButt
                 />
               </div>
               <Button type="submit" variant="contained" color="primary" className={classes.submit} disabled={submitting || invalid}>
-                {tenant ? t('update.button') : t('create.button')}
+                {project ? t('update.button') : t('create.button')}
               </Button>
               <Button
                 type="button"
@@ -73,11 +73,11 @@ const SetTenantView: React.FC<SetTenantViewProps> = ({ t, onSubmit, onCancelButt
   );
 };
 
-export const CreateTenantView = withTranslation()(SetTenantView);
+export const CreateProjectView = withTranslation()(SetProjectView);
 
-export const UpdateTenantView = createFragmentContainer(CreateTenantView, {
-  tenant: graphql`
-    fragment SetTenantView_tenant on Tenant {
+export const UpdateProjectView = createFragmentContainer(CreateProjectView, {
+  project: graphql`
+    fragment SetProjectView_project on Project {
       id
       name
     }

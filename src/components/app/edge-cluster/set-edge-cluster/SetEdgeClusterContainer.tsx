@@ -27,7 +27,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
       UpdateEdgeCluster(
         environment,
         {
-          tenantID: 'XXX',
+          projectID: 'XXX',
           edgeClusterID: edgeCluster.id,
           // @ts-ignore: Object is possibly 'undefined'.
           name: values.name.trim(),
@@ -56,7 +56,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
       CreateEdgeCluster(
         environment,
         // @ts-ignore: Object is possibly 'undefined'.
-        { tenantID: 'XXX', name: values.name.trim(), clusterType: values.type.trim(), clusterSecret: values.secret.trim() },
+        { projectID: 'XXX', name: values.name.trim(), clusterType: values.type.trim(), clusterSecret: values.secret.trim() },
         null,
         {
           onSuccess: () => {

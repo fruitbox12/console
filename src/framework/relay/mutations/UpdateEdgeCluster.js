@@ -10,7 +10,7 @@ const mutation = graphql`
   }
 `;
 
-const getOptimisticResponse = (id, { tenantID, name, clusterType, clusterSecret }, user) => {
+const getOptimisticResponse = (id, { projectID, name, clusterType, clusterSecret }, user) => {
   if (!user) {
     return {};
   }
@@ -22,7 +22,7 @@ const getOptimisticResponse = (id, { tenantID, name, clusterType, clusterSecret 
         edgeCluster: {
           node: {
             id,
-            tenantID,
+            projectID,
             name,
             clusterType,
             clusterSecret,
@@ -33,20 +33,20 @@ const getOptimisticResponse = (id, { tenantID, name, clusterType, clusterSecret 
   };
 };
 
-const commit = (environment, { edgeClusterID, tenantID, name, clusterType, clusterSecret }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { edgeClusterID, projectID, name, clusterType, clusterSecret }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
       input: {
         edgeClusterID,
-        tenantID,
+        projectID,
         name,
         clusterType,
         clusterSecret,
         clientMutationId: cuid(),
       },
     },
-    optimisticResponse: getOptimisticResponse(edgeClusterID, { tenantID, name, clusterType, clusterSecret }, user),
+    optimisticResponse: getOptimisticResponse(edgeClusterID, { projectID, name, clusterType, clusterSecret }, user),
     onCompleted: (response, errors) => {
       if (errors && errors.length > 0) {
         return;

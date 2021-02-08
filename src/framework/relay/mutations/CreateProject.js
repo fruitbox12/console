@@ -4,8 +4,8 @@ import { ConnectionHandler } from 'relay-runtime';
 import cuid from 'cuid';
 
 const mutation = graphql`
-  mutation CreateTenantMutation($input: CreateTenantInput!) {
-    createTenant(input: $input) {
+  mutation CreateProjectMutation($input: CreateProjectInput!) {
+    createProject(input: $input) {
       clientMutationId
     }
   }
@@ -17,7 +17,7 @@ const sharedUpdater = (store, user, newEdge) => {
   }
 
   const userProxy = store.get(user.id);
-  const connection = ConnectionHandler.getConnection(userProxy, 'User_tenants');
+  const connection = ConnectionHandler.getConnection(userProxy, 'User_projects');
 
   ConnectionHandler.insertEdgeAfter(connection, newEdge);
 };
@@ -32,8 +32,8 @@ const commit = (environment, { name }, user, { onSuccess, onError } = {}) => {
       },
     },
     updater: (store) => {
-      const payload = store.getRootField('createTenant');
-      const newEdge = payload.getLinkedRecord('tenant');
+      const payload = store.getRootField('createProject');
+      const newEdge = payload.getLinkedRecord('project');
 
       if (!newEdge) {
         return;
@@ -42,18 +42,18 @@ const commit = (environment, { name }, user, { onSuccess, onError } = {}) => {
       sharedUpdater(store, user, newEdge);
     },
     optimisticUpdater: (store) => {
-      // Create a Tenant record in our store with a temporary ID
-      const id = 'client:newTenant:' + cuid();
-      const node = store.create(id, 'Tenant');
+      // Create a Project record in our store with a temporary ID
+      const id = 'client:newProject:' + cuid();
+      const node = store.create(id, 'Project');
 
       node.setValue(id, 'id');
       node.setValue(name, 'name');
 
-      // Create a new edge that contains the newly created Tenant record
-      const newEdge = store.create('client:newEdge:' + cuid(), 'Tenant');
+      // Create a new edge that contains the newly created Project record
+      const newEdge = store.create('client:newEdge:' + cuid(), 'Project');
       newEdge.setLinkedRecord(node, 'node');
 
-      // Add it to the user's tenant list
+      // Add it to the user's project list
       sharedUpdater(store, user, newEdge);
     },
     onCompleted: (response, errors) => {
@@ -65,7 +65,7 @@ const commit = (environment, { name }, user, { onSuccess, onError } = {}) => {
         return;
       }
 
-      onSuccess(response.createTenant.tenant ? response.createTenant.tenant.node : null);
+      onSuccess(response.createProject.project ? response.createProject.project.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {

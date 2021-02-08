@@ -11,8 +11,8 @@ import PublicMainContainer from './layouts/public-main';
 import MainContainer from './layouts/main';
 import PublicHomeContainer from './components/app/public-home';
 import DashboardContainer from './components/app/dashboard';
-import Tenants from './components/app/tenant/tenant-management';
-import SetTenant from './components/app/tenant/set-tenant';
+import Projects from './components/app/project/project-management';
+import SetProject from './components/app/project/set-project';
 import EdgeClusters from './components/app/edge-cluster/edge-cluster-management';
 import SetEdgeCluster from './components/app/edge-cluster/set-edge-cluster';
 
@@ -39,9 +39,9 @@ const Routes = () => {
             <RouteWithLayout isSecureRoute={false} exact path="/" layout={PublicMainContainer} component={PublicHomeContainer} />
           )}
           <RouteWithLayout isSecureRoute={true} exact path="/dashboard" layout={MainContainer} component={DashboardContainer} />
-          <RouteWithLayout isSecureRoute={true} exact path="/tenant" layout={MainContainer} component={Tenants} />
-          <RouteWithLayout isSecureRoute={true} exact path="/tenant/create" component={SetTenant} layout={MainContainer} />
-          <RouteWithLayout isSecureRoute={true} exact path="/tenant/:tenantId" component={SetTenant} layout={MainContainer} />
+          <RouteWithLayout isSecureRoute={true} exact path="/project" layout={MainContainer} component={Projects} />
+          <RouteWithLayout isSecureRoute={true} exact path="/project/create" component={SetProject} layout={MainContainer} />
+          <RouteWithLayout isSecureRoute={true} exact path="/project/:projectId" component={SetProject} layout={MainContainer} />
           <RouteWithLayout isSecureRoute={true} exact path="/edgecluster" layout={MainContainer} component={EdgeClusters} />
           <RouteWithLayout isSecureRoute={true} exact path="/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
           <RouteWithLayout isSecureRoute={true} exact path="/edgecluster/:edgeClusterId" component={SetEdgeCluster} layout={MainContainer} />

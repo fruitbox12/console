@@ -27,10 +27,10 @@ const SidebarContainer = React.memo<SidebarContainerProps & RouteComponentProps>
       onClick: () => history.push('/dashboard'),
     },
     {
-      key: 'tenant-management',
-      title: t('tenantManagement.label'),
+      key: 'project-management',
+      title: t('projectManagement.label'),
       icon: <DashboardIcon />,
-      onClick: () => history.push('/tenant'),
+      onClick: () => history.push('/project'),
     },
     {
       key: 'edge-cluster-management',

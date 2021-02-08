@@ -3,8 +3,8 @@ import { commitMutation } from 'react-relay';
 import cuid from 'cuid';
 
 const mutation = graphql`
-  mutation UpdateTenantMutation($input: UpdateTenantInput!) {
-    updateTenant(input: $input) {
+  mutation UpdateProjectMutation($input: UpdateProjectInput!) {
+    updateProject(input: $input) {
       clientMutationId
     }
   }
@@ -16,10 +16,10 @@ const getOptimisticResponse = (id, { name }, user) => {
   }
 
   return {
-    updateTenant: {
+    updateProject: {
       user: {
         id: user.id,
-        tenant: {
+        project: {
           node: {
             id,
             name,
@@ -30,17 +30,17 @@ const getOptimisticResponse = (id, { name }, user) => {
   };
 };
 
-const commit = (environment, { tenantID, name }, user, { onSuccess, onError } = {}) => {
+const commit = (environment, { projectID, name }, user, { onSuccess, onError } = {}) => {
   return commitMutation(environment, {
     mutation,
     variables: {
       input: {
-        tenantID,
+        projectID,
         name,
         clientMutationId: cuid(),
       },
     },
-    optimisticResponse: getOptimisticResponse(tenantID, { name }, user),
+    optimisticResponse: getOptimisticResponse(projectID, { name }, user),
     onCompleted: (response, errors) => {
       if (errors && errors.length > 0) {
         return;
@@ -50,7 +50,7 @@ const commit = (environment, { tenantID, name }, user, { onSuccess, onError } = 
         return;
       }
 
-      onSuccess(response.updateTenant.tenant ? response.updateTenant.tenant.node : null);
+      onSuccess(response.updateProject.project ? response.updateProject.project.node : null);
     },
     onError: ({ message: errorMessage }) => {
       if (!onError) {
