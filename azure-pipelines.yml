@@ -26,6 +26,7 @@ variables:
 
 steps:
   - task: GitVersion@5
+    displayName: "Figure out GitVersion"
     inputs:
       runtime: "core"
       configFilePath: "./GitVersion.yml"
@@ -41,7 +42,7 @@ steps:
       tags: ${{variables.version}}
 
   - task: Docker@2
-    displayName: "Test and Coverage"
+    displayName: "Test and coverage"
     inputs:
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/docker/Dockerfile.testAndCoverage"
@@ -49,7 +50,7 @@ steps:
       arguments: "--build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
 
   - task: Docker@2
-    displayName: "Docker Login"
+    displayName: "Docker login"
     inputs:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
       command: "login"
@@ -64,7 +65,27 @@ steps:
       tags: ${{variables.version}}
 
   - task: Docker@2
-    displayName: "Docker Logout"
+    displayName: "Docker logout"
     inputs:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
       command: "logout"
+
+  - task: HelmInstaller@0
+    displayName: "Installing helm"
+    inputs:
+      helmVersion: "3.5.2"
+      installKubectl: false
+
+  - task: Bash@3
+    displayName: "Packaging helm"
+    inputs:
+      targetType: "inline"
+      script: |
+        helm package --destination "$(system.defaultWorkingDirectory)/chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/helm-charts"
+
+  - task: PublishPipelineArtifact@1
+    displayName: "Publish helm artifact"
+    inputs:
+      targetPath: "$(system.defaultWorkingDirectory)/chart-output"
+      artifact: "helm"
+      publishLocation: "pipeline"
