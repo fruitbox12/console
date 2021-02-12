@@ -12,7 +12,7 @@ export default React.memo(() => {
     <footer className={classes.footer}>
       <Container maxWidth="sm">
         <Typography variant="body2" color="textSecondary">
-          Edge Cloud: {window._env_.FRONTEND_VERSION}
+          Edge Cloud: {window._env_.VERSION}
         </Typography>
         <Copyright />
       </Container>
