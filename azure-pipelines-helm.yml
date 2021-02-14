@@ -25,6 +25,7 @@ variables:
 
 steps:
   - task: GitVersion@5
+    displayName: "Figure out GitVersion"
     inputs:
       runtime: "core"
       configFilePath: "./GitVersion.yml"
