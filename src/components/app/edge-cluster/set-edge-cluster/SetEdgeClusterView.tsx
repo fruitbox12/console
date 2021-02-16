@@ -10,7 +10,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { SetEdgeClusterView_edgeCluster } from './__generated__/SetEdgeClusterView_edgeCluster.graphql';
 import styles from './Styles';
-import { renderTextField } from '../../../common/react-final-form-components';
+import { renderTextField, renderAutocomplete } from '../../../common/react-final-form-components';
 
 export interface Values {
   name?: string;
@@ -64,8 +64,8 @@ const SetEdgeClusterView: React.FC<SetEdgeClusterViewProps> = ({ t, onSubmit, on
                   required
                   fullWidth
                   placeholder={t('type.label')}
-                  component={renderTextField}
-                  autoFocus
+                  component={renderAutocomplete}
+                  options={['K3S']}
                   validate={requiredValidation}
                 />
                 <Field<string>
@@ -76,7 +76,6 @@ const SetEdgeClusterView: React.FC<SetEdgeClusterViewProps> = ({ t, onSubmit, on
                   fullWidth
                   placeholder={t('secret.label')}
                   component={renderTextField}
-                  autoFocus
                   validate={requiredValidation}
                 />
               </div>
