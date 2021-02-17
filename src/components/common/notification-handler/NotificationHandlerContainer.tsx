@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,10 +25,10 @@ export default React.memo(() => {
     .toList();
 
   return (
-    <div>
+    <Fragment>
       {!context.isEmpty() && (
         <Snackbar open={true}>
-          <div>
+          <Fragment>
             {context.map((notification) => {
               if (notification.type === NotificationType.Error) {
                 return (
@@ -68,9 +68,9 @@ export default React.memo(() => {
 
               throw new Error(`Notification type: ${notification.type} is not supported`);
             })}
-          </div>
+          </Fragment>
         </Snackbar>
       )}
-    </div>
+    </Fragment>
   );
 });

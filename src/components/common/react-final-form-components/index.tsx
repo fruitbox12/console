@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { Fragment, ChangeEvent } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -27,25 +27,23 @@ export const renderAutocomplete: React.FC<Props> = ({
     <Autocomplete
       options={options}
       renderOption={(option: string) => (
-        <React.Fragment>
+        <Fragment>
           <span>{option}</span>
-        </React.Fragment>
+        </Fragment>
       )}
       value={value}
       getOptionSelected={(option: string | null, value: string | null): boolean => option === value || !value}
       onChange={(_: ChangeEvent<{}>, option: string | null): void => onChange(option ? option : null)}
-      renderInput={(params) => {
-        return (
-          <TextField
-            {...params}
-            {...restInput}
-            error={hasError}
-            helperText={hasError ? errorMessage : ''}
-            placeholder={placeholder}
-            variant="outlined"
-          />
-        );
-      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          {...restInput}
+          error={hasError}
+          helperText={hasError ? errorMessage : ''}
+          placeholder={placeholder}
+          variant="outlined"
+        />
+      )}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -17,10 +17,10 @@ const PublicMainContainer = ({ children }) => {
 
   return (
     <div className={clsx({ [classes.root]: true, [classes.shiftContent]: isDesktop })}>
-      <div>
+      <Fragment>
         <TopbarContainer />
         <main className={classes.content}>{children}</main>
-      </div>
+      </Fragment>
       <FooterContainer />
     </div>
   );

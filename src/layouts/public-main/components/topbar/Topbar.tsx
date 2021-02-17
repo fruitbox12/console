@@ -1,14 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import styles from './Styles';
 
-const Topbar = ({ t, className, onSignUpClick, onSignInClick }) => {
+interface TopbarProps extends WithTranslation {
+  className?: string;
+  onSignUpClick: () => void;
+  onSignInClick: () => void;
+}
+
+const Topbar = React.memo<TopbarProps>(({ t, className, onSignUpClick, onSignInClick }) => {
   const classes = styles();
 
   return (
@@ -24,12 +29,6 @@ const Topbar = ({ t, className, onSignUpClick, onSignInClick }) => {
       </Toolbar>
     </AppBar>
   );
-};
-
-Topbar.propTypes = {
-  className: PropTypes.string,
-  onSignUpClick: PropTypes.func.isRequired,
-  onSignInClick: PropTypes.func.isRequired,
-};
+});
 
 export default withTranslation()(Topbar);

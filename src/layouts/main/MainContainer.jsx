@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -29,11 +29,11 @@ const MainContainer = ({ children }) => {
 
   return (
     <div className={clsx({ [classes.root]: true, [classes.shiftContent]: isDesktop })}>
-      <div>
+      <Fragment>
         <TopbarContainer onSidebarOpen={handleSidebarOpen} />
         <SidebarContainer onClose={handleSidebarClose} shouldOpenSidebar={shouldOpenSidebar} variant={isDesktop ? 'persistent' : 'temporary'} />
         <main className={classes.content}>{children}</main>
-      </div>
+      </Fragment>
       <FooterContainer />
     </div>
   );

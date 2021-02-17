@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 import Topbar from './Topbar';
 
-const TopbarContainer = () => {
+const TopbarContainer = React.memo(() => {
   const { loginWithRedirect } = useAuth0();
 
   const signUp = () => {
@@ -19,6 +19,6 @@ const TopbarContainer = () => {
   };
 
   return <Topbar onSignUpClick={signUp} onSignInClick={signIn} />;
-};
+});
 
 export default TopbarContainer;
