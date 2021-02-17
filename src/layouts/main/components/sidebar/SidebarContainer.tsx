@@ -13,7 +13,8 @@ import { Page } from './components/sidebar-nav/SidebarNavContainer';
 interface SidebarContainerProps extends WithTranslation {
   onClose: () => void;
   className?: string;
-  shouldOpenSidebar?: boolean;
+  shouldOpenSidebar: boolean;
+  variant?: 'persistent' | 'temporary';
 }
 
 const SidebarContainer = React.memo<SidebarContainerProps & RouteComponentProps>(({ t, history, onClose, className, shouldOpenSidebar, ...rest }) => {

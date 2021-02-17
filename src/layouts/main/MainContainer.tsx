@@ -1,16 +1,24 @@
 import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useTheme from '@material-ui/styles/useTheme';
+import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
 import { SidebarContainer, TopbarContainer } from './components';
 import FooterContainer from '../footer';
 import styles from './Styles';
 
-const MainContainer = ({ children }) => {
+interface MainContainerProps {
+  children: React.ComponentType<any>;
+}
+
+interface Theme {
+  breakpoints: Breakpoints;
+}
+
+const MainContainer = React.memo<MainContainerProps>(({ children }) => {
   const classes = styles();
-  const theme = useTheme();
+  const theme = useTheme<Theme>();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true,
   });
@@ -25,10 +33,15 @@ const MainContainer = ({ children }) => {
     setOpenSidebar(false);
   };
 
-  const shouldOpenSidebar = isDesktop ? true : openSidebar;
+  const shouldOpenSidebar: boolean = isDesktop ? true : openSidebar;
 
   return (
-    <div className={clsx({ [classes.root]: true, [classes.shiftContent]: isDesktop })}>
+    <div
+      className={clsx({
+        [classes.root]: true,
+        [classes.shiftContent]: isDesktop,
+      })}
+    >
       <Fragment>
         <TopbarContainer onSidebarOpen={handleSidebarOpen} />
         <SidebarContainer onClose={handleSidebarClose} shouldOpenSidebar={shouldOpenSidebar} variant={isDesktop ? 'persistent' : 'temporary'} />
@@ -37,10 +50,6 @@ const MainContainer = ({ children }) => {
       <FooterContainer />
     </div>
   );
-};
-
-MainContainer.propTypes = {
-  children: PropTypes.node,
-};
+});
 
 export default MainContainer;
