@@ -9,12 +9,12 @@ i18next.use(LanguageDetector).init({
   resources: {
     en_NZ: {
       translation: {
-        signUp: { title: 'Sign up', label: 'Sign up', button: 'Sign up' },
+        edgeCloud: { title: 'Edge Cloud' },
         signIn: { title: 'Sign in', label: 'Sign in', button: 'Sign in' },
         signOut: { title: 'Sign out', label: 'Sign out', button: 'Sign out' },
         dashboard: { title: 'Dashboard', label: 'Dashboard' },
-        projectManagement: { title: 'Project Management', label: 'Project Management' },
-        edgeClusterManagement: { title: 'Edge Cluster Management', label: 'Edge Cluster Management' },
+        project: { title: 'Project', label: 'Project' },
+        edgeCluster: { title: 'Edge Cluster', label: 'Edge Cluster' },
         profile: { label: 'Profile' },
         name: { title: 'Name', label: 'Name' },
         type: { title: 'Type', label: 'Type' },

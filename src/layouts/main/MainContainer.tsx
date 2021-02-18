@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
-import clsx from 'clsx';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useTheme from '@material-ui/styles/useTheme';
-import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
+import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 
-import { SidebarContainer, TopbarContainer } from './components';
+import SidebarContainer from './components/sidebar';
+import TopbarContainer from './components/topbar';
 import FooterContainer from '../footer';
 import styles from './Styles';
 
@@ -12,42 +11,32 @@ interface MainContainerProps {
   children: React.ComponentType<any>;
 }
 
-interface Theme {
-  breakpoints: Breakpoints;
-}
-
 const MainContainer = React.memo<MainContainerProps>(({ children }) => {
   const classes = styles();
-  const theme = useTheme<Theme>();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-    defaultMatches: true,
-  });
+  const [open, setOpen] = React.useState(false);
 
-  const [openSidebar, setOpenSidebar] = useState(false);
-
-  const handleSidebarOpen = () => {
-    setOpenSidebar(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
   };
 
-  const handleSidebarClose = () => {
-    setOpenSidebar(false);
+  const handleDrawerClose = () => {
+    setOpen(false);
   };
-
-  const shouldOpenSidebar: boolean = isDesktop ? true : openSidebar;
 
   return (
-    <div
-      className={clsx({
-        [classes.root]: true,
-        [classes.shiftContent]: isDesktop,
-      })}
-    >
-      <Fragment>
-        <TopbarContainer onSidebarOpen={handleSidebarOpen} />
-        <SidebarContainer onClose={handleSidebarClose} shouldOpenSidebar={shouldOpenSidebar} variant={isDesktop ? 'persistent' : 'temporary'} />
-        <main className={classes.content}>{children}</main>
-      </Fragment>
-      <FooterContainer />
+    <div className={classes.root}>
+      <CssBaseline />
+      <TopbarContainer open={open} onDrawerOpen={handleDrawerOpen} />
+      <SidebarContainer open={open} onDrawerClose={handleDrawerClose} />
+      <Container>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {children}
+        </main>
+      </Container>
+      <footer className={classes.footer}>
+        <FooterContainer />
+      </footer>
     </div>
   );
 });

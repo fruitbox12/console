@@ -1,26 +1,35 @@
 import makeStyles from '@material-ui/styles/makeStyles';
 
+const drawerWidth = 240;
+
 const styles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: 'none',
   },
   appBar: {
-    boxShadow: 'none',
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
+  flexGrow: {
+    flexGrow: 1,
   },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
+  avatar: {
+    width: 30,
+    height: 30,
   },
 }));
 

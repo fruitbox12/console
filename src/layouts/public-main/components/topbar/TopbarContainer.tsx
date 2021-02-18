@@ -6,19 +6,13 @@ import Topbar from './Topbar';
 const TopbarContainer = React.memo(() => {
   const { loginWithRedirect } = useAuth0();
 
-  const signUp = () => {
-    loginWithRedirect({
-      screen_hint: 'signup',
-    });
-  };
-
   const signIn = () => {
     loginWithRedirect({
       screen_hint: 'signin',
     });
   };
 
-  return <Topbar onSignUpClick={signUp} onSignInClick={signIn} />;
+  return <Topbar onSignInClick={signIn} />;
 });
 
 export default TopbarContainer;

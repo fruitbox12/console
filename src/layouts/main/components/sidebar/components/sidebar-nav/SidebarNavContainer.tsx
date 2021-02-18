@@ -1,11 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-import styles from './Styles';
 
 export interface Page {
   key: string;
@@ -16,14 +13,11 @@ export interface Page {
 
 interface SidebarNavContainerProps {
   pages: Page[];
-  className: string;
 }
 
-export default React.memo<SidebarNavContainerProps>(({ pages, className }) => {
-  const classes = styles();
-
+export default React.memo<SidebarNavContainerProps>(({ pages }) => {
   return (
-    <List className={clsx(classes.root, className)}>
+    <List>
       {pages.map((page) => (
         <ListItem button key={page.key} onClick={page.onClick}>
           <ListItemIcon>{page.icon}</ListItemIcon>
