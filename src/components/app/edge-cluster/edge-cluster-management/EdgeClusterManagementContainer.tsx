@@ -2,15 +2,20 @@ import React from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { createFragmentContainer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 import { EdgeClusterManagementContainer_user } from './__generated__/EdgeClusterManagementContainer_user.graphql';
-import EdgeClustersView from './EdgeClustersView';
+import styles from './Styles';
+import EdgeClustersTableView from '../views/table/EdgeClustersTableView';
 
 interface EdgeClusterManagementContainerProps extends RouteComponentProps {
   user: EdgeClusterManagementContainer_user;
 }
 
 const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainerProps>(({ history, user }) => {
+  const classes = styles();
+
   const createEdgeCluster = () => {
     history.push('/edgeCluster/create');
   };
@@ -19,7 +24,15 @@ const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainer
     history.push(`/edgeCluster/${id}`);
   };
 
-  return <EdgeClustersView user={user} onCreateEdgeClusterClick={createEdgeCluster} onEdgeClusterClick={handleEdgeClusterClick} />;
+  return (
+    <React.Fragment>
+      <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} />
+
+      <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
+        <AddIcon />
+      </Fab>
+    </React.Fragment>
+  );
 });
 
 export default createFragmentContainer(withRouter(EdgeClusterManagementContainer), {
@@ -32,7 +45,7 @@ export default createFragmentContainer(withRouter(EdgeClusterManagementContainer
           }
         }
       }
-      ...EdgeClustersView_user
+      ...EdgeClustersTableView_user
     }
   `,
 });

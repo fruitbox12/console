@@ -3,14 +3,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import Styles from './Styles';
+import styles from './Styles';
 
 interface GenericErrorContainerProps {
   message: string;
 }
 
 export default React.memo<GenericErrorContainerProps>(({ message }) => {
-  const classes = Styles();
+  const classes = styles();
 
   return (
     <div className={classes.root}>

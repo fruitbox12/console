@@ -2,10 +2,10 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Styles from './Styles';
+import styles from './Styles';
 
 export default React.memo(() => {
-  const classes = Styles();
+  const classes = styles();
 
   return (
     <Container component="main" maxWidth="xs">

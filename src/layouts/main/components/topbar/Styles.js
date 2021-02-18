@@ -31,6 +31,9 @@ const styles = makeStyles((theme) => ({
     width: 30,
     height: 30,
   },
+  selectProjectButton: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default styles;

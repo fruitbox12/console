@@ -9,18 +9,24 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import Button from '@material-ui/core/Button';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import styles from './Styles';
 import ProfileContainer from '../profile';
+import { Project } from '../../../../framework/redux/GlobalSlice';
 
 interface TopbarProps extends WithTranslation {
   drawerOpen: boolean;
   onDrawerOpen: () => void;
   pictureUrl: string;
+  onSelectProjectClick: () => void;
+  project?: Project;
 }
 
-const Topbar = React.memo<TopbarProps>(({ t, drawerOpen, onDrawerOpen, pictureUrl }) => {
+const Topbar = React.memo<TopbarProps>(({ t, drawerOpen, onDrawerOpen, pictureUrl, onSelectProjectClick, project }) => {
   const classes = styles();
+  const projectButtonText = project ? project.name : t('selectProject.label');
 
   return (
     <AppBar
@@ -44,6 +50,9 @@ const Topbar = React.memo<TopbarProps>(({ t, drawerOpen, onDrawerOpen, pictureUr
         <Typography variant="h6" noWrap>
           {t('edgeCloud.title')}
         </Typography>
+        <Button color="inherit" className={classes.selectProjectButton} endIcon={<ArrowDropDownIcon />} onClick={onSelectProjectClick}>
+          {projectButtonText}
+        </Button>
         <div className={classes.flexGrow} />
         <PopupState variant="popover" popupId="demo-popup-menu">
           {(popupState) => (

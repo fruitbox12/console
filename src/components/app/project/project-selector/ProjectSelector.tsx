@@ -5,25 +5,29 @@ import { QueryRenderer } from 'react-relay';
 import { RelayEnvironment } from '../../../../framework/relay';
 import LoadingContainer from '../../../common/loading';
 import GenericErrorContainer from '../../../common/generic-error';
-import ProjectManagementContainer from './ProjectManagementContainer';
+import ProjectSelectorContainer from './ProjectSelectorContainer';
 
-import { ProjectsQuery } from './__generated__/ProjectsQuery.graphql';
+import { ProjectSelectorQuery } from './__generated__/ProjectSelectorQuery.graphql';
 
-export default React.memo(() => {
+interface ProjectSelectorProps {
+  onSelectProjectClick: () => void;
+}
+
+export default React.memo<ProjectSelectorProps>(({ onSelectProjectClick }) => {
   return (
-    <QueryRenderer<ProjectsQuery>
+    <QueryRenderer<ProjectSelectorQuery>
       environment={RelayEnvironment}
       query={graphql`
-        query ProjectsQuery {
+        query ProjectSelectorQuery {
           user {
-            ...ProjectManagementContainer_user
+            ...ProjectSelectorContainer_user
           }
         }
       `}
       variables={{}}
       render={({ props, error }) => {
         if (props && props.user) {
-          return <ProjectManagementContainer user={props.user} />;
+          return <ProjectSelectorContainer user={props.user} onSelectProjectClick={onSelectProjectClick} />;
         } else if (error) {
           return <GenericErrorContainer message={error.message} />;
         }

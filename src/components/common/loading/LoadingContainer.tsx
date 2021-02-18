@@ -1,10 +1,10 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import Styles from './Styles';
+import styles from './Styles';
 
 export default React.memo(() => {
-  const classes = Styles();
+  const classes = styles();
 
   return (
     <div className={classes.root}>

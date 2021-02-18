@@ -1,1 +1,1 @@
-export { default } from './EdgeClusters';
+export { default } from './EdgeClusterManagement';

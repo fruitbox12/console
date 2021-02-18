@@ -6,29 +6,29 @@ export interface Project {
 }
 
 export interface Global {
-  project?: Project;
+  currentSelectedProject?: Project;
 }
 
 const currentSelectedProjectKey = 'currentSelectedProject';
 const currentSelectedProject = localStorage.getItem(currentSelectedProjectKey);
-const initialState: Global = { project: JSON.parse(String(currentSelectedProject)) };
+const initialState: Global = { currentSelectedProject: JSON.parse(String(currentSelectedProject)) };
 
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
     changeSelectedProject: (state: Global, payloadAction: PayloadAction<Project>) => {
-      state.project = payloadAction.payload;
-      localStorage.setItem(currentSelectedProjectKey, JSON.stringify(state.project));
+      state.currentSelectedProject = payloadAction.payload;
+      localStorage.setItem(currentSelectedProjectKey, JSON.stringify(state.currentSelectedProject));
     },
     clearSelectedProject: (state: Global) => {
-      state.project = undefined;
+      state.currentSelectedProject = undefined;
     },
   },
 });
 
 export const selectState = ({ global }: { global: Global }) => ({
-  project: global.project,
+  currentSelectedProject: global.currentSelectedProject,
 });
 
 export const { changeSelectedProject, clearSelectedProject } = globalSlice.actions;

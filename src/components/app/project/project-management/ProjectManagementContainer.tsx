@@ -2,15 +2,19 @@ import React from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { createFragmentContainer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 import { ProjectManagementContainer_user } from './__generated__/ProjectManagementContainer_user.graphql';
-import ProjectsView from './ProjectsView';
+import styles from './Styles';
+import ProjectsTableView from '../views/table/ProjectsTableView';
 
 interface ProjectManagementContainerProps extends RouteComponentProps {
   user: ProjectManagementContainer_user;
 }
 
 const ProjectManagementContainer = React.memo<ProjectManagementContainerProps>(({ history, user }) => {
+  const classes = styles();
   const createProject = () => {
     history.push('/project/create');
   };
@@ -19,7 +23,14 @@ const ProjectManagementContainer = React.memo<ProjectManagementContainerProps>((
     history.push(`/project/${id}`);
   };
 
-  return <ProjectsView user={user} onCreateProjectClick={createProject} onProjectClick={handleProjectClick} />;
+  return (
+    <React.Fragment>
+      <ProjectsTableView user={user} onProjectClick={handleProjectClick} />
+      <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createProject}>
+        <AddIcon />
+      </Fab>
+    </React.Fragment>
+  );
 });
 
 export default createFragmentContainer(withRouter(ProjectManagementContainer), {
@@ -32,7 +43,7 @@ export default createFragmentContainer(withRouter(ProjectManagementContainer), {
           }
         }
       }
-      ...ProjectsView_user
+      ...ProjectsTableView_user
     }
   `,
 });

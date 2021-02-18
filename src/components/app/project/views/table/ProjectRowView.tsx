@@ -6,16 +6,16 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 
-import { ProjectView_project } from './__generated__/ProjectView_project.graphql';
-import Styles from './Styles';
+import { ProjectRowView_project } from './__generated__/ProjectRowView_project.graphql';
+import styles from './Styles';
 
-interface ProjectViewProps {
-  project: ProjectView_project;
+interface ProjectRowViewProps {
+  project: ProjectRowView_project;
   onProjectClick: (id: string) => void;
 }
 
-export const ProjectView = React.memo<ProjectViewProps>(({ project: { id, name }, onProjectClick }) => {
-  const classes = Styles();
+export const ProjectRowView = React.memo<ProjectRowViewProps>(({ project: { id, name }, onProjectClick }) => {
+  const classes = styles();
 
   return (
     <TableRow>
@@ -31,9 +31,9 @@ export const ProjectView = React.memo<ProjectViewProps>(({ project: { id, name }
   );
 });
 
-export default createFragmentContainer(ProjectView, {
+export default createFragmentContainer(ProjectRowView, {
   project: graphql`
-    fragment ProjectView_project on Project {
+    fragment ProjectRowView_project on Project {
       id
       name
     }

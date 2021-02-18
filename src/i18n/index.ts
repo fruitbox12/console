@@ -26,6 +26,7 @@ i18next.use(LanguageDetector).init({
         updateProject: { title: 'Update Project' },
         createEdgeCluster: { title: 'Create Edge Cluster' },
         updateEdgeCluster: { title: 'Update Edge Cluster' },
+        selectProject: { title: 'Select a project', label: 'Select a project' },
       },
     },
   },
