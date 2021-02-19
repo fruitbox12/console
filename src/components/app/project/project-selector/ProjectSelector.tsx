@@ -10,7 +10,7 @@ import ProjectSelectorContainer from './ProjectSelectorContainer';
 import { ProjectSelectorQuery } from './__generated__/ProjectSelectorQuery.graphql';
 
 interface ProjectSelectorProps {
-  onSelectProjectClick: () => void;
+  onSelectProjectClick: (id: string) => void;
 }
 
 export default React.memo<ProjectSelectorProps>(({ onSelectProjectClick }) => {

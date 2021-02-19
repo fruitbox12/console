@@ -31,8 +31,13 @@ const TopbarContainer = React.memo<TopbarContainerProps & WithTranslation & Rout
     setSelectProjectOpen(true);
   };
 
-  const handleSelectProjectOpenClose = () => {
+  const handleSelectProjectCloseClick = () => {
     setSelectProjectOpen(false);
+  };
+
+  const handleProjectSelectorSelectedProject = (id: string) => {
+    handleSelectProjectCloseClick();
+    history.push(`/${id}/dashboard`);
   };
 
   const handleNewProjectClick = () => {
@@ -51,7 +56,7 @@ const TopbarContainer = React.memo<TopbarContainerProps & WithTranslation & Rout
       <Dialog
         open={openSelectProject}
         keepMounted
-        onClose={handleSelectProjectOpenClose}
+        onClose={handleSelectProjectCloseClick}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
@@ -64,7 +69,7 @@ const TopbarContainer = React.memo<TopbarContainerProps & WithTranslation & Rout
           </React.Fragment>
         </DialogTitle>
         <DialogContent>
-          <ProjectSelector onSelectProjectClick={handleSelectProjectOpenClose} />
+          <ProjectSelector onSelectProjectClick={handleProjectSelectorSelectedProject} />
         </DialogContent>
       </Dialog>
     </React.Fragment>

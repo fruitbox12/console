@@ -1,7 +1,7 @@
 import React from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { QueryRenderer } from 'react-relay';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RelayEnvironment } from '../../../../framework/relay';
 import LoadingContainer from '../../../common/loading';
@@ -10,13 +10,10 @@ import SetEdgeClusterContainer from './SetEdgeClusterContainer';
 
 import { SetEdgeClusterQuery } from './__generated__/SetEdgeClusterQuery.graphql';
 
-interface SetEdgeClusterProps {
-  match: {
-    params: {
-      edgeClusterId?: string;
-    };
-  };
-}
+interface SetEdgeClusterProps
+  extends RouteComponentProps<{
+    edgeClusterId?: string;
+  }> {}
 
 const SetEdgeCluster = React.memo<SetEdgeClusterProps>(
   ({

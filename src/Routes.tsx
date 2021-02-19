@@ -37,12 +37,15 @@ const Routes = () => {
           <RouteWithLayout isSecureRoute={false} exact path="/" layout={PublicMainContainer} component={PublicHomeContainer} />
         )}
         <RouteWithLayout isSecureRoute={true} exact path="/dashboard" layout={MainContainer} component={DashboardContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/dashboard" layout={MainContainer} component={DashboardContainer} />
         <RouteWithLayout isSecureRoute={true} exact path="/project" layout={MainContainer} component={ProjectManagement} />
         <RouteWithLayout isSecureRoute={true} exact path="/project/create" component={SetProject} layout={MainContainer} />
         <RouteWithLayout isSecureRoute={true} exact path="/project/:projectId" component={SetProject} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/edgecluster" layout={MainContainer} component={EdgeClusterManagement} />
-        <RouteWithLayout isSecureRoute={true} exact path="/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/edgecluster/:edgeClusterId" component={SetEdgeCluster} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectId" layout={MainContainer} component={DashboardContainer} />
+
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster" layout={MainContainer} component={EdgeClusterManagement} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/:edgeClusterId" component={SetEdgeCluster} layout={MainContainer} />
         <RouteWithLayout
           isSecureRoute={false}
           exact
@@ -50,7 +53,6 @@ const Routes = () => {
           component={NotFoundContainer}
           layout={isAuthenticated ? MainContainer : PublicMainContainer}
         />
-        <RouteWithLayout isSecureRoute={true} exact path="/dashboard" component={DashboardContainer} layout={MainContainer} />
         <Redirect to="/notfound" />
       </Switch>
       <NotificationHandlerContainer />

@@ -10,7 +10,7 @@ import { changeSelectedProject } from '../../../../framework/redux/GlobalSlice';
 
 interface ProjectSelectorContainerProps extends RouteComponentProps {
   user: ProjectSelectorContainer_user;
-  onSelectProjectClick: () => void;
+  onSelectProjectClick: (id: string) => void;
 }
 
 const ProjectSelectorContainer = React.memo<ProjectSelectorContainerProps>(({ user, onSelectProjectClick }) => {
@@ -25,7 +25,7 @@ const ProjectSelectorContainer = React.memo<ProjectSelectorContainerProps>(({ us
           name: selectedProject.name,
         }),
       );
-      onSelectProjectClick();
+      onSelectProjectClick(id);
     }
   };
 

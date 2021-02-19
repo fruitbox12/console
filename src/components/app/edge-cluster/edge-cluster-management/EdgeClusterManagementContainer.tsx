@@ -9,31 +9,42 @@ import { EdgeClusterManagementContainer_user } from './__generated__/EdgeCluster
 import styles from './Styles';
 import EdgeClustersTableView from '../views/table/EdgeClustersTableView';
 
-interface EdgeClusterManagementContainerProps extends RouteComponentProps {
+interface EdgeClusterManagementContainerProps
+  extends RouteComponentProps<{
+    projectId?: string;
+  }> {
   user: EdgeClusterManagementContainer_user;
 }
 
-const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainerProps>(({ history, user }) => {
-  const classes = styles();
+const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainerProps>(
+  ({
+    history,
+    user,
+    match: {
+      params: { projectId },
+    },
+  }) => {
+    const classes = styles();
 
-  const createEdgeCluster = () => {
-    history.push('/edgeCluster/create');
-  };
+    const createEdgeCluster = () => {
+      history.push(`/${projectId}/edgeCluster/create`);
+    };
 
-  const handleEdgeClusterClick = (id: string) => {
-    history.push(`/edgeCluster/${id}`);
-  };
+    const handleEdgeClusterClick = (id: string) => {
+      history.push(`/${projectId}/edgeCluster/${id}`);
+    };
 
-  return (
-    <React.Fragment>
-      <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} />
+    return (
+      <React.Fragment>
+        <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} />
 
-      <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
-        <AddIcon />
-      </Fab>
-    </React.Fragment>
-  );
-});
+        <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
+          <AddIcon />
+        </Fab>
+      </React.Fragment>
+    );
+  },
+);
 
 export default createFragmentContainer(withRouter(EdgeClusterManagementContainer), {
   user: graphql`

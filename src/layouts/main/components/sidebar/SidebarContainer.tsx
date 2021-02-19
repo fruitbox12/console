@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useSelector } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,7 +12,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import styles from './Styles';
-import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
 import SidebarNavContainer from './components/sidebar-nav';
 import { Page } from './components/sidebar-nav/SidebarNavContainer';
 
@@ -22,50 +20,71 @@ interface SidebarContainerProps extends WithTranslation {
   open: boolean;
 }
 
-const SidebarContainer = React.memo<SidebarContainerProps & RouteComponentProps>(({ t, history, onDrawerClose, open }) => {
-  const classes = styles();
-  const theme = useTheme();
-  const { currentSelectedProject } = useSelector(globalSelectState);
-
-  let pages: Page[] = [
-    {
-      key: 'dashboard',
-      title: t('dashboard.label'),
-      icon: <HomeIcon />,
-      onClick: () => history.push('/dashboard'),
+const SidebarContainer = React.memo<
+  SidebarContainerProps &
+    RouteComponentProps<{
+      projectId?: string;
+    }>
+>(
+  ({
+    t,
+    history,
+    onDrawerClose,
+    open,
+    match: {
+      params: { projectId },
     },
-  ];
+  }) => {
+    const classes = styles();
+    const theme = useTheme();
 
-  if (currentSelectedProject) {
-    pages.push({
-      key: 'edge-cluster',
-      title: t('edgeCluster.label'),
-      icon: <BlurOnIcon />,
-      onClick: () => history.push('/edgecluster'),
-    });
-  }
+    let pages: Page[] = [];
 
-  return (
-    <Drawer
-      variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
-      })}
-      classes={{
-        paper: clsx({
+    if (projectId) {
+      pages.push({
+        key: 'dashboard',
+        title: t('dashboard.label'),
+        icon: <HomeIcon />,
+        onClick: () => history.push(`/${projectId}/dashboard`),
+      });
+
+      pages.push({
+        key: 'edge-cluster',
+        title: t('edgeCluster.label'),
+        icon: <BlurOnIcon />,
+        onClick: () => history.push(`/${projectId}/edgecluster`),
+      });
+    } else {
+      pages.push({
+        key: 'dashboard',
+        title: t('dashboard.label'),
+        icon: <HomeIcon />,
+        onClick: () => history.push(`/dashboard`),
+      });
+    }
+
+    return (
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
-        }),
-      }}
-    >
-      <div className={classes.toolbar}>
-        <IconButton onClick={onDrawerClose}>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
-      </div>
-      <SidebarNavContainer pages={pages} />
-      <Divider />
-    </Drawer>
-  );
-});
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={onDrawerClose}>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+        </div>
+        <SidebarNavContainer pages={pages} />
+        <Divider />
+      </Drawer>
+    );
+  },
+);
 
 export default withRouter(withTranslation()(SidebarContainer));

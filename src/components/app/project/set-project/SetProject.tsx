@@ -1,7 +1,7 @@
 import React from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { QueryRenderer } from 'react-relay';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RelayEnvironment } from '../../../../framework/relay';
 import LoadingContainer from '../../../common/loading';
@@ -10,13 +10,10 @@ import SetProjectContainer from './SetProjectContainer';
 
 import { SetProjectQuery } from './__generated__/SetProjectQuery.graphql';
 
-interface SetProjectProps {
-  match: {
-    params: {
-      projectId?: string;
-    };
-  };
-}
+interface SetProjectProps
+  extends RouteComponentProps<{
+    projectId?: string;
+  }> {}
 
 const SetProject = React.memo<SetProjectProps>(
   ({
