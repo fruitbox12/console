@@ -1,4 +1,4 @@
-FROM node:14.15.4-alpine
+FROM node:14.15.5-alpine
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG COVERALLS_SERVICE_NAME
