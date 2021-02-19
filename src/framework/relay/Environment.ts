@@ -3,13 +3,13 @@ import { Environment, Network, RecordSource, Store, RequestParameters, Variables
 import '../../globalConfig';
 
 const fetchQuery = async (request: RequestParameters, variables: Variables) => {
-  const auth0 = Object.entries(localStorage).find((key) => key[0].includes('auth0'));
+  const foundItem = Object.entries(localStorage).find((item) => item[0].includes('auth0spajs'));
 
-  if (!auth0) {
+  if (!foundItem) {
     throw new Error('Not authenticated');
   }
 
-  const auth0Context = JSON.parse(auth0[1]);
+  const auth0Context = JSON.parse(String(localStorage.getItem(foundItem[0])));
 
   if (!auth0Context || !auth0Context.body || !auth0Context.body.id_token) {
     throw new Error('Not authenticated');

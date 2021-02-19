@@ -21,6 +21,7 @@ const Auth0ProviderWithHistory = React.memo<Auth0ProviderWithHistoryProps>(({ ch
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
       cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       {children}
     </Auth0Provider>
