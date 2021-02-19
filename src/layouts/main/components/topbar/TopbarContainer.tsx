@@ -14,66 +14,86 @@ import Topbar from './Topbar';
 import ProjectSelector from '../../../../components/app/project/project-selector';
 import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
 
-interface TopbarContainerProps {
+interface TopbarContainerProps extends WithTranslation {
   open: boolean;
   onDrawerOpen: () => void;
 }
 
-const TopbarContainer = React.memo<TopbarContainerProps & WithTranslation & RouteComponentProps>(({ t, history, open, onDrawerOpen }) => {
-  const classes = styles();
-  const { currentSelectedProject } = useSelector(globalSelectState);
-  const { user } = useAuth0();
-  const { picture } = user;
+const TopbarContainer = React.memo<
+  TopbarContainerProps &
+    RouteComponentProps<{
+      projectId?: string;
+    }>
+>(
+  ({
+    t,
+    history,
+    open,
+    onDrawerOpen,
+    match: {
+      params: { projectId },
+    },
+  }) => {
+    const classes = styles();
+    const { user } = useAuth0();
+    const { picture } = user;
+    const [openSelectProject, setSelectProjectOpen] = React.useState(false);
+    let { currentSelectedProject } = useSelector(globalSelectState);
 
-  const [openSelectProject, setSelectProjectOpen] = React.useState(false);
+    if (!projectId) {
+      currentSelectedProject = undefined;
+    } else if (currentSelectedProject && currentSelectedProject.projectId !== projectId) {
+      currentSelectedProject = undefined;
+    }
 
-  const handleSelectProjectOpenClick = () => {
-    setSelectProjectOpen(true);
-  };
+    const handleSelectProjectOpenClick = () => {
+      setSelectProjectOpen(true);
+    };
 
-  const handleSelectProjectCloseClick = () => {
-    setSelectProjectOpen(false);
-  };
+    const handleSelectProjectCloseClick = () => {
+      setSelectProjectOpen(false);
+    };
 
-  const handleProjectSelectorSelectedProject = (id: string) => {
-    handleSelectProjectCloseClick();
-    history.push(`/${id}/dashboard`);
-  };
+    const handleProjectSelectorSelectedProject = (id: string) => {
+      handleSelectProjectCloseClick();
+      history.push(`/${id}/dashboard`);
+    };
 
-  const handleNewProjectClick = () => {
-    history.push('/project/create');
-  };
+    const handleNewProjectClick = () => {
+      history.push('/project/create');
+    };
 
-  return (
-    <React.Fragment>
-      <Topbar
-        drawerOpen={open}
-        onDrawerOpen={onDrawerOpen}
-        pictureUrl={picture}
-        onSelectProjectClick={handleSelectProjectOpenClick}
-        project={currentSelectedProject}
-      />
-      <Dialog
-        open={openSelectProject}
-        keepMounted
-        onClose={handleSelectProjectCloseClick}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle id="alert-dialog-slide-title" className={classes.dialog}>
-          <React.Fragment>
-            {t('selectProject.title')}
-            <Button color="inherit" startIcon={<AddIcon />} onClick={handleNewProjectClick}>
-              {t('newProject.button')}
-            </Button>
-          </React.Fragment>
-        </DialogTitle>
-        <DialogContent>
-          <ProjectSelector onSelectProjectClick={handleProjectSelectorSelectedProject} />
-        </DialogContent>
-      </Dialog>
-    </React.Fragment>
-  );
-});
+    return (
+      <React.Fragment>
+        <Topbar
+          drawerOpen={open}
+          onDrawerOpen={onDrawerOpen}
+          pictureUrl={picture}
+          onSelectProjectClick={handleSelectProjectOpenClick}
+          project={currentSelectedProject}
+        />
+        <Dialog
+          open={openSelectProject}
+          keepMounted
+          onClose={handleSelectProjectCloseClick}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title" className={classes.dialog}>
+            <React.Fragment>
+              {t('selectProject.title')}
+              <Button color="inherit" startIcon={<AddIcon />} onClick={handleNewProjectClick}>
+                {t('newProject.button')}
+              </Button>
+            </React.Fragment>
+          </DialogTitle>
+          <DialogContent>
+            <ProjectSelector onSelectProjectClick={handleProjectSelectorSelectedProject} />
+          </DialogContent>
+        </Dialog>
+      </React.Fragment>
+    );
+  },
+);
 
 export default withTranslation()(withRouter(TopbarContainer));
