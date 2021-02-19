@@ -31,12 +31,9 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
         {
           projectID: currentSelectedProject?.projectId,
           edgeClusterID: edgeCluster.id,
-          // @ts-ignore: Object is possibly 'undefined'.
-          name: values.name.trim(),
-          // @ts-ignore: Object is possibly 'undefined'.
-          clusterType: values.type.trim(),
-          // @ts-ignore: Object is possibly 'undefined'.
-          clusterSecret: values.secret.trim(),
+          name: values?.name?.trim(),
+          clusterType: values?.type?.trim(),
+          clusterSecret: values?.secret?.trim(),
         },
         user,
         {
@@ -57,12 +54,11 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
     } else {
       CreateEdgeCluster(
         environment,
-        // @ts-ignore: Object is possibly 'undefined'.
         {
           projectID: currentSelectedProject?.projectId,
-          name: values.name.trim(),
-          clusterType: values.type.trim(),
-          clusterSecret: values.secret.trim(),
+          name: values?.name?.trim(),
+          clusterType: values?.type?.trim(),
+          clusterSecret: values?.secret?.trim(),
         },
         null,
         {
