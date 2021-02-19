@@ -31,7 +31,7 @@ const ProjectSelectorContainer = React.memo<ProjectSelectorContainerProps>(({ us
 
   return (
     <React.Fragment>
-      <ProjectsTableView user={user} onProjectClick={handleProjectClick} />
+      <ProjectsTableView user={user} onProjectClick={handleProjectClick} showCheckbox={false} />
     </React.Fragment>
   );
 });

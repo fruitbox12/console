@@ -5,14 +5,18 @@ import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface DepartmentTableHeaderProps extends WithTranslation {}
+interface DepartmentTableHeaderProps extends WithTranslation {
+  showCheckbox: boolean;
+}
 
-const DepartmentTableHeader = React.memo<DepartmentTableHeaderProps>(({ t }) => (
+const DepartmentTableHeader = React.memo<DepartmentTableHeaderProps>(({ t, showCheckbox }) => (
   <TableHead>
     <TableRow>
-      <TableCell padding="checkbox">
-        <Checkbox checked={false} />
-      </TableCell>
+      {showCheckbox && (
+        <TableCell padding="checkbox">
+          <Checkbox checked={false} />
+        </TableCell>
+      )}
       <TableCell>{t('name.title')}</TableCell>
     </TableRow>
   </TableHead>

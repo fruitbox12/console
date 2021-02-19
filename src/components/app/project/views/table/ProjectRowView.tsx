@@ -12,16 +12,19 @@ import styles from './Styles';
 interface ProjectRowViewProps {
   project: ProjectRowView_project;
   onProjectClick: (id: string) => void;
+  showCheckbox: boolean;
 }
 
-export const ProjectRowView = React.memo<ProjectRowViewProps>(({ project: { id, name }, onProjectClick }) => {
+export const ProjectRowView = React.memo<ProjectRowViewProps>(({ project: { id, name }, onProjectClick, showCheckbox }) => {
   const classes = styles();
 
   return (
     <TableRow>
-      <TableCell padding="checkbox">
-        <Checkbox checked={false} />
-      </TableCell>
+      {showCheckbox && (
+        <TableCell padding="checkbox">
+          <Checkbox checked={false} />
+        </TableCell>
+      )}
       <TableCell component="th" scope="row" padding="none">
         <Link className={classes.link} onClick={() => onProjectClick(id)}>
           {name}

@@ -13,14 +13,17 @@ import ProjectRowView from './ProjectRowView';
 interface ProjectsTableViewProps {
   user: ProjectsTableView_user;
   onProjectClick: (id: string) => void;
+  showCheckbox: boolean;
 }
 
-export const ProjectsTableView = React.memo<ProjectsTableViewProps>(({ user, onProjectClick }) => {
+export const ProjectsTableView = React.memo<ProjectsTableViewProps>(({ user, onProjectClick, showCheckbox }) => {
   const classes = styles();
 
   const getProjectsTableView = (user: ProjectsTableView_user) => {
-    // @ts-ignore: Object is possibly 'null'.
-    return user.projects.edges.map((edge) => <ProjectRowView key={edge.node.id} project={edge.node} onProjectClick={onProjectClick} />);
+    return user.projects?.edges?.map((edge) => (
+      // @ts-ignore: Object is possibly 'null'.
+      <ProjectRowView key={edge.node.id} project={edge.node} onProjectClick={onProjectClick} showCheckbox={showCheckbox} />
+    ));
   };
 
   return (
@@ -28,7 +31,7 @@ export const ProjectsTableView = React.memo<ProjectsTableViewProps>(({ user, onP
       <Paper className={classes.paper}>
         <div className={classes.tableWrapper}>
           <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
-            <ProjectTableHeader />
+            <ProjectTableHeader showCheckbox={showCheckbox} />
             <TableBody>{getProjectsTableView(user)}</TableBody>
           </Table>
         </div>

@@ -38,7 +38,7 @@ const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainer
 export default createFragmentContainer(withRouter(EdgeClusterManagementContainer), {
   user: graphql`
     fragment EdgeClusterManagementContainer_user on User {
-      edgeClusters(first: 1000) @connection(key: "User_edgeClusters") {
+      edgeClusters(first: 1000, projectIDs: [$projectId]) @connection(key: "User_edgeClusters") {
         edges {
           node {
             id

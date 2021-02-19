@@ -43,7 +43,7 @@ export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(({ u
 export default createFragmentContainer(EdgeClustersTableView, {
   user: graphql`
     fragment EdgeClustersTableView_user on User {
-      edgeClusters(first: 1000) @connection(key: "User_edgeClusters") {
+      edgeClusters(first: 1000, projectIDs: [$projectId]) @connection(key: "User_edgeClusters") {
         edges {
           node {
             id
