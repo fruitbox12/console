@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import graphql from 'babel-plugin-relay/macro';
 import { createFragmentContainer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { CreateEdgeCluster, UpdateEdgeCluster } from '../../../../framework/rela
 import { add, NotificationType, Notification } from '../../../../components/common/notification-handler/NotificationHandlerSlice';
 
 import { SetEdgeClusterContainer_user } from './__generated__/SetEdgeClusterContainer_user.graphql';
+import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
 
 interface SetEdgeClusterContainerProps extends RouteComponentProps {
   user: SetEdgeClusterContainer_user;
@@ -21,13 +22,14 @@ interface SetEdgeClusterContainerProps extends RouteComponentProps {
 export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = ({ history, user, relay: { environment } }) => {
   const dispatch = useDispatch();
   const { edgeCluster } = user;
+  const { currentSelectedProject } = useSelector(globalSelectState);
 
   const setEdgeCluster = (values: Values) => {
     if (edgeCluster) {
       UpdateEdgeCluster(
         environment,
         {
-          projectID: 'XXX',
+          projectID: currentSelectedProject?.projectId,
           edgeClusterID: edgeCluster.id,
           // @ts-ignore: Object is possibly 'undefined'.
           name: values.name.trim(),
@@ -56,7 +58,12 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
       CreateEdgeCluster(
         environment,
         // @ts-ignore: Object is possibly 'undefined'.
-        { projectID: 'XXX', name: values.name.trim(), clusterType: values.type.trim(), clusterSecret: values.secret.trim() },
+        {
+          projectID: currentSelectedProject?.projectId,
+          name: values.name.trim(),
+          clusterType: values.type.trim(),
+          clusterSecret: values.secret.trim(),
+        },
         null,
         {
           onSuccess: () => {

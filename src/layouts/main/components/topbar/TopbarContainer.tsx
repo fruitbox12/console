@@ -1,22 +1,27 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useSelector } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withTranslation, WithTranslation } from 'react-i18next';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
+import styles from './Styles';
 import Topbar from './Topbar';
 import ProjectSelector from '../../../../components/app/project/project-selector';
-import { selectState } from '../../../../framework/redux/GlobalSlice';
+import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
 
-interface TopbarContainerProps extends WithTranslation {
+interface TopbarContainerProps {
   open: boolean;
   onDrawerOpen: () => void;
 }
 
-const TopbarContainer = React.memo<TopbarContainerProps>(({ t, open, onDrawerOpen }) => {
-  const { currentSelectedProject } = useSelector(selectState);
+const TopbarContainer = React.memo<TopbarContainerProps & WithTranslation & RouteComponentProps>(({ t, history, open, onDrawerOpen }) => {
+  const classes = styles();
+  const { currentSelectedProject } = useSelector(globalSelectState);
   const { user } = useAuth0();
   const { picture } = user;
 
@@ -28,6 +33,10 @@ const TopbarContainer = React.memo<TopbarContainerProps>(({ t, open, onDrawerOpe
 
   const handleSelectProjectOpenClose = () => {
     setSelectProjectOpen(false);
+  };
+
+  const handleNewProjectClick = () => {
+    history.push('/project/create');
   };
 
   return (
@@ -46,7 +55,14 @@ const TopbarContainer = React.memo<TopbarContainerProps>(({ t, open, onDrawerOpe
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">{t('selectProject.title')}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title" className={classes.dialog}>
+          <React.Fragment>
+            {t('selectProject.title')}
+            <Button color="inherit" startIcon={<AddIcon />} onClick={handleNewProjectClick}>
+              {t('newProject.button')}
+            </Button>
+          </React.Fragment>
+        </DialogTitle>
         <DialogContent>
           <ProjectSelector onSelectProjectClick={handleSelectProjectOpenClose} />
         </DialogContent>
@@ -55,4 +71,4 @@ const TopbarContainer = React.memo<TopbarContainerProps>(({ t, open, onDrawerOpe
   );
 });
 
-export default withTranslation()(TopbarContainer);
+export default withTranslation()(withRouter(TopbarContainer));

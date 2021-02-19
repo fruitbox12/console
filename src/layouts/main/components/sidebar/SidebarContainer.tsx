@@ -1,19 +1,20 @@
 import React from 'react';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import HomeIcon from '@material-ui/icons/Home';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import SidebarNavContainer from './components/sidebar-nav';
 import styles from './Styles';
+import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
+import SidebarNavContainer from './components/sidebar-nav';
 import { Page } from './components/sidebar-nav/SidebarNavContainer';
 
 interface SidebarContainerProps extends WithTranslation {
@@ -24,27 +25,25 @@ interface SidebarContainerProps extends WithTranslation {
 const SidebarContainer = React.memo<SidebarContainerProps & RouteComponentProps>(({ t, history, onDrawerClose, open }) => {
   const classes = styles();
   const theme = useTheme();
+  const { currentSelectedProject } = useSelector(globalSelectState);
 
-  const pages: Page[] = [
+  let pages: Page[] = [
     {
       key: 'dashboard',
       title: t('dashboard.label'),
       icon: <HomeIcon />,
       onClick: () => history.push('/dashboard'),
     },
-    {
-      key: 'project',
-      title: t('project.label'),
-      icon: <DashboardIcon />,
-      onClick: () => history.push('/project'),
-    },
-    {
+  ];
+
+  if (currentSelectedProject) {
+    pages.push({
       key: 'edge-cluster',
       title: t('edgeCluster.label'),
       icon: <BlurOnIcon />,
       onClick: () => history.push('/edgecluster'),
-    },
-  ];
+    });
+  }
 
   return (
     <Drawer

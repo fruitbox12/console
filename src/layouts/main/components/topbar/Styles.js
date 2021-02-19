@@ -34,6 +34,9 @@ const styles = makeStyles((theme) => ({
   selectProjectButton: {
     margin: theme.spacing(1),
   },
+  dialog: {
+    minWidth: 500,
+  },
 }));
 
 export default styles;
