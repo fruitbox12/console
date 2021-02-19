@@ -27,11 +27,11 @@ const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainer
     const classes = styles();
 
     const createEdgeCluster = () => {
-      history.push(`/${projectId}/edgeCluster/create`);
+      history.push(`/${projectId}/edgecluster/create`);
     };
 
     const handleEdgeClusterClick = (id: string) => {
-      history.push(`/${projectId}/edgeCluster/${id}`);
+      history.push(`/${projectId}/edgecluster/${id}`);
     };
 
     return (

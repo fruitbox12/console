@@ -50,7 +50,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
 
             dispatch(add(notification));
 
-            history.push(`/${projectId}/edgeCluster`);
+            history.push(`/${projectId}/edgecluster`);
           },
           onError: (errorMessage: string) => {
             const notification: Notification = { type: NotificationType.Error, message: errorMessage };
@@ -75,7 +75,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
 
             dispatch(add(notification));
 
-            history.push(`/${projectId}/edgeCluster`);
+            history.push(`/${projectId}/edgecluster`);
           },
           onError: (errorMessage: string) => {
             const notification: Notification = { type: NotificationType.Error, message: errorMessage };
@@ -87,7 +87,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
     }
   };
 
-  const cancel = () => history.push(`/${projectId}/edgeCluster`);
+  const cancel = () => history.push(`/${projectId}/edgecluster`);
 
   if (edgeCluster) {
     return <UpdateEdgeClusterView edgeCluster={edgeCluster} onSubmit={setEdgeCluster} onCancelButtonClick={cancel} />;
