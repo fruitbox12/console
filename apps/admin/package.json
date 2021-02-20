@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "./script/env.sh && cp env-config.js ./public/ && react-scripts start",
-    "start:windows": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command script/env.ps1;copy env-config.js .\\public\\ ; react-scripts start",
+    "start": "./scripts/env.sh && cp env-config.js ./public/ && react-scripts start",
+    "start:windows": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command scripts/env.ps1;copy env-config.js .\\public\\ ; react-scripts start",
     "build": "sh -ac '. ./.env; react-scripts build'",
     "test": "react-scripts test --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",

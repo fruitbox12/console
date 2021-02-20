@@ -1,23 +1,26 @@
 # => Build container
-FROM node:14.15.5-alpine as react-build
+FROM decentralizedcloud/frontend-build-base:latest as react-build
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG VERSION
+ARG COVERALLS_SERVICE_NAME
+ARG COVERALLS_REPO_TOKEN
 
 ADD . /src
 WORKDIR /src
 RUN yarn install
 RUN yarn run relay
+RUN yarn run test:ci
 RUN yarn run build
 
 RUN echo $VERSION > version.txt
 
 # => Run container
-FROM nginx:1.19.6-alpine
+FROM nginx:1.19-alpine
 
 # Nginx config
 RUN rm -rf /etc/nginx/conf.d
-COPY conf /etc/nginx
+COPY --from=react-build /src/conf /etc/nginx/
 
 # Static build
 COPY --from=react-build /src/build /usr/share/nginx/html
@@ -28,7 +31,7 @@ EXPOSE 80
 
 # Initialize environment variables into filesystem
 WORKDIR /usr/share/nginx/html
-COPY --from=react-build /src/script/env.sh .
+COPY --from=react-build /src/scripts/env.sh .
 COPY --from=react-build /src/.env .
 
 # Add bash

@@ -5,7 +5,7 @@ ARG GITHUB_ACCESS_CREDENTIAL
 ARG VERSION
 
 ADD . /src
-WORKDIR /src
+WORKDIR /apps/admin
 
 RUN git config --global http.sslVerify false
 RUN git config --global user.email "ci@micro-business.co.nz"

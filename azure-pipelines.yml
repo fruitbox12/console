@@ -31,22 +31,14 @@ steps:
       configFilePath: "./GitVersion.yml"
 
   - task: Docker@2
-    displayName: "Build docker image"
+    displayName: "Build and test"
     inputs:
       repository: $(DOCKER_REPOSITORY_NAME)
       command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/docker/Dockerfile.build"
+      Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile"
       buildContext: "$(system.defaultWorkingDirectory)"
-      arguments: "--build-arg VERSION=${{variables.version}}"
+      arguments: "--build-arg VERSION=${{variables.version}} --build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
       tags: ${{variables.version}}
-
-  - task: Docker@2
-    displayName: "Test and coverage"
-    inputs:
-      command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/docker/Dockerfile.testAndCoverage"
-      buildContext: "$(system.defaultWorkingDirectory)"
-      arguments: "--build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
 
   - task: Docker@2
     displayName: "Docker login"
@@ -60,7 +52,6 @@ steps:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
       repository: $(DOCKER_REPOSITORY_NAME)
       command: "push"
-      buildContext: "$(system.defaultWorkingDirectory)"
       tags: ${{variables.version}}
 
   - task: Docker@2
@@ -80,7 +71,7 @@ steps:
     inputs:
       targetType: "inline"
       script: |
-        helm package --destination "$(system.defaultWorkingDirectory)/chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/helm-charts"
+        helm package --destination "$(system.defaultWorkingDirectory)/chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
 
   - task: PublishPipelineArtifact@1
     displayName: "Publish helm artifact"

@@ -1,7 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.	/apps/admin/node_modules
 
 # dependencies
-/node_modules
+/apps/admin/node_modules
 /.pnp
 .pnp.js
 
@@ -9,20 +9,22 @@
 /coverage
 
 # production
-/build
+/apps/admin/build
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+/apps/admin/.DS_Store
+/apps/admin/.env.local
+/apps/admin/.env.development.local
+/apps/admin/.env.test.local
+/apps/admin/.env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+/apps/admin/npm-debug.log*
+/apps/admin/yarn-debug.log*
+/apps/admin/yarn-error.log*
 
 __generated__/
-/public/env-config.js
-env-config.js
-.eslintcache
+/apps/admin/public/env-config.js
+/apps/admin/env-config.js
+/apps/admin/.eslintcache
+
+src/components/app/edge-cluster/edge-cluster-management/__generated__/**

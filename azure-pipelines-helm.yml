@@ -35,6 +35,6 @@ steps:
     condition: or(eq(variables.isMainTriggered, true), eq(variables.isTagTriggered, true))
     inputs:
       command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/docker/Dockerfile.buildAndPushHelmChart"
-      buildContext: "$(system.defaultWorkingDirectory)"
+      Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.buildAndPushHelmChart"
+      buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
       arguments: "--build-arg GITHUB_ACCESS_CREDENTIAL=$(GITHUB_ACCESS_CREDENTIAL) --build-arg VERSION=${{variables.version}}"

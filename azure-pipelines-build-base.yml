@@ -1,0 +1,41 @@
+trigger:
+  paths:
+    include:
+      - apps/admin/package.json
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
+  DOCKER_REPOSITORY_NAME: "decentralizedcloud/frontend-build-base"
+
+steps:
+- task: Docker@2
+  displayName: Build base image
+  inputs:
+    repository: $(DOCKER_REPOSITORY_NAME)
+    command: 'build'
+    Dockerfile: '$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.buildBase'
+    buildContext: '$(system.defaultWorkingDirectory)/apps/admin'
+    tags: latest
+
+- task: Docker@2
+  displayName: Docker Login
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    command: 'login'
+
+- task: Docker@2
+  displayName: Push Firebase toolset image
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    repository: $(DOCKER_REPOSITORY_NAME)
+    command: 'push'
+    tags: latest
+
+- task: Docker@2
+  displayName: Docker Logout
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    command: 'logout'
