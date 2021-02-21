@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { ProjectManagementContainer_user } from './__generated__/ProjectManagementContainer_user.graphql';
 import styles from './Styles';
-import ProjectsTableView from '../views/table/ProjectsTableView';
+import ProjectsTableView from '../views/table';
 
 interface ProjectManagementContainerProps extends RouteComponentProps {
   user: ProjectManagementContainer_user;

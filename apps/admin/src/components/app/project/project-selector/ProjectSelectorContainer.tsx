@@ -5,7 +5,7 @@ import { createFragmentContainer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { ProjectSelectorContainer_user } from './__generated__/ProjectSelectorContainer_user.graphql';
-import ProjectsTableView from '../views/table/ProjectsTableView';
+import ProjectsTableView from '../views/table';
 import { changeSelectedProject } from '../../../../framework/redux/GlobalSlice';
 
 interface ProjectSelectorContainerProps extends RouteComponentProps {

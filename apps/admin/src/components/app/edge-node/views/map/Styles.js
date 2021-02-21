@@ -1,10 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const styles = makeStyles((theme) => ({
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+  root: {
+    height: '100vh',
+    width: '100%',
+  },
+  card: {
+    minWidth: 100,
   },
 }));
 

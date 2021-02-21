@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { EdgeClusterManagementContainer_user } from './__generated__/EdgeClusterManagementContainer_user.graphql';
 import styles from './Styles';
-import EdgeClustersTableView from '../views/table/EdgeClustersTableView';
+import EdgeClustersTableView from '../views/table';
 
 interface EdgeClusterManagementContainerProps
   extends RouteComponentProps<{

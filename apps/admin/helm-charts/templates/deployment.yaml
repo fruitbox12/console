@@ -40,6 +40,10 @@ spec:
               value: "{{ .Values.pod.idp.auth0Domain }}"
             - name: AUTH0_CLIENT_ID
               value: "{{ .Values.pod.idp.auth0ClientId }}"
+            - name: GOOGLE_MAP_API_KEY
+              value: "{{ .Values.pod.googleMapAPIKey }}"
+            - name: IPINFO_ACCESS_TOKEN
+              value: "{{ .Values.pod.ipinfoAccessToken }}"
           ports:
             - name: http
               containerPort: {{ .Values.pod.httpport }}
