@@ -12,17 +12,20 @@ import styles from './Styles';
 interface EdgeClusterRowViewProps {
   edgeCluster: EdgeClusterRowView_edgeCluster;
   onEdgeClusterClick: (id: string) => void;
+  showCheckbox: boolean;
 }
 
 export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
-  ({ edgeCluster: { id, name, clusterType, clusterSecret }, onEdgeClusterClick }) => {
+  ({ edgeCluster: { id, name, clusterType, clusterSecret }, onEdgeClusterClick, showCheckbox }) => {
     const classes = styles();
 
     return (
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox checked={false} />
-        </TableCell>
+      <TableRow className={classes.row}>
+        {showCheckbox && (
+          <TableCell padding="checkbox">
+            <Checkbox checked={false} />
+          </TableCell>
+        )}
         <TableCell component="th" scope="row" padding="none">
           <Link className={classes.link} onClick={() => onEdgeClusterClick(id)}>
             {name}

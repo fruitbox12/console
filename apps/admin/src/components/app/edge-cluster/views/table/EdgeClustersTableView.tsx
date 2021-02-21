@@ -13,16 +13,17 @@ import EdgeClusterRowView from './EdgeClusterRowView';
 interface EdgeClustersTableViewProps {
   user: EdgeClustersTableView_user;
   onEdgeClusterClick: (id: string) => void;
+  showCheckbox: boolean;
 }
 
-export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(({ user, onEdgeClusterClick }) => {
+export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(({ user, onEdgeClusterClick, showCheckbox }) => {
   const classes = styles();
 
   const getEdgeClustersTableView = (user: EdgeClustersTableView_user) => {
     // @ts-ignore: Object is possibly 'null'.
     return user.edgeClusters.edges.map((edge) => (
       // @ts-ignore: Object is possibly 'null'.
-      <EdgeClusterRowView key={edge.node.id} edgeCluster={edge.node} onEdgeClusterClick={onEdgeClusterClick} />
+      <EdgeClusterRowView key={edge.node.id} edgeCluster={edge.node} onEdgeClusterClick={onEdgeClusterClick} showCheckbox={showCheckbox} />
     ));
   };
 
@@ -31,7 +32,7 @@ export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(({ u
       <Paper className={classes.paper}>
         <div className={classes.tableWrapper}>
           <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
-            <EdgeClusterTableHeader />
+            <EdgeClusterTableHeader showCheckbox={showCheckbox} />
             <TableBody>{getEdgeClustersTableView(user)}</TableBody>
           </Table>
         </div>

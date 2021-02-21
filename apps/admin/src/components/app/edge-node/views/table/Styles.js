@@ -13,9 +13,6 @@ const styles = makeStyles((theme) => ({
   tableWrapper: {
     overflowX: 'auto',
   },
-  link: {
-    margin: theme.spacing(1),
-  },
   row: {
     height: 40,
   },

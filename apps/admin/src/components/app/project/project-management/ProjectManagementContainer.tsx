@@ -25,7 +25,7 @@ const ProjectManagementContainer = React.memo<ProjectManagementContainerProps>((
 
   return (
     <React.Fragment>
-      <ProjectsTableView user={user} onProjectClick={handleProjectClick} showCheckbox={true} />
+      <ProjectsTableView user={user} onProjectClick={handleProjectClick} showCheckbox={false} />
       <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createProject}>
         <AddIcon />
       </Fab>

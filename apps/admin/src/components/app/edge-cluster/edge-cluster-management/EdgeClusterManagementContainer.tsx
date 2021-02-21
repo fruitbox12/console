@@ -31,12 +31,12 @@ const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainer
     };
 
     const handleEdgeClusterClick = (id: string) => {
-      history.push(`/${projectId}/edgecluster/${id}`);
+      history.push(`/${projectId}/edgecluster/${id}/node`);
     };
 
     return (
       <React.Fragment>
-        <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} />
+        <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} showCheckbox={false} />
 
         <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
           <AddIcon />

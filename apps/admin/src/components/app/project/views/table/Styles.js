@@ -16,6 +16,9 @@ const styles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1),
   },
+  row: {
+    height: 40,
+  },
 }));
 
 export default styles;

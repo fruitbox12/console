@@ -16,6 +16,7 @@ import ProjectManagement from './components/app/project/project-management';
 import SetProject from './components/app/project/set-project';
 import EdgeClusterManagement from './components/app/edge-cluster/edge-cluster-management';
 import SetEdgeCluster from './components/app/edge-cluster/set-edge-cluster';
+import EdgeNodeManagement from './components/app/edge-node/edge-node-management';
 
 const Routes = () => {
   const { isLoading, isAuthenticated, error } = useAuth0();
@@ -46,6 +47,14 @@ const Routes = () => {
         <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster" layout={MainContainer} component={EdgeClusterManagement} />
         <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
         <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/:edgeClusterId" component={SetEdgeCluster} layout={MainContainer} />
+
+        <RouteWithLayout
+          isSecureRoute={true}
+          exact
+          path="/:projectId/edgecluster/:edgeClusterId/node"
+          layout={MainContainer}
+          component={EdgeNodeManagement}
+        />
         <RouteWithLayout
           isSecureRoute={false}
           exact

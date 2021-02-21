@@ -19,7 +19,7 @@ export const ProjectRowView = React.memo<ProjectRowViewProps>(({ project: { id, 
   const classes = styles();
 
   return (
-    <TableRow>
+    <TableRow className={classes.row}>
       {showCheckbox && (
         <TableCell padding="checkbox">
           <Checkbox checked={false} />
