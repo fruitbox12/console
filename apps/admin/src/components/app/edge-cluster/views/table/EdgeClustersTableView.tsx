@@ -13,33 +13,44 @@ import EdgeClusterRowView from './EdgeClusterRowView';
 interface EdgeClustersTableViewProps {
   user: EdgeClustersTableView_user;
   onEdgeClusterClick: (id: string) => void;
+  onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
+  showEditButton: boolean;
 }
 
-export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(({ user, onEdgeClusterClick, showCheckbox }) => {
-  const classes = styles();
+export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(
+  ({ user, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton }) => {
+    const classes = styles();
 
-  const getEdgeClustersTableView = (user: EdgeClustersTableView_user) => {
-    // @ts-ignore: Object is possibly 'null'.
-    return user.edgeClusters.edges.map((edge) => (
+    const getEdgeClustersTableView = (user: EdgeClustersTableView_user) => {
       // @ts-ignore: Object is possibly 'null'.
-      <EdgeClusterRowView key={edge.node.id} edgeCluster={edge.node} onEdgeClusterClick={onEdgeClusterClick} showCheckbox={showCheckbox} />
-    ));
-  };
+      return user.edgeClusters.edges.map((edge) => (
+        <EdgeClusterRowView
+          key={edge?.node?.id}
+          // @ts-ignore: Object is possibly 'null'.
+          edgeCluster={edge?.node}
+          onEdgeClusterClick={onEdgeClusterClick}
+          onEdgeClusterEditClick={onEdgeClusterEditClick}
+          showCheckbox={showCheckbox}
+          showEditButton={showEditButton}
+        />
+      ));
+    };
 
-  return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <div className={classes.tableWrapper}>
-          <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
-            <EdgeClusterTableHeader showCheckbox={showCheckbox} />
-            <TableBody>{getEdgeClustersTableView(user)}</TableBody>
-          </Table>
-        </div>
-      </Paper>
-    </div>
-  );
-});
+    return (
+      <div className={classes.root}>
+        <Paper className={classes.paper}>
+          <div className={classes.tableWrapper}>
+            <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
+              <EdgeClusterTableHeader showCheckbox={showCheckbox} />
+              <TableBody>{getEdgeClustersTableView(user)}</TableBody>
+            </Table>
+          </div>
+        </Paper>
+      </div>
+    );
+  },
+);
 
 export default createFragmentContainer(EdgeClustersTableView, {
   user: graphql`

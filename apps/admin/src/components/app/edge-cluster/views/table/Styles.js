@@ -19,6 +19,10 @@ const styles = makeStyles((theme) => ({
   row: {
     height: 40,
   },
+  nameAndEditCell: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export default styles;

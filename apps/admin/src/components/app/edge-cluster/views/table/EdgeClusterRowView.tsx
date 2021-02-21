@@ -5,6 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { EdgeClusterRowView_edgeCluster } from './__generated__/EdgeClusterRowView_edgeCluster.graphql';
 import styles from './Styles';
@@ -12,11 +14,13 @@ import styles from './Styles';
 interface EdgeClusterRowViewProps {
   edgeCluster: EdgeClusterRowView_edgeCluster;
   onEdgeClusterClick: (id: string) => void;
+  onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
+  showEditButton: boolean;
 }
 
 export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
-  ({ edgeCluster: { id, name, clusterType, clusterSecret }, onEdgeClusterClick, showCheckbox }) => {
+  ({ edgeCluster: { id, name, clusterType, clusterSecret }, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton }) => {
     const classes = styles();
 
     return (
@@ -27,9 +31,16 @@ export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
           </TableCell>
         )}
         <TableCell component="th" scope="row" padding="none">
-          <Link className={classes.link} onClick={() => onEdgeClusterClick(id)}>
-            {name}
-          </Link>
+          <div className={classes.nameAndEditCell}>
+            <Link className={classes.link} onClick={() => onEdgeClusterClick(id)}>
+              {name}
+            </Link>
+            {showEditButton && (
+              <IconButton color="inherit" aria-label="edit" onClick={() => onEdgeClusterEditClick(id)}>
+                <EditIcon />
+              </IconButton>
+            )}
+          </div>
         </TableCell>
         <TableCell component="th" scope="row" padding="none">
           {clusterType}

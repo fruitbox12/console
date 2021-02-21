@@ -34,9 +34,19 @@ const EdgeClusterManagementContainer = React.memo<EdgeClusterManagementContainer
       history.push(`/${projectId}/edgecluster/${id}/node`);
     };
 
+    const handleEdgeClusterEditClick = (id: string) => {
+      history.push(`/${projectId}/edgecluster/${id}`);
+    };
+
     return (
       <React.Fragment>
-        <EdgeClustersTableView user={user} onEdgeClusterClick={handleEdgeClusterClick} showCheckbox={false} />
+        <EdgeClustersTableView
+          user={user}
+          onEdgeClusterClick={handleEdgeClusterClick}
+          onEdgeClusterEditClick={handleEdgeClusterEditClick}
+          showCheckbox={false}
+          showEditButton={true}
+        />
 
         <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
           <AddIcon />
