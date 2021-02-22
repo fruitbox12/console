@@ -114,7 +114,7 @@ steps:
       targetType: "inline"
       script: |
         mkdir -p "$(system.defaultWorkingDirectory)/public_artifact_details"
-        echo $(jq -n --arg frontend_version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_ADMIN):${{variables.version}}" '{frontend_version: $frontend_version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
+        echo $(jq -n --arg frontend_version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_PUBLIC):${{variables.version}}" '{frontend_version: $frontend_version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
         cp "$(system.defaultWorkingDirectory)/apps/public/firebase.json" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/public_artifact_details/"
