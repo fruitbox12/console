@@ -1,0 +1,14 @@
+ARG BASE_IMAGE
+
+FROM $BASE_IMAGE as build_output
+LABEL maintainer="morteza.alizadeh@gmail.com"
+
+FROM microbusiness/firebase-toolset:latest
+
+ARG FIREBASE_TOKEN
+ARG FIREBASE_PROJECT_ID
+
+COPY --from=build_output /usr/share/nginx/html ./build
+
+ADD firebase.json ./
+RUN firebase deploy --only hosting --public ./build --token $FIREBASE_TOKEN --project $FIREBASE_PROJECT_ID

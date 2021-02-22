@@ -31,7 +31,7 @@ steps:
       configFilePath: "./GitVersion.yml"
 
   - task: Docker@2
-    displayName: "Build"
+    displayName: "Build admin"
     inputs:
       repository: $(DOCKER_REPOSITORY_NAME)
       command: "build"
@@ -41,7 +41,17 @@ steps:
       tags: ${{variables.version}}
 
   - task: Docker@2
-    displayName: "Test and coverage"
+    displayName: "Build public"
+    inputs:
+      repository: $(DOCKER_REPOSITORY_NAME)
+      command: "build"
+      Dockerfile: "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile"
+      buildContext: "$(system.defaultWorkingDirectory)/apps/public"
+      arguments: "--build-arg VERSION=${{variables.version}}"
+      tags: ${{variables.version}}
+
+  - task: Docker@2
+    displayName: "Test and coverage admin"
     inputs:
       repository: $(DOCKER_REPOSITORY_NAME)
       command: "build"
@@ -76,15 +86,33 @@ steps:
       installKubectl: false
 
   - task: Bash@3
-    displayName: "Packaging helm"
+    displayName: "Packaging helm for admin"
     inputs:
       targetType: "inline"
       script: |
-        helm package --destination "$(system.defaultWorkingDirectory)/chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
+        helm package --destination "$(system.defaultWorkingDirectory)/admin-chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
 
   - task: PublishPipelineArtifact@1
-    displayName: "Publish helm artifact"
+    displayName: "Publish admin helm artifact"
     inputs:
-      targetPath: "$(system.defaultWorkingDirectory)/chart-output"
-      artifact: "helm"
+      targetPath: "$(system.defaultWorkingDirectory)/admin-chart-output"
+      artifact: "admin_helm"
+      publishLocation: "pipeline"
+
+  - task: Bash@3
+    displayName: "Prepare to publish pipeline public artifact details"
+    inputs:
+      targetType: "inline"
+      script: |
+        mkdir -p "$(system.defaultWorkingDirectory)/public_artifact_details"
+        echo $(jq -n --arg frontend_version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME):${{variables.version}}" '{frontend_version: $frontend_version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
+        cp "$(system.defaultWorkingDirectory)/apps/public/firebase.json" "$(system.defaultWorkingDirectory)/public_artifact_details/"
+        cp "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/public_artifact_details/"
+        cp "$(system.defaultWorkingDirectory)/apps/public/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/public_artifact_details/"
+
+  - task: PublishPipelineArtifact@1
+    displayName: "Publish public artifact details"
+    inputs:
+      targetPath: "$(system.defaultWorkingDirectory)/public_artifact_details"
+      artifact: "public_artifact_details"
       publishLocation: "pipeline"
