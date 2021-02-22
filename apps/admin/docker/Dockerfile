@@ -3,14 +3,11 @@ FROM decentralizedcloud/frontend-admin-build-base:latest as react-build
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG VERSION
-ARG COVERALLS_SERVICE_NAME
-ARG COVERALLS_REPO_TOKEN
 
 ADD . /src
 WORKDIR /src
 RUN yarn install
 RUN yarn run relay
-RUN yarn run test:ci
 RUN yarn run build
 
 RUN echo $VERSION > version.txt

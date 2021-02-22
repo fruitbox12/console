@@ -31,14 +31,23 @@ steps:
       configFilePath: "./GitVersion.yml"
 
   - task: Docker@2
-    displayName: "Build and test"
+    displayName: "Build"
     inputs:
       repository: $(DOCKER_REPOSITORY_NAME)
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile"
-      buildContext: "$(system.defaultWorkingDirectory)"
-      arguments: "--build-arg VERSION=${{variables.version}} --build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
+      buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
+      arguments: "--build-arg VERSION=${{variables.version}}"
       tags: ${{variables.version}}
+
+  - task: Docker@2
+    displayName: "Test and coverage"
+    inputs:
+      repository: $(DOCKER_REPOSITORY_NAME)
+      command: "build"
+      Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.testAndCoverage"
+      buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
+      arguments: "--build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
 
   - task: Docker@2
     displayName: "Docker login"
