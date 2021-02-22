@@ -2,22 +2,34 @@ trigger:
   paths:
     include:
       - apps/admin/package.json
+      - apps/public/package.json
+      - azure-pipelines-build-base.yml
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
-  DOCKER_REPOSITORY_NAME: "decentralizedcloud/frontend-build-base"
+  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend-admin-build-base"
+  DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public-build-base"
 
 steps:
 - task: Docker@2
-  displayName: Build base image
+  displayName: Build admin base image
   inputs:
-    repository: $(DOCKER_REPOSITORY_NAME)
+    repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
     command: 'build'
     Dockerfile: '$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.buildBase'
     buildContext: '$(system.defaultWorkingDirectory)/apps/admin'
+    tags: latest
+
+- task: Docker@2
+  displayName: Build public base image
+  inputs:
+    repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
+    command: 'build'
+    Dockerfile: '$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.buildBase'
+    buildContext: '$(system.defaultWorkingDirectory)/apps/public'
     tags: latest
 
 - task: Docker@2
@@ -27,10 +39,18 @@ steps:
     command: 'login'
 
 - task: Docker@2
-  displayName: Push Firebase toolset image
+  displayName: Push admin base image
   inputs:
     containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-    repository: $(DOCKER_REPOSITORY_NAME)
+    repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
+    command: 'push'
+    tags: latest
+
+- task: Docker@2
+  displayName: Push public base image
+  inputs:
+    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+    repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
     command: 'push'
     tags: latest
 

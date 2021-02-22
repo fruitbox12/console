@@ -1,5 +1,5 @@
 # => Build container
-FROM decentralizedcloud/frontend-build-base:latest as react-build
+FROM decentralizedcloud/frontend-admin-build-base:latest as react-build
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG VERSION
