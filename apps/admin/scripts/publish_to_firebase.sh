@@ -19,4 +19,9 @@ docker build \
     --build-arg VERSION=$VERSION \
     --build-arg FIREBASE_TOKEN=$FIREBASE_TOKEN \
     --build-arg FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID \
+    --build-arg API_GATEWAY_PUBLIC_URL=$API_GATEWAY_PUBLIC_URL \
+    --build-arg AUTH0_DOMAIN=$AUTH0_DOMAIN \
+    --build-arg AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID \
+    --build-arg GOOGLE_MAP_API_KEY=$GOOGLE_MAP_API_KEY \
+    --build-arg IPINFO_ACCESS_TOKEN=$IPINFO_ACCESS_TOKEN \
     -f ./Dockerfile.firebase .

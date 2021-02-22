@@ -10,10 +10,21 @@ ARG VERSION
 ARG FIREBASE_TOKEN
 ARG FIREBASE_PROJECT_ID
 
+ARG API_GATEWAY_PUBLIC_URL
+ARG AUTH0_DOMAIN
+ARG AUTH0_CLIENT_ID
+ARG GOOGLE_MAP_API_KEY
+ARG IPINFO_ACCESS_TOKEN
+
 COPY --from=build_output /usr/share/nginx/html ./build
 
 RUN echo "window._env_ = {" > ./build/env-config.js
 RUN echo "VERSION: \"$VERSION\"," >> ./build/env-config.js
+RUN echo "API_GATEWAY_PUBLIC_URL: \"$API_GATEWAY_PUBLIC_URL\"," >> ./build/env-config.js
+RUN echo "AUTH0_DOMAIN: \"$AUTH0_DOMAIN\"," >> ./build/env-config.js
+RUN echo "AUTH0_CLIENT_ID: \"$AUTH0_CLIENT_ID\"," >> ./build/env-config.js
+RUN echo "GOOGLE_MAP_API_KEY: \"$GOOGLE_MAP_API_KEY\"," >> ./build/env-config.js
+RUN echo "IPINFO_ACCESS_TOKEN: \"$IPINFO_ACCESS_TOKEN\"," >> ./build/env-config.js
 RUN echo "}" >> ./build/env-config.js
 
 ADD firebase.json ./
