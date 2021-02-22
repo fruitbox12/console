@@ -17,7 +17,8 @@ pool:
 
 variables:
   DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
-  DOCKER_REPOSITORY_NAME: "decentralizedcloud/frontend"
+  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend"
+  DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public"
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
     version: latest
   ${{ if not(eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
@@ -33,7 +34,7 @@ steps:
   - task: Docker@2
     displayName: "Build admin"
     inputs:
-      repository: $(DOCKER_REPOSITORY_NAME)
+      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile"
       buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
@@ -43,7 +44,7 @@ steps:
   - task: Docker@2
     displayName: "Build public"
     inputs:
-      repository: $(DOCKER_REPOSITORY_NAME)
+      repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile"
       buildContext: "$(system.defaultWorkingDirectory)/apps/public"
@@ -53,7 +54,7 @@ steps:
   - task: Docker@2
     displayName: "Test and coverage admin"
     inputs:
-      repository: $(DOCKER_REPOSITORY_NAME)
+      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.testAndCoverage"
       buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
@@ -69,7 +70,15 @@ steps:
     displayName: "Push docker image"
     inputs:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-      repository: $(DOCKER_REPOSITORY_NAME)
+      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
+      command: "push"
+      tags: ${{variables.version}}
+
+  - task: Docker@2
+    displayName: "Push docker image"
+    inputs:
+      containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
+      repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
       command: "push"
       tags: ${{variables.version}}
 
@@ -105,7 +114,7 @@ steps:
       targetType: "inline"
       script: |
         mkdir -p "$(system.defaultWorkingDirectory)/public_artifact_details"
-        echo $(jq -n --arg frontend_version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME):${{variables.version}}" '{frontend_version: $frontend_version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
+        echo $(jq -n --arg frontend_version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_ADMIN):${{variables.version}}" '{frontend_version: $frontend_version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
         cp "$(system.defaultWorkingDirectory)/apps/public/firebase.json" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/public_artifact_details/"
