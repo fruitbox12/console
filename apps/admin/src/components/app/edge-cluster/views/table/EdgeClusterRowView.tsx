@@ -17,17 +17,27 @@ interface EdgeClusterRowViewProps {
   onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
   showEditButton: boolean;
+  selected: boolean;
+  onSelectedClick: (id: string) => void;
 }
 
 export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
-  ({ edgeCluster: { id, name, clusterType, clusterSecret }, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton }) => {
+  ({
+    edgeCluster: { id, name, clusterType, clusterSecret },
+    onEdgeClusterClick,
+    onEdgeClusterEditClick,
+    showCheckbox,
+    showEditButton,
+    selected,
+    onSelectedClick,
+  }) => {
     const classes = styles();
 
     return (
       <TableRow className={classes.row}>
         {showCheckbox && (
           <TableCell padding="checkbox">
-            <Checkbox checked={false} />
+            <Checkbox checked={selected} onClick={() => onSelectedClick(id)} />
           </TableCell>
         )}
         <TableCell component="th" scope="row" padding="none">

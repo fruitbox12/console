@@ -2,20 +2,25 @@ import React from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 interface EdgeClusterTableHeaderProps extends WithTranslation {
   showCheckbox: boolean;
+  deleteIconEnabled: boolean;
+  onDeleteIconClick: () => void;
 }
 
 export default withTranslation()(
-  React.memo<EdgeClusterTableHeaderProps>(({ t, showCheckbox }) => (
+  React.memo<EdgeClusterTableHeaderProps>(({ t, showCheckbox, deleteIconEnabled, onDeleteIconClick }) => (
     <TableHead>
       <TableRow>
         {showCheckbox && (
           <TableCell padding="checkbox">
-            <Checkbox checked={false} />
+            <IconButton color="inherit" aria-label="delete" onClick={onDeleteIconClick} disabled={!deleteIconEnabled}>
+              <DeleteIcon />
+            </IconButton>
           </TableCell>
         )}
         <TableCell>{t('name.title')}</TableCell>

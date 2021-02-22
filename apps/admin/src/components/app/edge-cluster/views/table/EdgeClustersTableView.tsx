@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { createFragmentContainer } from 'react-relay';
 import Paper from '@material-ui/core/Paper';
@@ -16,11 +16,27 @@ interface EdgeClustersTableViewProps {
   onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
   showEditButton: boolean;
+  onDeleteIconClick: (ids: string[]) => void;
 }
 
 export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(
-  ({ user, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton }) => {
+  ({ user, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton, onDeleteIconClick }) => {
     const classes = styles();
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+    const handleSelectedClick = (id: string) => {
+      const foundItem = selectedItems.find((item) => item === id);
+
+      if (foundItem) {
+        setSelectedItems(selectedItems.filter((item) => item !== foundItem));
+      } else {
+        setSelectedItems(selectedItems.concat(id));
+      }
+    };
+
+    const handleDeleteIconClick = () => {
+      onDeleteIconClick(selectedItems);
+    };
 
     const getEdgeClustersTableView = (user: EdgeClustersTableView_user) => {
       // @ts-ignore: Object is possibly 'null'.
@@ -33,6 +49,8 @@ export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(
           onEdgeClusterEditClick={onEdgeClusterEditClick}
           showCheckbox={showCheckbox}
           showEditButton={showEditButton}
+          selected={!!selectedItems.find((item) => item === edge?.node?.id)}
+          onSelectedClick={handleSelectedClick}
         />
       ));
     };
@@ -42,7 +60,11 @@ export const EdgeClustersTableView = React.memo<EdgeClustersTableViewProps>(
         <Paper className={classes.paper}>
           <div className={classes.tableWrapper}>
             <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
-              <EdgeClusterTableHeader showCheckbox={showCheckbox} />
+              <EdgeClusterTableHeader
+                showCheckbox={showCheckbox}
+                deleteIconEnabled={selectedItems.length > 0}
+                onDeleteIconClick={handleDeleteIconClick}
+              />
               <TableBody>{getEdgeClustersTableView(user)}</TableBody>
             </Table>
           </div>

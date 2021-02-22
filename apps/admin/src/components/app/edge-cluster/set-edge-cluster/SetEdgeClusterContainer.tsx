@@ -46,7 +46,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
         user,
         {
           onSuccess: () => {
-            const notification: Notification = { type: NotificationType.Success, message: 'Successfully updated the edgeCluster' };
+            const notification: Notification = { type: NotificationType.Success, message: 'Successfully updated the edge cluster' };
 
             dispatch(add(notification));
 
@@ -71,7 +71,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
         null,
         {
           onSuccess: () => {
-            const notification: Notification = { type: NotificationType.Success, message: 'Successfully created the edgeCluster' };
+            const notification: Notification = { type: NotificationType.Success, message: 'Successfully created the edge custer' };
 
             dispatch(add(notification));
 
