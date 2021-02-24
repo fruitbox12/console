@@ -17,7 +17,7 @@ pool:
 
 variables:
   DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
-  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend"
+  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend-admin"
   DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public"
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
     version: latest
