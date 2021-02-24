@@ -7,6 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import TextField from '@material-ui/core/TextField';
 
 import { EdgeClusterRowView_edgeCluster } from './__generated__/EdgeClusterRowView_edgeCluster.graphql';
 import styles from './Styles';
@@ -23,7 +24,7 @@ interface EdgeClusterRowViewProps {
 
 export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
   ({
-    edgeCluster: { id, name, clusterType, clusterSecret },
+    edgeCluster: { id, name, clusterType, clusterSecret, provisionDetail },
     onEdgeClusterClick,
     onEdgeClusterEditClick,
     showCheckbox,
@@ -32,6 +33,11 @@ export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
     onSelectedClick,
   }) => {
     const classes = styles();
+    // @ts-ignore: Object is possibly 'undefined'.
+    const ip = provisionDetail?.ingress?.length > 0 ? provisionDetail?.ingress[0].ip : '';
+    // @ts-ignore: Object is possibly 'undefined'.
+    const port = provisionDetail?.ports?.length > 0 ? provisionDetail?.ports[0].port : '';
+    const kubeconfigContent = provisionDetail?.kubeconfigContent ? provisionDetail?.kubeconfigContent : '';
 
     return (
       <TableRow className={classes.row}>
@@ -58,6 +64,15 @@ export const EdgeClusterRowView = React.memo<EdgeClusterRowViewProps>(
         <TableCell component="th" scope="row" padding="none">
           {clusterSecret}
         </TableCell>
+        <TableCell component="th" scope="row" padding="none">
+          {ip}
+        </TableCell>
+        <TableCell component="th" scope="row" padding="none">
+          {port}
+        </TableCell>
+        <TableCell component="th" scope="row" padding="none">
+          <TextField id="kubeconfig" multiline rows={10} variant="outlined" value={kubeconfigContent} />
+        </TableCell>
       </TableRow>
     );
   },
@@ -70,6 +85,15 @@ export default createFragmentContainer(EdgeClusterRowView, {
       name
       clusterType
       clusterSecret
+      provisionDetail {
+        ingress {
+          ip
+        }
+        ports {
+          port
+        }
+        kubeconfigContent
+      }
     }
   `,
 });

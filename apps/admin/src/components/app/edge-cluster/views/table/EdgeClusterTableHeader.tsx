@@ -26,6 +26,9 @@ export default withTranslation()(
         <TableCell>{t('name.title')}</TableCell>
         <TableCell>{t('type.title')}</TableCell>
         <TableCell>{t('secret.title')}</TableCell>
+        <TableCell>{t('ip.title')}</TableCell>
+        <TableCell>{t('port.title')}</TableCell>
+        <TableCell>{t('kubeconfig.title')}</TableCell>
       </TableRow>
     </TableHead>
   )),
