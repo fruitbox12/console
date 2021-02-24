@@ -19,4 +19,5 @@ docker build \
     --build-arg VERSION=$VERSION \
     --build-arg FIREBASE_TOKEN=$FIREBASE_TOKEN \
     --build-arg FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID \
+    --build-arg FIREBASE_RESOURCE_NAME=$FIREBASE_RESOURCE_NAME \
     -f ./Dockerfile.firebase .
