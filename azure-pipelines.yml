@@ -20,15 +20,19 @@ variables:
   DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend-admin"
   DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public"
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-    version: latest
+    artifact_version: latest
   ${{ if not(eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
-    version: $(GitVersion.SemVer)
+    artifact_version: $(GitVersion.SemVer)
 
 steps:
-  - task: GitVersion@5
+  - task: gitversion/setup@0
+    displayName: "Setting up GitVersion"
+    inputs:
+      versionSpec: "5.x"
+
+  - task: gitversion/execute@0
     displayName: "Figure out GitVersion"
     inputs:
-      runtime: "core"
       configFilePath: "./GitVersion.yml"
 
   - task: Docker@2
@@ -38,8 +42,8 @@ steps:
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile"
       buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
-      arguments: "--build-arg VERSION=${{variables.version}}"
-      tags: ${{variables.version}}
+      arguments: "--build-arg VERSION=${{variables.artifact_version}}"
+      tags: ${{variables.artifact_version}}
 
   - task: Docker@2
     displayName: "Build public"
@@ -48,8 +52,8 @@ steps:
       command: "build"
       Dockerfile: "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile"
       buildContext: "$(system.defaultWorkingDirectory)/apps/public"
-      arguments: "--build-arg VERSION=${{variables.version}}"
-      tags: ${{variables.version}}
+      arguments: "--build-arg VERSION=${{variables.artifact_version}}"
+      tags: ${{variables.artifact_version}}
 
   - task: Docker@2
     displayName: "Test and coverage admin"
@@ -67,20 +71,20 @@ steps:
       command: "login"
 
   - task: Docker@2
-    displayName: "Push docker image"
+    displayName: "Push admin docker image"
     inputs:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
       repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
       command: "push"
-      tags: ${{variables.version}}
+      tags: ${{variables.artifact_version}}
 
   - task: Docker@2
-    displayName: "Push docker image"
+    displayName: "Push public docker image"
     inputs:
       containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
       repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
       command: "push"
-      tags: ${{variables.version}}
+      tags: ${{variables.artifact_version}}
 
   - task: Docker@2
     displayName: "Docker logout"
@@ -99,7 +103,7 @@ steps:
     inputs:
       targetType: "inline"
       script: |
-        helm package --destination "$(system.defaultWorkingDirectory)/admin-chart-output" --app-version ${{variables.version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
+        helm package --destination "$(system.defaultWorkingDirectory)/admin-chart-output" --app-version ${{variables.artifact_version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
 
   - task: PublishPipelineArtifact@1
     displayName: "Publish admin helm artifact"
@@ -114,7 +118,7 @@ steps:
       targetType: "inline"
       script: |
         mkdir -p "$(system.defaultWorkingDirectory)/admin_artifact_details"
-        echo $(jq -n --arg version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_ADMIN):${{variables.version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/admin_artifact_details/build_details.json"
+        echo $(jq -n --arg version "${{variables.artifact_version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_ADMIN):${{variables.artifact_version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/admin_artifact_details/build_details.json"
         cp "$(system.defaultWorkingDirectory)/apps/admin/firebase.json" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/admin/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
@@ -132,7 +136,7 @@ steps:
       targetType: "inline"
       script: |
         mkdir -p "$(system.defaultWorkingDirectory)/public_artifact_details"
-        echo $(jq -n --arg version "${{variables.version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_PUBLIC):${{variables.version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
+        echo $(jq -n --arg version "${{variables.artifact_version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_PUBLIC):${{variables.artifact_version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
         cp "$(system.defaultWorkingDirectory)/apps/public/firebase.json" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/public_artifact_details/"
         cp "$(system.defaultWorkingDirectory)/apps/public/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/public_artifact_details/"

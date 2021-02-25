@@ -66,16 +66,14 @@ const ButtonContainer = styled.div`
 const Header = () => {
   return (
     <StyledHeader>
-      <Logo>edge</Logo>
+      <Logo>Edge Cloud9</Logo>
       <NavContainer>
         <NavItem active={true}>Home</NavItem>
         <NavItem active={false}>About</NavItem>
         <NavItem active={false}>Contact</NavItem>
-        <NavItem active={false}>Meow</NavItem>
       </NavContainer>
       <ButtonContainer>
-        <Button>sign in</Button>
-        <Button primary>request a demo</Button>
+        <Button>Sign In</Button>
       </ButtonContainer>
     </StyledHeader>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../../../styles/Button";
 import ServerAsset from "./server-asset/ServerAsset";
 
 const StyledLanding = styled.div`
@@ -17,15 +16,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
 `;
 
-const Header = styled.h1`
-  font-size: 25rem;
-  line-height: 0.85;
-  color: var(--white);
-  font-weight: 900;
-  text-transform: uppercase;
-`;
-
-const SubHeader = styled.h2`
+const Header = styled.h2`
   font-size: 10.6rem;
   line-height: 0.8;
   color: var(--white);
@@ -37,14 +28,7 @@ const Description = styled.h3`
   color: grey;
   margin-top: 1rem;
   padding: 1rem;
-  font-size: 1.3rem;
-`;
-
-const Buttons = styled.div`
-  width: 100%;
-  display: flex;
-  margin-top: 3rem;
-  margin-left: 1rem;
+  font-size: 1.9rem;
 `;
 
 const RightContainer = styled.div``;
@@ -53,22 +37,13 @@ const Landing = () => {
   return (
     <StyledLanding>
       <LeftContainer>
-        <Header>Edge</Header>
-        <SubHeader>Cloud Nine</SubHeader>
+        <Header>Edge Cloud9</Header>
         <Description>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum
+          Edge Cloud9 is a fully managed service that offers robust edge and
+          cloud infrastructures and connects them together seamlessly. Process
+          data locally for the ultimate in speed and security, then send only
+          the data you want to the cloud for maximum flexibility.
         </Description>
-        <Buttons>
-          <Button primary mega>
-            request demo
-          </Button>
-        </Buttons>
       </LeftContainer>
       <RightContainer>
         <ServerAsset />
