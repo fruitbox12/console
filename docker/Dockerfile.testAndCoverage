@@ -1,0 +1,12 @@
+# => Build container
+FROM decentralizedcloud/console-base:latest as react-build
+LABEL maintainer="morteza.alizadeh@gmail.com"
+
+ARG COVERALLS_SERVICE_NAME
+ARG COVERALLS_REPO_TOKEN
+
+ADD . /src
+WORKDIR /src
+RUN yarn install
+RUN yarn run relay
+CMD ["yarn", "run", "test:ci"]

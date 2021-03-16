@@ -1,0 +1,6 @@
+FROM node:14.16-alpine
+LABEL maintainer="morteza.alizadeh@gmail.com"
+
+ADD . /src
+WORKDIR /src
+RUN yarn install

@@ -12,138 +12,81 @@ trigger:
     exclude:
       - README.md
 
-pool:
-  vmImage: "ubuntu-latest"
-
 variables:
-  DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
-  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend-admin"
-  DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public"
-  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-    artifact_version: latest
-  ${{ if not(eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
-    artifact_version: $(GitVersion.SemVer)
+  - template: variables.yml
 
-steps:
-  - task: gitversion/setup@0
-    displayName: "Setting up GitVersion"
-    inputs:
-      versionSpec: "5.x"
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: decentralized-cloud/templates
+      endpoint: decentralized-cloud
 
-  - task: gitversion/execute@0
-    displayName: "Figure out GitVersion"
-    inputs:
-      configFilePath: "./GitVersion.yml"
+name: $(GitVersion.SemVer)
 
-  - task: Docker@2
-    displayName: "Build admin"
-    inputs:
-      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
-      command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile"
-      buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
-      arguments: "--build-arg VERSION=${{variables.artifact_version}}"
-      tags: ${{variables.artifact_version}}
+stages:
+  - stage: Build
+    jobs:
+      - template: build/build-test-publish.yml@templates
+        parameters:
+          version: ${{ variables.artifactVersion }}
+          vmImage: ${{ variables.linuxVmImage }}
+          shouldBuildContract: false
+          shouldPublishServiceDockerImage: true
+          shouldTestPublishResult: true
+          shouldPublishHelmChartAsArtifact: true
+          shouldPublishHelmChart: ${{ variables.shouldPublishHelmChart }}
+          shouldPublishFirebaseAsArtifact: true
+          dockerContainerRegistry: ${{ variables.dockerContainerRegistry }}
+          dockerRepositoryName: ${{ variables.dockerRepositoryName }}
+          dockerBuildFilePath: ${{ variables.dockerBuildFilePath }}
+          dockerBuildContext: ${{ variables.dockerBuildContext }}
+          testDockerComposeFilePath: ${{ variables.testDockerComposeFilePath }}
+          coverallsServiceName: ${{ variables.coverallsServiceName }}
+          coverallsRepoToken: ${{ variables.coverallsRepoToken }}
+          helmChartsDirectoryPath: ${{ variables.helmChartsDirectoryPath }}
+          helmChartsOutputDirectoryPath: ${{ variables.helmChartsOutputDirectoryPath }}
+          helmArtifactName: ${{ variables.helmArtifactName }}
+          buildAndPushHelmChartDockerFilePath: ${{ variables.buildAndPushHelmChartDockerFilePath }}
+          buildAndPushHelmChartDockerBuildContext: ${{ variables.buildAndPushHelmChartDockerBuildContext }}
+          githubAccessCredentials: ${{ variables.githubAccessCredentials }}
+          firbaseArtifactName: ${{ variables.firbaseArtifactName }}
 
-  - task: Docker@2
-    displayName: "Build public"
-    inputs:
-      repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
-      command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile"
-      buildContext: "$(system.defaultWorkingDirectory)/apps/public"
-      arguments: "--build-arg VERSION=${{variables.artifact_version}}"
-      tags: ${{variables.artifact_version}}
+  - stage: Dev
+    dependsOn: [Build]
+    jobs:
+      - template: release/deploy-hosting-firebase.yml@templates
+        parameters:
+          environment: Dev
+          vmImage: ${{ variables.linuxVmImage }}
+          artifactName: ${{ variables.firbaseArtifactName }}
+          token:  ${{ variables.firebaseToken }}
+          projectId:  ${{ variables.firebaseProjectId }}
+          resourceName:  ${{ variables.devFirbaseResourceName }}
+          extraArguments:  "--build-arg API_GATEWAY_PUBLIC_URL=$(API_GATEWAY_PUBLIC_URL_DEV) --build-arg AUTH0_DOMAIN=$AUTH0_DOMAIN --build-arg AUTH0_CLIENT_ID=$(AUTH0_CLIENT_ID_DEV) --build-arg GOOGLE_MAP_API_KEY=$(GOOGLE_MAP_API_KEY_DEV) --build-arg IPINFO_ACCESS_TOKEN=$(IPINFO_ACCESS_TOKEN_DEV)"
 
-  - task: Docker@2
-    displayName: "Test and coverage admin"
-    inputs:
-      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
-      command: "build"
-      Dockerfile: "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.testAndCoverage"
-      buildContext: "$(system.defaultWorkingDirectory)/apps/admin"
-      arguments: "--build-arg COVERALLS_SERVICE_NAME=$(COVERALLS_SERVICE_NAME) --build-arg COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)"
+  - stage: Test
+    dependsOn: [Dev]
+    jobs:
+      - template: release/deploy-hosting-firebase.yml@templates
+        parameters:
+          environment: Test
+          vmImage: ${{ variables.linuxVmImage }}
+          artifactName: ${{ variables.firbaseArtifactName }}
+          token:  ${{ variables.firebaseToken }}
+          projectId:  ${{ variables.firebaseProjectId }}
+          resourceName:  ${{ variables.testFirbaseResourceName }}
+          extraArguments:  "--build-arg API_GATEWAY_PUBLIC_URL=$(API_GATEWAY_PUBLIC_URL_TEST) --build-arg AUTH0_DOMAIN=$AUTH0_DOMAIN --build-arg AUTH0_CLIENT_ID=$(AUTH0_CLIENT_ID_TEST) --build-arg GOOGLE_MAP_API_KEY=$(GOOGLE_MAP_API_KEY_TEST) --build-arg IPINFO_ACCESS_TOKEN=$(IPINFO_ACCESS_TOKEN_TEST)"
 
-  - task: Docker@2
-    displayName: "Docker login"
-    inputs:
-      containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-      command: "login"
-
-  - task: Docker@2
-    displayName: "Push admin docker image"
-    inputs:
-      containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-      repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
-      command: "push"
-      tags: ${{variables.artifact_version}}
-
-  - task: Docker@2
-    displayName: "Push public docker image"
-    inputs:
-      containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-      repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
-      command: "push"
-      tags: ${{variables.artifact_version}}
-
-  - task: Docker@2
-    displayName: "Docker logout"
-    inputs:
-      containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-      command: "logout"
-
-  - task: HelmInstaller@0
-    displayName: "Installing helm"
-    inputs:
-      helmVersion: "3.5.2"
-      installKubectl: false
-
-  - task: Bash@3
-    displayName: "Packaging helm for admin"
-    inputs:
-      targetType: "inline"
-      script: |
-        helm package --destination "$(system.defaultWorkingDirectory)/admin-chart-output" --app-version ${{variables.artifact_version}} "$(system.defaultWorkingDirectory)/apps/admin/helm-charts"
-
-  - task: PublishPipelineArtifact@1
-    displayName: "Publish admin helm artifact"
-    inputs:
-      targetPath: "$(system.defaultWorkingDirectory)/admin-chart-output"
-      artifact: "admin_helm"
-      publishLocation: "pipeline"
-
-  - task: Bash@3
-    displayName: "Prepare to publish pipeline admin artifact details"
-    inputs:
-      targetType: "inline"
-      script: |
-        mkdir -p "$(system.defaultWorkingDirectory)/admin_artifact_details"
-        echo $(jq -n --arg version "${{variables.artifact_version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_ADMIN):${{variables.artifact_version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/admin_artifact_details/build_details.json"
-        cp "$(system.defaultWorkingDirectory)/apps/admin/firebase.json" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
-        cp "$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
-        cp "$(system.defaultWorkingDirectory)/apps/admin/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/admin_artifact_details/"
-
-  - task: PublishPipelineArtifact@1
-    displayName: "Publish admin artifact details"
-    inputs:
-      targetPath: "$(system.defaultWorkingDirectory)/admin_artifact_details"
-      artifact: "admin_artifact_details"
-      publishLocation: "pipeline"
-
-  - task: Bash@3
-    displayName: "Prepare to publish pipeline public artifact details"
-    inputs:
-      targetType: "inline"
-      script: |
-        mkdir -p "$(system.defaultWorkingDirectory)/public_artifact_details"
-        echo $(jq -n --arg version "${{variables.artifact_version}}" --arg docker_image_tag "$(DOCKER_REPOSITORY_NAME_PUBLIC):${{variables.artifact_version}}" '{version: $version, docker_image_tag: $docker_image_tag}') > "$(system.defaultWorkingDirectory)/public_artifact_details/build_details.json"
-        cp "$(system.defaultWorkingDirectory)/apps/public/firebase.json" "$(system.defaultWorkingDirectory)/public_artifact_details/"
-        cp "$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.firebase" "$(system.defaultWorkingDirectory)/public_artifact_details/"
-        cp "$(system.defaultWorkingDirectory)/apps/public/scripts/publish_to_firebase.sh" "$(system.defaultWorkingDirectory)/public_artifact_details/"
-
-  - task: PublishPipelineArtifact@1
-    displayName: "Publish public artifact details"
-    inputs:
-      targetPath: "$(system.defaultWorkingDirectory)/public_artifact_details"
-      artifact: "public_artifact_details"
-      publishLocation: "pipeline"
+  - stage: Prod
+    dependsOn: [Test]
+    jobs:
+      - template: release/deploy-hosting-firebase.yml@templates
+        parameters:
+          environment: Prod
+          vmImage: ${{ variables.linuxVmImage }}
+          artifactName: ${{ variables.firbaseArtifactName }}
+          token:  ${{ variables.firebaseToken }}
+          projectId:  ${{ variables.firebaseProjectId }}
+          resourceName:  ${{ variables.prodFirbaseResourceName }}
+          extraArguments:  "--build-arg API_GATEWAY_PUBLIC_URL=$(API_GATEWAY_PUBLIC_URL_PROD) --build-arg AUTH0_DOMAIN=$AUTH0_DOMAIN --build-arg AUTH0_CLIENT_ID=$(AUTH0_CLIENT_ID_PROD) --build-arg GOOGLE_MAP_API_KEY=$(GOOGLE_MAP_API_KEY_PROD) --build-arg IPINFO_ACCESS_TOKEN=$(IPINFO_ACCESS_TOKEN_PROD)"

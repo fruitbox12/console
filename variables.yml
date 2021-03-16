@@ -1,0 +1,78 @@
+variables:
+  - name: artifactVersion
+    ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      value: latest
+    ${{ if not(eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+      value: $(GitVersion.SemVer)
+
+  - name: linuxVmImage
+    value: "ubuntu-20.04"
+
+  - name: dockerContainerRegistry
+    value: "Decentralized Cloud Docker Hub"
+
+  - name: dockerRepositoryName
+    value: "decentralizedcloud/console"
+
+  - name: dockerRepositoryNameBuildBase
+    value: "decentralizedcloud/console-base"
+
+  - name: dockerBuildBaseFilePath
+    value: "$(system.defaultWorkingDirectory)/docker/Dockerfile.buildBase"
+
+  - name: dockerBuildFilePath
+    value: "$(system.defaultWorkingDirectory)/docker/Dockerfile.build"
+
+  - name: dockerBuildContext
+    value: "$(system.defaultWorkingDirectory)"
+
+  - name: testDockerComposeFilePath
+    value: "$(system.defaultWorkingDirectory)/docker/docker-compose-test.yml"
+
+  - name: coverallsServiceName
+    value: $(COVERALLS_SERVICE_NAME)
+
+  - name: coverallsRepoToken
+    value: $(COVERALLS_REPO_TOKEN)
+
+  - name: helmChartsDirectoryPath
+    value: "$(system.defaultWorkingDirectory)/helm-charts"
+
+  - name: helmChartsOutputDirectoryPath
+    value: "$(system.defaultWorkingDirectory)/chart-output"
+
+  - name: helmArtifactName
+    value: "helm"
+
+  - name: shouldPublishHelmChart
+    ? ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/tags/v')) }}
+    : value: true
+    ? ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))) }}
+    : value: false
+
+  - name: buildAndPushHelmChartDockerFilePath
+    value: "$(system.defaultWorkingDirectory)/docker/Dockerfile.buildAndPushHelmChart"
+
+  - name: buildAndPushHelmChartDockerBuildContext
+    value: "$(system.defaultWorkingDirectory)"
+
+  - name: githubAccessCredentials
+    value: $(GITHUB_ACCESS_CREDENTIAL)
+
+  - name: firbaseArtifactName
+    value: "firebase_artifact_details"
+
+  - name: firebaseToken
+    value: $(FIREBASE_TOKEN)
+
+  - name: firebaseProjectId
+    value: $(FIREBASE_PROJECT_ID)
+
+  - name: devFirbaseResourceName
+    value: $(FIREBASE_RESOURCE_NAME_DEV)
+
+  - name: testFirbaseResourceName
+    value: $(FIREBASE_RESOURCE_NAME_TEST)
+
+  - name: prodFirbaseResourceName
+    value: $(FIREBASE_RESOURCE_NAME_PROD)

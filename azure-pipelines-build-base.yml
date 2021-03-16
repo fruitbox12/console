@@ -1,61 +1,34 @@
 trigger:
   paths:
     include:
-      - apps/admin/package.json
-      - apps/public/package.json
+      - package.json
       - azure-pipelines-build-base.yml
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
-  DOCKER_CONTAINER_REGISTRY: "Decentralized Cloud Docker Hub"
-  DOCKER_REPOSITORY_NAME_ADMIN: "decentralizedcloud/frontend-admin-build-base"
-  DOCKER_REPOSITORY_NAME_PUBLIC: "decentralizedcloud/frontend-public-build-base"
+  - template: variables.yml
 
-steps:
-- task: Docker@2
-  displayName: Build admin base image
-  inputs:
-    repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
-    command: 'build'
-    Dockerfile: '$(system.defaultWorkingDirectory)/apps/admin/docker/Dockerfile.buildBase'
-    buildContext: '$(system.defaultWorkingDirectory)/apps/admin'
-    tags: latest
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: decentralized-cloud/templates
+      endpoint: decentralized-cloud
 
-- task: Docker@2
-  displayName: Build public base image
-  inputs:
-    repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
-    command: 'build'
-    Dockerfile: '$(system.defaultWorkingDirectory)/apps/public/docker/Dockerfile.buildBase'
-    buildContext: '$(system.defaultWorkingDirectory)/apps/public'
-    tags: latest
+name: $(GitVersion.SemVer)
 
-- task: Docker@2
-  displayName: Docker Login
-  inputs:
-    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-    command: 'login'
-
-- task: Docker@2
-  displayName: Push admin base image
-  inputs:
-    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-    repository: $(DOCKER_REPOSITORY_NAME_ADMIN)
-    command: 'push'
-    tags: latest
-
-- task: Docker@2
-  displayName: Push public base image
-  inputs:
-    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-    repository: $(DOCKER_REPOSITORY_NAME_PUBLIC)
-    command: 'push'
-    tags: latest
-
-- task: Docker@2
-  displayName: Docker Logout
-  inputs:
-    containerRegistry: $(DOCKER_CONTAINER_REGISTRY)
-    command: 'logout'
+stages:
+  - stage: Build
+    jobs:
+      - template: build/build-test-publish.yml@templates
+        parameters:
+          version: "latest"
+          vmImage: ${{ variables.linuxVmImage }}
+          shouldBuildContract: false
+          shouldPublishServiceDockerImage: true
+          shouldTestPublishResult: false
+          shouldPublishHelmChartAsArtifact: false
+          shouldPublishHelmChart: false
+          dockerContainerRegistry: ${{ variables.dockerContainerRegistry }}
+          dockerRepositoryName: ${{ variables.dockerRepositoryNameBuildBase }}
+          dockerBuildFilePath: ${{ variables.dockerBuildBaseFilePath }}
+          dockerBuildContext: ${{ variables.dockerBuildContext }}

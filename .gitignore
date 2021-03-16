@@ -1,30 +1,20 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.	/apps/admin/node_modules
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin
 
-# dependencies
-/apps/admin/node_modules
-/.pnp
-.pnp.js
+# Test binary, build with `go test -c`
+*.test
 
-# testing
-/coverage
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+reports
+*-packr.go
+node_modules
+.vscode
+__generated__
 
-# production
-/apps/admin/build
 
-# misc
-/apps/admin/.DS_Store
-/apps/admin/.env.local
-/apps/admin/.env.development.local
-/apps/admin/.env.test.local
-/apps/admin/.env.production.local
-
-/apps/admin/npm-debug.log*
-/apps/admin/yarn-debug.log*
-/apps/admin/yarn-error.log*
-
-__generated__/
-/apps/admin/public/env-config.js
-/apps/admin/env-config.js
-/apps/admin/.eslintcache
-
-src/components/app/edge-cluster/edge-cluster-management/__generated__/**
