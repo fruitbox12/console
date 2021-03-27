@@ -14,12 +14,6 @@ variables:
   - name: dockerRepositoryName
     value: "decentralizedcloud/console"
 
-  - name: dockerRepositoryNameBuildBase
-    value: "decentralizedcloud/console-base"
-
-  - name: dockerBuildBaseFilePath
-    value: "$(system.defaultWorkingDirectory)/docker/Dockerfile.buildBase"
-
   - name: dockerBuildFilePath
     value: "$(system.defaultWorkingDirectory)/docker/Dockerfile.build"
 

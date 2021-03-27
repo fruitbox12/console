@@ -1,5 +1,5 @@
 # => Build container
-FROM decentralizedcloud/console-base:latest as react-build
+FROM node:14.16-alpine
 LABEL maintainer="morteza.alizadeh@gmail.com"
 
 ARG COVERALLS_SERVICE_NAME
