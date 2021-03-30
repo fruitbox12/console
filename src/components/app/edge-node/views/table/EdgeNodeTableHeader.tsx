@@ -18,7 +18,7 @@ export default withTranslation()(
             <Checkbox checked={false} />
           </TableCell>
         )}
-        <TableCell>{t('machineID.title')}</TableCell>
+        <TableCell>{t('nodeId.title')}</TableCell>
         <TableCell>{t('kernelVersion.title')}</TableCell>
         <TableCell>{t('architecture.title')}</TableCell>
         <TableCell>{t('internalIP.title')}</TableCell>

@@ -33,11 +33,10 @@ export const EdgeNodesMap = React.memo<EdgeNodesMapProps>(({ user }) => {
       const result = await Promise.all(
         // @ts-ignore: Object is possibly 'null'.
         user.edgeCluster?.nodes
-          // @ts-ignore: Object is possibly 'null'.
-          ?.map((node) => {
-            const externalIPAddress = node.Addresses?.find((address) => address.NodeAddressType === 'ExternalIP');
+          .map((node) => {
+            const externalIPAddress = node.status.addresses.find((address) => address.nodeAddressType === 'ExternalIP');
 
-            return externalIPAddress ? externalIPAddress.Address : '';
+            return externalIPAddress ? externalIPAddress.address : '';
           })
           .filter((ip) => ip !== '')
           .map(async (ip) => {
@@ -96,17 +95,17 @@ export const EdgeNodesMap = React.memo<EdgeNodesMapProps>(({ user }) => {
   const getEdgeNodesTableView = (user: EdgeNodesMap_user) => {
     // @ts-ignore: Object is possibly 'null'.
     return user.edgeCluster.nodes.map((node) => {
-      const externalIPAddress = node.Addresses?.find((address) => address.NodeAddressType === 'ExternalIP');
-      const externalIP = externalIPAddress ? externalIPAddress.Address : '';
+      const externalIPAddress = node.status.addresses.find((address) => address.nodeAddressType === 'ExternalIP');
+      const externalIP = externalIPAddress ? externalIPAddress.address : '';
 
-      const hostNameAddress = node.Addresses?.find((address) => address.NodeAddressType === 'Hostname');
-      const hostname = hostNameAddress ? hostNameAddress.Address : 'Unknown';
+      const hostNameAddress = node.status.addresses.find((address) => address.nodeAddressType === 'Hostname');
+      const hostname = hostNameAddress ? hostNameAddress.address : 'Unknown';
 
       const foundInfo = ip2Locations.find((info) => info.ip === externalIP);
 
       return (
         <EdgeNodeMarker
-          key={node.NodeInfo.MachineID}
+          key={node.status.nodeInfo.machineID}
           ip={externalIP}
           hostname={hostname}
           city={foundInfo ? foundInfo.city : undefined}
@@ -142,12 +141,14 @@ export default createFragmentContainer(EdgeNodesMap, {
       edgeCluster(edgeClusterID: $edgeClusterID) {
         id
         nodes {
-          NodeInfo {
-            MachineID
-          }
-          Addresses {
-            NodeAddressType
-            Address
+          status {
+            nodeInfo {
+              machineID
+            }
+            addresses {
+              nodeAddressType
+              address
+            }
           }
         }
       }

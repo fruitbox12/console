@@ -16,21 +16,24 @@ interface EdgeNodeRowViewProps {
 export const EdgeNodeRowView = React.memo<EdgeNodeRowViewProps>(
   ({
     edgeNode: {
-      NodeInfo: { MachineID, KernelVersion, Architecture },
-      Addresses,
+      metadata: { id },
+      status: {
+        nodeInfo: { kernelVersion, architecture },
+        addresses,
+      },
     },
     showCheckbox,
   }) => {
     const classes = styles();
 
-    const internalIPAddress = Addresses?.find((address) => address.NodeAddressType === 'InternalIP');
-    const internalIP = internalIPAddress ? internalIPAddress.Address : 'Unknown';
+    const internalIPAddress = addresses.find((address) => address.nodeAddressType === 'InternalIP');
+    const internalIP = internalIPAddress ? internalIPAddress.address : 'Unknown';
 
-    const externalIPAddress = Addresses?.find((address) => address.NodeAddressType === 'ExternalIP');
-    const externalIP = externalIPAddress ? externalIPAddress.Address : 'Unknown';
+    const externalIPAddress = addresses.find((address) => address.nodeAddressType === 'ExternalIP');
+    const externalIP = externalIPAddress ? externalIPAddress.address : 'Unknown';
 
-    const hostNameAddress = Addresses?.find((address) => address.NodeAddressType === 'Hostname');
-    const hostname = hostNameAddress ? hostNameAddress.Address : 'Unknown';
+    const hostNameAddress = addresses.find((address) => address.nodeAddressType === 'Hostname');
+    const hostname = hostNameAddress ? hostNameAddress.address : 'Unknown';
 
     return (
       <TableRow className={classes.row}>
@@ -40,13 +43,13 @@ export const EdgeNodeRowView = React.memo<EdgeNodeRowViewProps>(
           </TableCell>
         )}
         <TableCell component="th" scope="row" padding="none">
-          {MachineID}
+          {id}
         </TableCell>
         <TableCell component="th" scope="row" padding="none">
-          {KernelVersion}
+          {kernelVersion}
         </TableCell>
         <TableCell component="th" scope="row" padding="none">
-          {Architecture}
+          {architecture}
         </TableCell>
         <TableCell component="th" scope="row" padding="none">
           {internalIP}
@@ -64,15 +67,19 @@ export const EdgeNodeRowView = React.memo<EdgeNodeRowViewProps>(
 
 export default createFragmentContainer(EdgeNodeRowView, {
   edgeNode: graphql`
-    fragment EdgeNodeRowView_edgeNode on EdgeClusterNodeStatus {
-      NodeInfo {
-        MachineID
-        KernelVersion
-        Architecture
+    fragment EdgeNodeRowView_edgeNode on EdgeClusterNode {
+      metadata {
+        id
       }
-      Addresses {
-        NodeAddressType
-        Address
+      status {
+        nodeInfo {
+          kernelVersion
+          architecture
+        }
+        addresses {
+          nodeAddressType
+          address
+        }
       }
     }
   `,

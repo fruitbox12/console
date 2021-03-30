@@ -28,7 +28,7 @@ i18next.use(LanguageDetector).init({
         updateEdgeCluster: { title: 'Update Edge Cluster' },
         selectProject: { title: 'Select a project', label: 'Select a project' },
         newProject: { button: 'New project' },
-        machineID: { title: 'Machine ID' },
+        nodeId: { title: 'Node ID' },
         kernelVersion: { title: 'Kernel Version' },
         architecture: { title: 'Architecture' },
         internalIP: { title: 'Internal IP' },

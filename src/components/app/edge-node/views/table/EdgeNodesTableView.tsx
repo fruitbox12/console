@@ -22,7 +22,7 @@ export const EdgeNodesTableView = React.memo<EdgeNodesTableViewProps>(({ user, s
     // @ts-ignore: Object is possibly 'null'.
     return user.edgeCluster.nodes.map((node) => (
       // @ts-ignore: Object is possibly 'null'.
-      <EdgeNodeRowView key={node.NodeInfo.MachineID} edgeNode={node} showCheckbox={showCheckbox} />
+      <EdgeNodeRowView key={node.metadata.id} edgeNode={node} showCheckbox={showCheckbox} />
     ));
   };
 
@@ -46,8 +46,8 @@ export default createFragmentContainer(EdgeNodesTableView, {
       edgeCluster(edgeClusterID: $edgeClusterID) {
         id
         nodes {
-          NodeInfo {
-            MachineID
+          metadata {
+            id
           }
           ...EdgeNodeRowView_edgeNode
         }
