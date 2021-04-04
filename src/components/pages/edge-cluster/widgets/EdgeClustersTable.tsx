@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
@@ -73,23 +72,13 @@ const Header = React.memo<HeaderProps>(({ showCheckbox, deleteIconEnabled, onDel
 interface EdgeClusterRowProps {
   edgeCluster: EdgeClustersTable_edgeCluster;
   onEdgeClusterClick: (id: string) => void;
-  onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
-  showEditButton: boolean;
   selected: boolean;
   onSelectedClick: (id: string) => void;
 }
 
 const EdgeClusterRow = React.memo<EdgeClusterRowProps>(
-  ({
-    edgeCluster: { id, name, clusterType, nodes },
-    onEdgeClusterClick,
-    onEdgeClusterEditClick,
-    showCheckbox,
-    showEditButton,
-    selected,
-    onSelectedClick,
-  }) => {
+  ({ edgeCluster: { id, name, clusterType, nodes }, onEdgeClusterClick, showCheckbox, selected, onSelectedClick }) => {
     const classes = styles();
 
     return (
@@ -104,11 +93,6 @@ const EdgeClusterRow = React.memo<EdgeClusterRowProps>(
             <Link className={classes.link} onClick={() => onEdgeClusterClick(id)}>
               {name}
             </Link>
-            {showEditButton && (
-              <IconButton color="inherit" aria-label="edit" onClick={() => onEdgeClusterEditClick(id)}>
-                <EditIcon />
-              </IconButton>
-            )}
           </div>
         </TableCell>
         <TableCell>{clusterType}</TableCell>
@@ -136,62 +120,56 @@ const EdgeClusterRowRelayed = createFragmentContainer(EdgeClusterRow, {
 interface EdgeClustersTableProps {
   user: EdgeClustersTable_user;
   onEdgeClusterClick: (id: string) => void;
-  onEdgeClusterEditClick: (id: string) => void;
   showCheckbox: boolean;
-  showEditButton: boolean;
   onDeleteIconClick: (ids: string[]) => void;
 }
 
-export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(
-  ({ user, onEdgeClusterClick, onEdgeClusterEditClick, showCheckbox, showEditButton, onDeleteIconClick }) => {
-    const classes = styles();
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(({ user, onEdgeClusterClick, showCheckbox, onDeleteIconClick }) => {
+  const classes = styles();
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-    const handleSelectedClick = (id: string) => {
-      const foundItem = selectedItems.find((item) => item === id);
+  const handleSelectedClick = (id: string) => {
+    const foundItem = selectedItems.find((item) => item === id);
 
-      if (foundItem) {
-        setSelectedItems(selectedItems.filter((item) => item !== foundItem));
-      } else {
-        setSelectedItems(selectedItems.concat(id));
-      }
-    };
+    if (foundItem) {
+      setSelectedItems(selectedItems.filter((item) => item !== foundItem));
+    } else {
+      setSelectedItems(selectedItems.concat(id));
+    }
+  };
 
-    const handleDeleteIconClick = () => {
-      onDeleteIconClick(selectedItems);
-    };
+  const handleDeleteIconClick = () => {
+    onDeleteIconClick(selectedItems);
+  };
 
-    const getEdgeClustersTable = (user: EdgeClustersTable_user) => {
-      // @ts-ignore: Object is possibly 'null'.
-      return user.edgeClusters.edges.map((edge) => (
-        <EdgeClusterRowRelayed
-          key={edge?.node?.id}
-          // @ts-ignore: Object is possibly 'null'.
-          edgeCluster={edge?.node}
-          onEdgeClusterClick={onEdgeClusterClick}
-          onEdgeClusterEditClick={onEdgeClusterEditClick}
-          showCheckbox={showCheckbox}
-          showEditButton={showEditButton}
-          selected={!!selectedItems.find((item) => item === edge?.node?.id)}
-          onSelectedClick={handleSelectedClick}
-        />
-      ));
-    };
+  const getEdgeClustersTable = (user: EdgeClustersTable_user) => {
+    // @ts-ignore: Object is possibly 'null'.
+    return user.edgeClusters.edges.map((edge) => (
+      <EdgeClusterRowRelayed
+        key={edge?.node?.id}
+        // @ts-ignore: Object is possibly 'null'.
+        edgeCluster={edge?.node}
+        onEdgeClusterClick={onEdgeClusterClick}
+        showCheckbox={showCheckbox}
+        selected={!!selectedItems.find((item) => item === edge?.node?.id)}
+        onSelectedClick={handleSelectedClick}
+      />
+    ));
+  };
 
-    return (
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <div className={classes.tableWrapper}>
-            <Table size="small">
-              <Header showCheckbox={showCheckbox} deleteIconEnabled={selectedItems.length > 0} onDeleteIconClick={handleDeleteIconClick} />
-              <TableBody>{getEdgeClustersTable(user)}</TableBody>
-            </Table>
-          </div>
-        </Paper>
-      </div>
-    );
-  },
-);
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <div className={classes.tableWrapper}>
+          <Table size="small">
+            <Header showCheckbox={showCheckbox} deleteIconEnabled={selectedItems.length > 0} onDeleteIconClick={handleDeleteIconClick} />
+            <TableBody>{getEdgeClustersTable(user)}</TableBody>
+          </Table>
+        </div>
+      </Paper>
+    </div>
+  );
+});
 
 export default createFragmentContainer(EdgeClustersTable, {
   user: graphql`

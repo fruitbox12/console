@@ -58,10 +58,6 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
       history.push(`/${projectID}/edgecluster/${id}`);
     };
 
-    const handleEdgeClusterEditClick = (id: string) => {
-      history.push(`/${projectID}/edgecluster/${id}`);
-    };
-
     const handleDeleteIconClick = (edgeClusterIDs: string[]) => {
       edgeClusterIDs.forEach((edgeClusterID) => {
         DeleteEdgeCluster(
@@ -88,14 +84,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
 
     return (
       <React.Fragment>
-        <EdgeClustersTable
-          user={user}
-          onEdgeClusterClick={handleEdgeClusterClick}
-          onEdgeClusterEditClick={handleEdgeClusterEditClick}
-          showCheckbox={true}
-          showEditButton={true}
-          onDeleteIconClick={handleDeleteIconClick}
-        />
+        <EdgeClustersTable user={user} onEdgeClusterClick={handleEdgeClusterClick} showCheckbox={true} onDeleteIconClick={handleDeleteIconClick} />
 
         <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
           <AddIcon />

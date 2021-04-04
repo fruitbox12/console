@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { enNZTranslation as enNZEdgeClusterSummary } from '../components/pages/edge-cluster/widgets/EdgeClusterSummary';
 import { enNZTranslation as enNZEdgeClusterNodes } from '../components/pages/edge-cluster/widgets/EdgeClusterNodes';
 import { enNZTranslation as enNZEdgeClusterWorkloads } from '../components/pages/edge-cluster/widgets/EdgeClusterWorkloads';
+import { enNZTranslation as enNZEdgeClusterCreate } from '../components/pages/edge-cluster/EdgeClusterCreate';
 
 i18next.use(LanguageDetector).init({
   interpolation: {
@@ -46,6 +47,7 @@ i18next.use(LanguageDetector).init({
         edgeClusterSummary: enNZEdgeClusterSummary,
         edgeClusterNodes: enNZEdgeClusterNodes,
         edgeClusterWorkloads: enNZEdgeClusterWorkloads,
+        edgeClusterCreate: enNZEdgeClusterCreate,
       },
     },
   },
