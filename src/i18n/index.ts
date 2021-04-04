@@ -1,6 +1,10 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+import { enNZTranslation as enNZEdgeClusterSummary } from '../components/pages/edge-cluster/widgets/EdgeClusterSummary';
+import { enNZTranslation as enNZEdgeClusterNodes } from '../components/pages/edge-cluster/widgets/EdgeClusterNodes';
+import { enNZTranslation as enNZEdgeClusterWorkloads } from '../components/pages/edge-cluster/widgets/EdgeClusterWorkloads';
+
 i18next.use(LanguageDetector).init({
   interpolation: {
     escapeValue: false,
@@ -17,8 +21,6 @@ i18next.use(LanguageDetector).init({
         edgeCluster: { title: 'Edge Cluster', label: 'Edge Cluster' },
         profile: { label: 'Profile' },
         name: { title: 'Name', label: 'Name' },
-        type: { title: 'Type', label: 'Type' },
-        secret: { title: 'Secret', label: 'Secret' },
         create: { label: 'Create', button: 'Create' },
         update: { label: 'Update', button: 'Update' },
         cancel: { label: 'Cancel', button: 'Cancel' },
@@ -37,6 +39,13 @@ i18next.use(LanguageDetector).init({
         ip: { title: 'IP' },
         port: { title: 'Port' },
         kubeconfig: { title: 'Kubeconfig' },
+        numberOfNodes: { title: 'Number of nodes' },
+        summary: { title: 'Summary' },
+        nodes: { title: 'Nodes' },
+        workloads: { title: 'Workloads' },
+        edgeClusterSummary: enNZEdgeClusterSummary,
+        edgeClusterNodes: enNZEdgeClusterNodes,
+        edgeClusterWorkloads: enNZEdgeClusterWorkloads,
       },
     },
   },

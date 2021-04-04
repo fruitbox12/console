@@ -30,7 +30,7 @@ export const ProjectsTableView = React.memo<ProjectsTableViewProps>(({ user, onP
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <div className={classes.tableWrapper}>
-          <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
+          <Table size="small">
             <ProjectTableHeader showCheckbox={showCheckbox} />
             <TableBody>{getProjectsTableView(user)}</TableBody>
           </Table>

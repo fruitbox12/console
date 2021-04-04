@@ -30,7 +30,7 @@ export const EdgeNodesTableView = React.memo<EdgeNodesTableViewProps>(({ user, s
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <div className={classes.tableWrapper}>
-          <Table aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
+          <Table size="small">
             <EdgeNodeTableHeader showCheckbox={showCheckbox} />
             <TableBody>{getEdgeNodesTableView(user)}</TableBody>
           </Table>

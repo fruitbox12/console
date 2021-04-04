@@ -31,9 +31,7 @@ const SetProjectView: React.FC<SetProjectViewProps> = ({ t, onSubmit, onCancelBu
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          {project ? t('updateProject.title') : t('createProject.title')}
-        </Typography>
+        <Typography variant="h5">{project ? t('updateProject.title') : t('createProject.title')}</Typography>
         <Form
           onSubmit={onSubmit}
           initialValues={{ name: project ? project.name : '' }}

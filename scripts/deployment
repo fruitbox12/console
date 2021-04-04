@@ -1,0 +1,211 @@
+#!/usr/bin/env bash
+
+# TODOS:
+# - enabling rc.local on systemd based distros : https://www.cyberciti.biz/faq/how-to-enable-rc-local-shell-script-on-systemd-while-booting-linux-system/ 
+# - maybe not fuck with potentially any existing rc.local file, atm we overwrite the content :-{
+# - maybe doing the tmp dir thing is an extra step, we can avoid it
+
+DEFAULT_K3S_VERSION="v1.20.4+k3s1"
+DEFUALT_INSTALL_DIR="/etc/edgecloud9.io"
+WATCHDOG="watchdog"
+
+K3SBASEURL="https://github.com/k3s-io/k3s/releases/download/VERSION/k3s"
+AGENT_START="sudo ./k3s agent --server https://IP:PORT --token TOKEN"
+
+# getting values from environment
+k3s_version=$K3S_VERSION
+install_dir=$INSTALL_DIR
+k3s_cluster_ip=$K3S_CLUSTER_IP
+k3s_cluster_port=$K3S_CLUSTER_PORT
+k3s_client_token=$K3S_CLIENT_TOKEN
+
+function error_exit()
+{
+  local msg="ERROR: $1"
+  echo $msg
+  exit 126 
+}
+
+function has_command()
+{
+  local result=false
+  if $(command -v $1 &> /dev/null)
+  then
+    result=true
+  fi    
+  echo $result
+}
+
+function make_rc_local()
+{
+  local file="/etc/rc.local"
+  # $(touch $file)
+  echo "#!/bin/sh -eu" > $file
+  echo "" >> $file
+  echo $(construct_watchdog_command $install_dir) >> $file
+  echo "" >> $file
+  echo "exit 0" >> $file
+  chmod +x $file
+}
+
+function make_watchdog_file()
+{
+  local file=$1
+  echo "#!/usr/bin/env bash" > $file
+  echo "" >> $file
+  echo 'cd "$(dirname "$0")"' >> $file
+  echo "while :" >> $file
+  echo "do" >> $file
+  echo "  " $2 >> $file
+  echo "done" >> $file
+}
+
+function make_install_dir()
+{
+  $(mkdir -p $1)
+}
+
+function copy_file_to_install_dir()
+{
+  $(cp $1 $install_dir)
+}
+
+function make_temp_dir()
+{
+  local result=$(mktemp -d -t edge_cloud_deployment_XXXXXXXXXXXXXX)
+  echo $result
+}
+
+function delete_temp_dir()
+{
+  sudo rm -r $1
+}
+
+function construct_watchdog_command()
+{
+  local result="$1" 
+  echo $result
+}
+
+function construct_k3s_download_url()
+{
+  local result="${K3SBASEURL/\VERSION/$1}" 
+  echo $result
+}
+
+function construct_agent_start_command()
+{
+  local result=${AGENT_START/IP/$1}
+  result=${result/PORT/$2}
+  result=${result/TOKEN/$3}
+  echo $result
+}
+
+function download_using_curl()
+{
+  local cmd="curl -sfL https://get.k3s.io > $2"
+}
+
+function download_using_wget()
+{
+  local cmd="wget -q $1 -O $2"
+  echo "$cmd"
+  $cmd
+}
+
+# is this script ran as root?
+if [ "$EUID" -ne 0 ]
+  then error_exit "you need to run this script as super user"
+fi
+
+# reading input arguments
+while [[ $# -gt 0 ]]
+do
+  arg="$1"
+  case $arg in
+      --k3s-version)
+      k3s_version="$2"
+      shift 
+      shift
+      ;;
+      --install-dir)
+      install_dir="$2"
+      shift
+      shift
+      ;;
+      --k3s-cluster-ip)
+      k3s_cluster_ip="$2"
+      shift
+      shift
+      ;;
+      --k3s-cluster-port)
+      k3s_cluster_port="$2"
+      shift
+      shift
+      ;;
+      --k3s-client-token)
+      k3s_client_token="$2"
+      shift
+      shift
+      ;;
+      *)
+      error_exit "$1 argument is unknown"
+      ;;
+  esac
+done
+
+# falling back to default if no value is provided
+if [ -z "$k3s_version" ]
+then
+  k3s_version=$DEFAULT_K3S_VERSION
+fi
+
+if [ -z "$install_dir" ]
+then
+  install_dir=$DEFUALT_INSTALL_DIR
+fi
+
+if [ -z "$k3s_cluster_ip" ]
+then
+  error_exit "please privide cluster ip either through 'K3S_CLUSTER_IP' env or using '--k3s-cluster-ip' arg"
+fi
+
+if [ -z "$k3s_cluster_port" ]
+then
+  error_exit "please privide cluster ip either through 'K3S_CLUSTER_PORT' env or using '--k3s-cluster-port' arg"
+fi
+
+if [ -z "$k3s_client_token" ]
+then
+  error_exit "please privide client token either throgh 'K3S_CLIENT_TOKEN' env or using '--k3s-client-token' arg"
+fi
+
+if $(has_command "wget")
+then
+  echo "trying to download k3s using wget"
+  downloader="download_using_wget"
+elif $(has_command "curl")
+then
+  echo "trying to download k3s using curl"
+  downloader="download_using_curl"
+else
+  error_exit "could not find a proper command to download "
+fi
+
+tempdir=$(make_temp_dir)
+target_k3s=$(construct_k3s_download_url $k3s_version)
+k3s_download_path="$tempdir/k3s"
+watchdog_temp_path="$tempdir/$WATCHDOG"
+start_agent_cmd=$(construct_agent_start_command $k3s_cluster_ip $k3s_cluster_port $k3s_client_token)
+
+$downloader $target_k3s $k3s_download_path
+$(chmod +x $k3s_download_path)
+echo ${start_agent_cmd}
+$(make_watchdog_file $watchdog_temp_path "${start_agent_cmd}")
+$(chmod +x $watchdog_temp_path)
+
+$(make_rc_local)
+$(make_install_dir $install_dir)
+$(copy_file_to_install_dir $k3s_download_path)
+$(copy_file_to_install_dir $watchdog_temp_path)
+$(delete_temp_dir $tempdir)

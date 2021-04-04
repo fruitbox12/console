@@ -12,28 +12,28 @@ import { SetProjectQuery } from './__generated__/SetProjectQuery.graphql';
 
 interface SetProjectProps
   extends RouteComponentProps<{
-    projectId?: string;
+    projectID?: string;
   }> {}
 
 const SetProject = React.memo<SetProjectProps>(
   ({
     match: {
-      params: { projectId },
+      params: { projectID },
     },
   }) => {
     return (
       <QueryRenderer<SetProjectQuery>
         environment={RelayEnvironment}
         query={graphql`
-          query SetProjectQuery($projectId: ID!, $isUpdating: Boolean!) {
+          query SetProjectQuery($projectID: ID!, $isUpdating: Boolean!) {
             user {
               ...SetProjectContainer_user
             }
           }
         `}
         variables={{
-          projectId: projectId ? projectId : 'No ID',
-          isUpdating: !!projectId,
+          projectID: projectID ? projectID : 'No ID',
+          isUpdating: !!projectID,
         }}
         render={({ props, error }) => {
           if (props && props.user) {

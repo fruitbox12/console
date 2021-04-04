@@ -14,9 +14,9 @@ import PublicHomeContainer from './components/app/public-home';
 import DashboardContainer from './components/app/dashboard';
 import ProjectManagement from './components/app/project/project-management';
 import SetProject from './components/app/project/set-project';
-import EdgeClusterManagement from './components/app/edge-cluster/edge-cluster-management';
+import EdgeClusterList from './components/pages/edge-cluster/EdgeClusterList';
+import EdgeClusterDetails from './components/pages/edge-cluster/EdgeClusterDetails';
 import SetEdgeCluster from './components/app/edge-cluster/set-edge-cluster';
-import EdgeNodeManagement from './components/app/edge-node/edge-node-management';
 
 const Routes = () => {
   const { isLoading, isAuthenticated, error } = useAuth0();
@@ -38,22 +38,20 @@ const Routes = () => {
           <RouteWithLayout isSecureRoute={false} exact path="/" layout={PublicMainContainer} component={PublicHomeContainer} />
         )}
         <RouteWithLayout isSecureRoute={true} exact path="/dashboard" layout={MainContainer} component={DashboardContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/dashboard" layout={MainContainer} component={DashboardContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/dashboard" layout={MainContainer} component={DashboardContainer} />
         <RouteWithLayout isSecureRoute={true} exact path="/project" layout={MainContainer} component={ProjectManagement} />
         <RouteWithLayout isSecureRoute={true} exact path="/project/create" component={SetProject} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/project/:projectId" component={SetProject} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectId" layout={MainContainer} component={DashboardContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/project/:projectID" component={SetProject} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID" layout={MainContainer} component={DashboardContainer} />
 
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster" layout={MainContainer} component={EdgeClusterManagement} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectId/edgecluster/:edgeClusterId" component={SetEdgeCluster} layout={MainContainer} />
-
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/edgecluster" layout={MainContainer} component={EdgeClusterList} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/edgecluster/create" component={SetEdgeCluster} layout={MainContainer} />
         <RouteWithLayout
           isSecureRoute={true}
           exact
-          path="/:projectId/edgecluster/:edgeClusterId/node"
+          path="/:projectID/edgecluster/:edgeClusterID"
+          component={EdgeClusterDetails}
           layout={MainContainer}
-          component={EdgeNodeManagement}
         />
         <RouteWithLayout
           isSecureRoute={false}

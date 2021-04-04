@@ -13,7 +13,7 @@ import { SetEdgeClusterContainer_user } from './__generated__/SetEdgeClusterCont
 
 interface SetEdgeClusterContainerProps
   extends RouteComponentProps<{
-    projectId?: string;
+    projectID?: string;
   }> {
   user: SetEdgeClusterContainer_user;
   readonly relay: {
@@ -26,7 +26,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
   user,
   relay: { environment },
   match: {
-    params: { projectId },
+    params: { projectID },
   },
 }) => {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
       UpdateEdgeCluster(
         environment,
         {
-          projectID: projectId,
+          projectID,
           edgeClusterID: edgeCluster.id,
           name: values?.name?.trim(),
           clusterType: values?.type?.trim(),
@@ -50,7 +50,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
 
             dispatch(add(notification));
 
-            history.push(`/${projectId}/edgecluster`);
+            history.push(`/${projectID}/edgecluster`);
           },
           onError: (errorMessage: string) => {
             const notification: Notification = { type: NotificationType.Error, message: errorMessage };
@@ -63,7 +63,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
       CreateEdgeCluster(
         environment,
         {
-          projectID: projectId,
+          projectID,
           name: values?.name?.trim(),
           clusterType: values?.type?.trim(),
           clusterSecret: values?.secret?.trim(),
@@ -75,7 +75,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
 
             dispatch(add(notification));
 
-            history.push(`/${projectId}/edgecluster`);
+            history.push(`/${projectID}/edgecluster`);
           },
           onError: (errorMessage: string) => {
             const notification: Notification = { type: NotificationType.Error, message: errorMessage };
@@ -87,7 +87,7 @@ export const SetEdgeClusterContainer: React.FC<SetEdgeClusterContainerProps> = (
     }
   };
 
-  const cancel = () => history.push(`/${projectId}/edgecluster`);
+  const cancel = () => history.push(`/${projectID}/edgecluster`);
 
   if (edgeCluster) {
     return <UpdateEdgeClusterView edgeCluster={edgeCluster} onSubmit={setEdgeCluster} onCancelButtonClick={cancel} />;
@@ -100,7 +100,7 @@ export default createFragmentContainer(connect()(withRouter(SetEdgeClusterContai
   user: graphql`
     fragment SetEdgeClusterContainer_user on User {
       id
-      edgeCluster(edgeClusterID: $edgeClusterId) @include(if: $isUpdating) {
+      edgeCluster(edgeClusterID: $edgeClusterID) @include(if: $isUpdating) {
         id
         ...SetEdgeClusterView_edgeCluster
       }

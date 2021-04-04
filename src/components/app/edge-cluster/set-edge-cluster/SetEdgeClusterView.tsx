@@ -33,9 +33,7 @@ const SetEdgeClusterView: React.FC<SetEdgeClusterViewProps> = ({ t, onSubmit, on
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          {edgeCluster ? t('updateEdgeCluster.title') : t('createEdgeCluster.title')}
-        </Typography>
+        <Typography variant="h5">{edgeCluster ? t('updateEdgeCluster.title') : t('createEdgeCluster.title')}</Typography>
         <Form
           onSubmit={onSubmit}
           initialValues={{

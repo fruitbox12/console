@@ -22,7 +22,7 @@ interface TopbarContainerProps extends WithTranslation {
 const TopbarContainer = React.memo<
   TopbarContainerProps &
     RouteComponentProps<{
-      projectId?: string;
+      projectID?: string;
     }>
 >(
   ({
@@ -31,7 +31,7 @@ const TopbarContainer = React.memo<
     open,
     onDrawerOpen,
     match: {
-      params: { projectId },
+      params: { projectID },
     },
   }) => {
     const classes = styles();
@@ -40,9 +40,9 @@ const TopbarContainer = React.memo<
     const [openSelectProject, setSelectProjectOpen] = React.useState(false);
     let { currentSelectedProject } = useSelector(globalSelectState);
 
-    if (!projectId) {
+    if (!projectID) {
       currentSelectedProject = undefined;
-    } else if (currentSelectedProject && currentSelectedProject.projectId !== projectId) {
+    } else if (currentSelectedProject && currentSelectedProject.projectID !== projectID) {
       currentSelectedProject = undefined;
     }
 

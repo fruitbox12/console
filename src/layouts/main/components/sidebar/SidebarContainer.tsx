@@ -23,7 +23,7 @@ interface SidebarContainerProps extends WithTranslation {
 const SidebarContainer = React.memo<
   SidebarContainerProps &
     RouteComponentProps<{
-      projectId?: string;
+      projectID?: string;
     }>
 >(
   ({
@@ -32,7 +32,7 @@ const SidebarContainer = React.memo<
     onDrawerClose,
     open,
     match: {
-      params: { projectId },
+      params: { projectID },
     },
   }) => {
     const classes = styles();
@@ -40,19 +40,19 @@ const SidebarContainer = React.memo<
 
     let pages: Page[] = [];
 
-    if (projectId) {
+    if (projectID) {
       pages.push({
         key: 'dashboard',
         title: t('dashboard.label'),
         icon: <HomeIcon />,
-        onClick: () => history.push(`/${projectId}/dashboard`),
+        onClick: () => history.push(`/${projectID}/dashboard`),
       });
 
       pages.push({
         key: 'edge-cluster',
         title: t('edgeCluster.label'),
         icon: <BlurOnIcon />,
-        onClick: () => history.push(`/${projectId}/edgecluster`),
+        onClick: () => history.push(`/${projectID}/edgecluster`),
       });
     } else {
       pages.push({

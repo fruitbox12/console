@@ -16,10 +16,10 @@ export default React.memo<GenericErrorContainerProps>(({ message }) => {
     <div className={classes.root}>
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="sm">
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h2" gutterBottom>
           Something went wrong
         </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Error: {message}
         </Typography>
       </Container>

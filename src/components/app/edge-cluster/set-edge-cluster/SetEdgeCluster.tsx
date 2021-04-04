@@ -12,28 +12,28 @@ import { SetEdgeClusterQuery } from './__generated__/SetEdgeClusterQuery.graphql
 
 interface SetEdgeClusterProps
   extends RouteComponentProps<{
-    edgeClusterId?: string;
+    edgeClusterID?: string;
   }> {}
 
 const SetEdgeCluster = React.memo<SetEdgeClusterProps>(
   ({
     match: {
-      params: { edgeClusterId },
+      params: { edgeClusterID },
     },
   }) => {
     return (
       <QueryRenderer<SetEdgeClusterQuery>
         environment={RelayEnvironment}
         query={graphql`
-          query SetEdgeClusterQuery($edgeClusterId: ID!, $isUpdating: Boolean!) {
+          query SetEdgeClusterQuery($edgeClusterID: ID!, $isUpdating: Boolean!) {
             user {
               ...SetEdgeClusterContainer_user
             }
           }
         `}
         variables={{
-          edgeClusterId: edgeClusterId ? edgeClusterId : 'No ID',
-          isUpdating: !!edgeClusterId,
+          edgeClusterID: edgeClusterID ? edgeClusterID : 'No ID',
+          isUpdating: !!edgeClusterID,
         }}
         render={({ props, error }) => {
           if (props && props.user) {

@@ -21,7 +21,7 @@ const ProjectSelectorContainer = React.memo<ProjectSelectorContainerProps>(({ us
     if (selectedProject) {
       dispatch(
         changeSelectedProject({
-          projectId: selectedProject.id,
+          projectID: selectedProject.id,
           name: selectedProject.name,
         }),
       );

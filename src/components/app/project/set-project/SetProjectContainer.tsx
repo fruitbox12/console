@@ -72,7 +72,7 @@ export default createFragmentContainer(connect()(withRouter(SetProjectContainer)
   user: graphql`
     fragment SetProjectContainer_user on User {
       id
-      project(projectID: $projectId) @include(if: $isUpdating) {
+      project(projectID: $projectID) @include(if: $isUpdating) {
         id
         ...SetProjectView_project
       }
