@@ -7,13 +7,12 @@ import { QueryRenderer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { RelayEnvironment } from '../../../framework/relay';
-import LoadingContainer from '../../common/loading';
-import GenericErrorContainer from '../../common/generic-error';
-
 import { EdgeClusterDetails_user } from './__generated__/EdgeClusterDetails_user.graphql';
 import { EdgeClusterDetailsQuery } from './__generated__/EdgeClusterDetailsQuery.graphql';
 
+import { RelayEnvironment } from '../../../framework/relay';
+import LoadingContainer from '../../common/loading';
+import GenericErrorContainer from '../../common/generic-error';
 import EdgeClusterSummary from './widgets/EdgeClusterSummary';
 import EdgeClusterNodes from './widgets/EdgeClusterNodes';
 import EdgeClusterWorkloads from './widgets/EdgeClusterWorkloads';

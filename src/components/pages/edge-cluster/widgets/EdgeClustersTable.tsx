@@ -17,12 +17,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { EdgeClustersTable_user } from './__generated__/EdgeClustersTable_user.graphql';
 import { EdgeClustersTable_edgeCluster } from './__generated__/EdgeClustersTable_edgeCluster.graphql';
 
+export const enNZTranslation = {
+  name: 'Name',
+  type: 'Type',
+  numberOfNodes: 'Number of nodes',
+};
+
 const styles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
@@ -61,9 +62,9 @@ const Header = React.memo<HeaderProps>(({ showCheckbox, deleteIconEnabled, onDel
             </IconButton>
           </TableCell>
         )}
-        <TableCell>{t('name.title')}</TableCell>
-        <TableCell>{t('type.title')}</TableCell>
-        <TableCell>{t('numberOfNodes.title')}</TableCell>
+        <TableCell>{t('edgeClustersTable.name')}</TableCell>
+        <TableCell>{t('edgeClustersTable.type')}</TableCell>
+        <TableCell>{t('edgeClustersTable.numberOfNodes')}</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -158,16 +159,14 @@ export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(({ user, onE
   };
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <div className={classes.tableWrapper}>
-          <Table size="small">
-            <Header showCheckbox={showCheckbox} deleteIconEnabled={selectedItems.length > 0} onDeleteIconClick={handleDeleteIconClick} />
-            <TableBody>{getEdgeClustersTable(user)}</TableBody>
-          </Table>
-        </div>
-      </Paper>
-    </div>
+    <Paper className={classes.paper}>
+      <div className={classes.tableWrapper}>
+        <Table size="small">
+          <Header showCheckbox={showCheckbox} deleteIconEnabled={selectedItems.length > 0} onDeleteIconClick={handleDeleteIconClick} />
+          <TableBody>{getEdgeClustersTable(user)}</TableBody>
+        </Table>
+      </div>
+    </Paper>
   );
 });
 

@@ -26,16 +26,6 @@ export const enNZTranslation = {
 };
 
 const styles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
   submit: {
     margin: theme.spacing(1, 1, 0),
   },
@@ -61,7 +51,7 @@ const View: React.FC<ViewProps> = ({ onSubmit, onCancelButtonClick }) => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <React.Fragment>
         <Typography variant="h5">{t('edgeClusterCreate.title')}</Typography>
         <Form
           onSubmit={onSubmit}
@@ -72,7 +62,7 @@ const View: React.FC<ViewProps> = ({ onSubmit, onCancelButtonClick }) => {
           }}
           render={({ handleSubmit, form, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
-              <div>
+              <React.Fragment>
                 <Field<string>
                   name="name"
                   variant="outlined"
@@ -105,7 +95,7 @@ const View: React.FC<ViewProps> = ({ onSubmit, onCancelButtonClick }) => {
                   component={renderTextField}
                   validate={requiredValidation}
                 />
-              </div>
+              </React.Fragment>
               <Button type="submit" variant="contained" color="primary" className={classes.submit} disabled={submitting || invalid}>
                 {t('edgeClusterCreate.create')}
               </Button>
@@ -122,7 +112,7 @@ const View: React.FC<ViewProps> = ({ onSubmit, onCancelButtonClick }) => {
             </form>
           )}
         />
-      </div>
+      </React.Fragment>
     </Container>
   );
 };

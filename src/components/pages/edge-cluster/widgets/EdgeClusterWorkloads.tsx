@@ -22,11 +22,6 @@ export const enNZTranslation = {
 };
 
 const styles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
@@ -104,18 +99,16 @@ const EdgeClustersNodes = React.memo<EdgeClustersNodesProps>(({ edgeCluster: { p
   const classes = styles();
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Table size="small">
-          <Header />
-          <TableBody>
-            {pods.map((pod) => (
-              <EdgeClustersWorkloadRowRelayed key={pod.metadata.id} pod={pod} />
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </div>
+    <Paper className={classes.paper}>
+      <Table size="small">
+        <Header />
+        <TableBody>
+          {pods.map((pod) => (
+            <EdgeClustersWorkloadRowRelayed key={pod.metadata.id} pod={pod} />
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
   );
 });
 

@@ -9,13 +9,12 @@ import { QueryRenderer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { RelayEnvironment } from '../../../framework/relay';
-import LoadingContainer from '../../common/loading';
-import GenericErrorContainer from '../../common/generic-error';
-
 import { EdgeClusterList_user } from './__generated__/EdgeClusterList_user.graphql';
 import { EdgeClusterListQuery } from './__generated__/EdgeClusterListQuery.graphql';
 
+import { RelayEnvironment } from '../../../framework/relay';
+import LoadingContainer from '../../common/loading';
+import GenericErrorContainer from '../../common/generic-error';
 import { add, NotificationType, Notification } from '../../common/notification-handler/NotificationHandlerSlice';
 import EdgeClustersTable from './widgets/EdgeClustersTable';
 import { DeleteEdgeCluster } from '../../../framework/relay/mutations';

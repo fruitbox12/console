@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+import { enNZTranslation as enNZEdgeClustersTable } from '../components/pages/edge-cluster/widgets/EdgeClustersTable';
 import { enNZTranslation as enNZEdgeClusterSummary } from '../components/pages/edge-cluster/widgets/EdgeClusterSummary';
 import { enNZTranslation as enNZEdgeClusterNodes } from '../components/pages/edge-cluster/widgets/EdgeClusterNodes';
 import { enNZTranslation as enNZEdgeClusterWorkloads } from '../components/pages/edge-cluster/widgets/EdgeClusterWorkloads';
@@ -44,6 +45,7 @@ i18next.use(LanguageDetector).init({
         summary: { title: 'Summary' },
         nodes: { title: 'Nodes' },
         workloads: { title: 'Workloads' },
+        edgeClustersTable: enNZEdgeClustersTable,
         edgeClusterSummary: enNZEdgeClusterSummary,
         edgeClusterNodes: enNZEdgeClusterNodes,
         edgeClusterWorkloads: enNZEdgeClusterWorkloads,

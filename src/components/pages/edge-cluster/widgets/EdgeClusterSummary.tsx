@@ -37,11 +37,6 @@ export const enNZTranslation = {
 };
 
 const styles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
@@ -75,90 +70,88 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(({ edgeC
   };
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Table size="small">
-          <TableBody>
-            <TableRow className={classes.row}>
-              <TableCell className={classes.titleCell}>
-                <Typography variant="h5">{t('edgeClusterSummary.clusterBasics')}</Typography>
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.name')}</TableCell>
-              <TableCell>{name}</TableCell>
-              <TableCell>
-                <Tooltip title={<React.Fragment>{t('edgeClusterSummary.editClusterName')}</React.Fragment>}>
-                  <IconButton color="inherit">
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.type')}</TableCell>
-              <TableCell>{clusterType}</TableCell>
-              <TableCell>
-                <Tooltip title={<React.Fragment>{t('edgeClusterSummary.clusterTypeIsImmutable')}</React.Fragment>}>
-                  <IconButton color="inherit">
-                    <LockIcon />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.secret')}</TableCell>
-              <TableCell>{clusterSecret}</TableCell>
-              <TableCell>
-                <Tooltip title={<React.Fragment>{t('edgeClusterSummary.editClusterSecret')}</React.Fragment>}>
-                  <IconButton color="inherit">
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.kubeconfig')}</TableCell>
-              <TableCell>
-                {kubeconfig && (
-                  <React.Fragment>
-                    <Tooltip title={<React.Fragment>{t('edgeClusterSummary.copyToClipboard')}</React.Fragment>}>
-                      <CopyToClipboard text={kubeconfig}>
-                        <IconButton color="inherit">
-                          <FileCopyIcon />
-                        </IconButton>
-                      </CopyToClipboard>
-                    </Tooltip>
-
-                    <Tooltip title={<React.Fragment>{t('edgeClusterSummary.download')}</React.Fragment>}>
-                      <IconButton color="inherit" onClick={handleDownloadKubeconfigFile}>
-                        <GetAppIcon />
+    <Paper className={classes.paper}>
+      <Table size="small">
+        <TableBody>
+          <TableRow className={classes.row}>
+            <TableCell className={classes.titleCell}>
+              <Typography variant="h5">{t('edgeClusterSummary.clusterBasics')}</Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.name')}</TableCell>
+            <TableCell>{name}</TableCell>
+            <TableCell>
+              <Tooltip title={<React.Fragment>{t('edgeClusterSummary.editClusterName')}</React.Fragment>}>
+                <IconButton color="inherit">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </TableCell>
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.type')}</TableCell>
+            <TableCell>{clusterType}</TableCell>
+            <TableCell>
+              <Tooltip title={<React.Fragment>{t('edgeClusterSummary.clusterTypeIsImmutable')}</React.Fragment>}>
+                <IconButton color="inherit">
+                  <LockIcon />
+                </IconButton>
+              </Tooltip>
+            </TableCell>
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.secret')}</TableCell>
+            <TableCell>{clusterSecret}</TableCell>
+            <TableCell>
+              <Tooltip title={<React.Fragment>{t('edgeClusterSummary.editClusterSecret')}</React.Fragment>}>
+                <IconButton color="inherit">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </TableCell>
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.kubeconfig')}</TableCell>
+            <TableCell>
+              {kubeconfig && (
+                <React.Fragment>
+                  <Tooltip title={<React.Fragment>{t('edgeClusterSummary.copyToClipboard')}</React.Fragment>}>
+                    <CopyToClipboard text={kubeconfig}>
+                      <IconButton color="inherit">
+                        <FileCopyIcon />
                       </IconButton>
-                    </Tooltip>
-                  </React.Fragment>
-                )}
-              </TableCell>
-              <TableCell />
-            </TableRow>
-            <TableRow>
-              <TableCell className={classes.titleCell}>
-                <Typography variant="h5">{t('edgeClusterSummary.networking')}</Typography>
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.ip')}</TableCell>
-              <TableCell>{ip}</TableCell>
-              <TableCell />
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell>{t('edgeClusterSummary.port')}</TableCell>
-              <TableCell>{port}</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableBody>
-        </Table>
-      </Paper>
-    </div>
+                    </CopyToClipboard>
+                  </Tooltip>
+
+                  <Tooltip title={<React.Fragment>{t('edgeClusterSummary.download')}</React.Fragment>}>
+                    <IconButton color="inherit" onClick={handleDownloadKubeconfigFile}>
+                      <GetAppIcon />
+                    </IconButton>
+                  </Tooltip>
+                </React.Fragment>
+              )}
+            </TableCell>
+            <TableCell />
+          </TableRow>
+          <TableRow>
+            <TableCell className={classes.titleCell}>
+              <Typography variant="h5">{t('edgeClusterSummary.networking')}</Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.ip')}</TableCell>
+            <TableCell>{ip}</TableCell>
+            <TableCell />
+          </TableRow>
+          <TableRow className={classes.row}>
+            <TableCell>{t('edgeClusterSummary.port')}</TableCell>
+            <TableCell>{port}</TableCell>
+            <TableCell />
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Paper>
   );
 });
 
