@@ -6,6 +6,14 @@ const mutation = graphql`
   mutation UpdateEdgeClusterMutation($input: UpdateEdgeClusterInput!) {
     updateEdgeCluster(input: $input) {
       clientMutationId
+      edgeCluster {
+        node {
+          id
+          name
+          clusterType
+          clusterSecret
+        }
+      }
     }
   }
 `;

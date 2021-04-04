@@ -7,6 +7,14 @@ const mutation = graphql`
   mutation CreateEdgeClusterMutation($input: CreateEdgeClusterInput!) {
     createEdgeCluster(input: $input) {
       clientMutationId
+      edgeCluster {
+        node {
+          id
+          name
+          clusterType
+          clusterSecret
+        }
+      }
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useSelector } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -37,7 +37,7 @@ const TopbarContainer = React.memo<
     const classes = styles();
     const { user } = useAuth0();
     const { picture } = user;
-    const [openSelectProject, setSelectProjectOpen] = React.useState(false);
+    const [openSelectProject, setSelectProjectOpen] = useState(false);
     let { currentSelectedProject } = useSelector(globalSelectState);
 
     if (!projectID) {
@@ -72,14 +72,8 @@ const TopbarContainer = React.memo<
           onSelectProjectClick={handleSelectProjectOpenClick}
           project={currentSelectedProject}
         />
-        <Dialog
-          open={openSelectProject}
-          keepMounted
-          onClose={handleSelectProjectCloseClick}
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle id="alert-dialog-slide-title" className={classes.dialog}>
+        <Dialog open={openSelectProject} keepMounted onClose={handleSelectProjectCloseClick}>
+          <DialogTitle className={classes.dialog}>
             <React.Fragment>
               {t('selectProject.title')}
               <Button color="inherit" startIcon={<AddIcon />} onClick={handleNewProjectClick}>

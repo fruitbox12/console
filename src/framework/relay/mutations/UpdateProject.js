@@ -6,6 +6,12 @@ const mutation = graphql`
   mutation UpdateProjectMutation($input: UpdateProjectInput!) {
     updateProject(input: $input) {
       clientMutationId
+      project {
+        node {
+          id
+          name
+        }
+      }
     }
   }
 `;

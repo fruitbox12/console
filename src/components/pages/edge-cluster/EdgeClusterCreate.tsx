@@ -22,7 +22,7 @@ export const enNZTranslation = {
   create: 'Create',
   cancel: 'Cancel',
   required: 'Required',
-  successCreationMessage: 'Successfully created the edge cluster',
+  successMessage: 'Successfully created the edge cluster',
 };
 
 const styles = makeStyles((theme) => ({
@@ -143,7 +143,7 @@ const CreateEdgeClusterContainer: React.FC<CreateEdgeClusterContainerProps> = ({
       null,
       {
         onSuccess: () => {
-          const notification: Notification = { type: NotificationType.Success, message: t('edgeClusterCreate.successCreationMessage') };
+          const notification: Notification = { type: NotificationType.Success, message: t('edgeClusterCreate.successMessage') };
 
           dispatch(add(notification));
 
