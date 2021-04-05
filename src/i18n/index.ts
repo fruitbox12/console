@@ -1,7 +1,14 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+import { enNZTranslation as enNZProjectCreate } from '../components/pages/project/ProjectCreate';
+import { enNZTranslation as enNZProjectList } from '../components/pages/project/ProjectList';
+import { enNZTranslation as enNZProjectsTable } from '../components/pages/project/widgets/ProjectsTable';
+import { enNZTranslation as enNZProjectSummary } from '../components/pages/project/widgets/ProjectSummary';
+import { enNZTranslation as enNZProjectEditName } from '../components/pages/project/widgets/ProjectEditName';
+
 import { enNZTranslation as enNZEdgeClusterCreate } from '../components/pages/edge-cluster/EdgeClusterCreate';
+import { enNZTranslation as enNZEdgeClusterList } from '../components/pages/edge-cluster/EdgeClusterList';
 import { enNZTranslation as enNZEdgeClustersTable } from '../components/pages/edge-cluster/widgets/EdgeClustersTable';
 import { enNZTranslation as enNZEdgeClusterSummary } from '../components/pages/edge-cluster/widgets/EdgeClusterSummary';
 import { enNZTranslation as enNZEdgeClusterNodes } from '../components/pages/edge-cluster/widgets/EdgeClusterNodes';
@@ -47,7 +54,15 @@ i18next.use(LanguageDetector).init({
         summary: { title: 'Summary' },
         nodes: { title: 'Nodes' },
         workloads: { title: 'Workloads' },
+
+        projectCreate: enNZProjectCreate,
+        projectList: enNZProjectList,
+        projectsTable: enNZProjectsTable,
+        projectSummary: enNZProjectSummary,
+        projectEditName: enNZProjectEditName,
+
         edgeClusterCreate: enNZEdgeClusterCreate,
+        edgeClusterList: enNZEdgeClusterList,
         edgeClustersTable: enNZEdgeClustersTable,
         edgeClusterSummary: enNZEdgeClusterSummary,
         edgeClusterNodes: enNZEdgeClusterNodes,

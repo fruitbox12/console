@@ -14,13 +14,11 @@ import Link from '@material-ui/core/Link';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { EdgeClustersTable_user } from './__generated__/EdgeClustersTable_user.graphql';
-import { EdgeClustersTable_edgeCluster } from './__generated__/EdgeClustersTable_edgeCluster.graphql';
+import { ProjectsTable_user } from './__generated__/ProjectsTable_user.graphql';
+import { ProjectsTable_project } from './__generated__/ProjectsTable_project.graphql';
 
 export const enNZTranslation = {
   name: 'Name',
-  type: 'Type',
-  numberOfNodes: 'Number of nodes',
 };
 
 const styles = makeStyles((theme) => ({
@@ -62,70 +60,58 @@ const Header = React.memo<HeaderProps>(({ showCheckbox, deleteIconEnabled, onDel
             </IconButton>
           </TableCell>
         )}
-        <TableCell>{t('edgeClustersTable.name')}</TableCell>
-        <TableCell>{t('edgeClustersTable.type')}</TableCell>
-        <TableCell>{t('edgeClustersTable.numberOfNodes')}</TableCell>
+        <TableCell>{t('projectsTable.name')}</TableCell>
       </TableRow>
     </TableHead>
   );
 });
 
-interface EdgeClusterRowProps {
-  edgeCluster: EdgeClustersTable_edgeCluster;
-  onEdgeClusterClick: (id: string) => void;
+interface ProjectRowProps {
+  project: ProjectsTable_project;
+  onProjectClick: (id: string) => void;
   showCheckbox: boolean;
   selected: boolean;
   onSelectedClick: (id: string) => void;
 }
 
-const EdgeClusterRow = React.memo<EdgeClusterRowProps>(
-  ({ edgeCluster: { id, name, clusterType, nodes }, onEdgeClusterClick, showCheckbox, selected, onSelectedClick }) => {
-    const classes = styles();
+const ProjectRow = React.memo<ProjectRowProps>(({ project: { id, name }, onProjectClick, showCheckbox, selected, onSelectedClick }) => {
+  const classes = styles();
 
-    return (
-      <TableRow className={classes.row}>
-        {showCheckbox && (
-          <TableCell padding="checkbox">
-            <Checkbox checked={selected} onClick={() => onSelectedClick(id)} />
-          </TableCell>
-        )}
-        <TableCell>
-          <div className={classes.nameAndEditCell}>
-            <Link className={classes.link} onClick={() => onEdgeClusterClick(id)}>
-              {name}
-            </Link>
-          </div>
+  return (
+    <TableRow className={classes.row}>
+      {showCheckbox && (
+        <TableCell padding="checkbox">
+          <Checkbox checked={selected} onClick={() => onSelectedClick(id)} />
         </TableCell>
-        <TableCell>{clusterType}</TableCell>
-        <TableCell>{nodes.length}</TableCell>
-      </TableRow>
-    );
-  },
-);
+      )}
+      <TableCell>
+        <div className={classes.nameAndEditCell}>
+          <Link className={classes.link} onClick={() => onProjectClick(id)}>
+            {name}
+          </Link>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+});
 
-const EdgeClusterRowRelayed = createFragmentContainer(EdgeClusterRow, {
-  edgeCluster: graphql`
-    fragment EdgeClustersTable_edgeCluster on EdgeCluster {
+const ProjectRowRelayed = createFragmentContainer(ProjectRow, {
+  project: graphql`
+    fragment ProjectsTable_project on Project {
       id
       name
-      clusterType
-      nodes {
-        metadata {
-          id
-        }
-      }
     }
   `,
 });
 
-interface EdgeClustersTableProps {
-  user: EdgeClustersTable_user;
-  onEdgeClusterClick: (id: string) => void;
+interface ProjectsTableProps {
+  user: ProjectsTable_user;
+  onProjectClick: (id: string) => void;
   showCheckbox: boolean;
   onDeleteIconClick?: (ids: string[]) => void;
 }
 
-export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(({ user, onEdgeClusterClick, showCheckbox, onDeleteIconClick }) => {
+export const ProjectsTable = React.memo<ProjectsTableProps>(({ user, onProjectClick, showCheckbox, onDeleteIconClick }) => {
   const classes = styles();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -145,14 +131,14 @@ export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(({ user, onE
     }
   };
 
-  const getEdgeClustersTable = (user: EdgeClustersTable_user) => {
+  const getProjectsTable = (user: ProjectsTable_user) => {
     // @ts-ignore: Object is possibly 'null'.
-    return user.edgeClusters.edges.map((edge) => (
-      <EdgeClusterRowRelayed
+    return user.projects.edges.map((edge) => (
+      <ProjectRowRelayed
         key={edge?.node?.id}
         // @ts-ignore: Object is possibly 'null'.
-        edgeCluster={edge?.node}
-        onEdgeClusterClick={onEdgeClusterClick}
+        project={edge?.node}
+        onProjectClick={onProjectClick}
         showCheckbox={showCheckbox}
         selected={!!selectedItems.find((item) => item === edge?.node?.id)}
         onSelectedClick={handleSelectedClick}
@@ -165,21 +151,21 @@ export const EdgeClustersTable = React.memo<EdgeClustersTableProps>(({ user, onE
       <div className={classes.tableWrapper}>
         <Table size="small">
           <Header showCheckbox={showCheckbox} deleteIconEnabled={selectedItems.length > 0} onDeleteIconClick={handleDeleteIconClick} />
-          <TableBody>{getEdgeClustersTable(user)}</TableBody>
+          <TableBody>{getProjectsTable(user)}</TableBody>
         </Table>
       </div>
     </Paper>
   );
 });
 
-export default createFragmentContainer(EdgeClustersTable, {
+export default createFragmentContainer(ProjectsTable, {
   user: graphql`
-    fragment EdgeClustersTable_user on User {
-      edgeClusters(first: 1000, projectIDs: [$projectID]) @connection(key: "User_edgeClusters") {
+    fragment ProjectsTable_user on User {
+      projects(first: 1000) @connection(key: "User_projects") {
         edges {
           node {
             id
-            ...EdgeClustersTable_edgeCluster
+            ...ProjectsTable_project
           }
         }
       }

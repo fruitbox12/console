@@ -12,11 +12,14 @@ import PublicMainContainer from './layouts/public-main';
 import MainContainer from './layouts/main';
 import PublicHomeContainer from './components/app/public-home';
 import DashboardContainer from './components/app/dashboard';
-import ProjectManagement from './components/app/project/project-management';
-import SetProject from './components/app/project/set-project';
+
+import ProjectCreate from './components/pages/project/ProjectCreate';
+import ProjectList from './components/pages/project/ProjectList';
+import ProjectDetails from './components/pages/project/ProjectDetails';
+
+import EdgeClusterCreate from './components/pages/edge-cluster/EdgeClusterCreate';
 import EdgeClusterList from './components/pages/edge-cluster/EdgeClusterList';
 import EdgeClusterDetails from './components/pages/edge-cluster/EdgeClusterDetails';
-import EdgeClusterCreate from './components/pages/edge-cluster/EdgeClusterCreate';
 
 const Routes = () => {
   const { isLoading, isAuthenticated, error } = useAuth0();
@@ -33,18 +36,18 @@ const Routes = () => {
     <React.Fragment>
       <Switch>
         {isAuthenticated ? (
-          <RouteWithLayout isSecureRoute={true} exact path="/" layout={MainContainer} component={DashboardContainer} />
+          <RouteWithLayout isSecureRoute={true} exact path="/" component={DashboardContainer} layout={MainContainer} />
         ) : (
-          <RouteWithLayout isSecureRoute={false} exact path="/" layout={PublicMainContainer} component={PublicHomeContainer} />
+          <RouteWithLayout isSecureRoute={false} exact path="/" component={PublicHomeContainer} layout={PublicMainContainer} />
         )}
-        <RouteWithLayout isSecureRoute={true} exact path="/dashboard" layout={MainContainer} component={DashboardContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/dashboard" layout={MainContainer} component={DashboardContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/project" layout={MainContainer} component={ProjectManagement} />
-        <RouteWithLayout isSecureRoute={true} exact path="/project/create" component={SetProject} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/project/:projectID" component={SetProject} layout={MainContainer} />
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectID" layout={MainContainer} component={DashboardContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/dashboard" component={DashboardContainer} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/dashboard" component={DashboardContainer} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/project" component={ProjectList} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/project/create" component={ProjectCreate} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/project/:projectID" component={ProjectDetails} layout={MainContainer} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID" component={DashboardContainer} layout={MainContainer} />
 
-        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/edgecluster" layout={MainContainer} component={EdgeClusterList} />
+        <RouteWithLayout isSecureRoute={true} exact path="/:projectID/edgecluster" component={EdgeClusterList} layout={MainContainer} />
         <RouteWithLayout isSecureRoute={true} exact path="/:projectID/edgecluster/create" component={EdgeClusterCreate} layout={MainContainer} />
         <RouteWithLayout
           isSecureRoute={true}

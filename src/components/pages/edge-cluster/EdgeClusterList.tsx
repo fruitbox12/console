@@ -8,6 +8,7 @@ import { Environment } from 'relay-runtime';
 import { QueryRenderer } from 'react-relay';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 
 import { EdgeClusterList_user } from './__generated__/EdgeClusterList_user.graphql';
 import { EdgeClusterListQuery } from './__generated__/EdgeClusterListQuery.graphql';
@@ -18,6 +19,10 @@ import GenericErrorContainer from '../../common/generic-error';
 import { add, NotificationType, Notification } from '../../common/notification-handler/NotificationHandlerSlice';
 import EdgeClustersTable from './widgets/EdgeClustersTable';
 import { DeleteEdgeCluster } from '../../../framework/relay/mutations';
+
+export const enNZTranslation = {
+  deletionSuccessMesssage: 'Successfully deleted the edge cluster',
+};
 
 const styles = makeStyles((theme) => ({
   fab: {
@@ -48,6 +53,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
   }) => {
     const classes = styles();
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const createEdgeCluster = () => {
       history.push(`/${projectID}/edgecluster/create`);
@@ -67,7 +73,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
           user,
           {
             onSuccess: () => {
-              const notification: Notification = { type: NotificationType.Success, message: 'Successfully deleted the edge cluster' };
+              const notification: Notification = { type: NotificationType.Success, message: t('edgeClusterList.deletionSuccessMesssage') };
 
               dispatch(add(notification));
             },
@@ -85,7 +91,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
       <React.Fragment>
         <EdgeClustersTable user={user} onEdgeClusterClick={handleEdgeClusterClick} showCheckbox={true} onDeleteIconClick={handleDeleteIconClick} />
 
-        <Fab color="primary" aria-label="add" className={classes.fab} size="large" onClick={createEdgeCluster}>
+        <Fab color="primary" aria-label="add" className={classes.fab} size="medium" onClick={createEdgeCluster}>
           <AddIcon />
         </Fab>
       </React.Fragment>

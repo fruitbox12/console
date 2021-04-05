@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import styles from './Styles';
 import Topbar from './Topbar';
-import ProjectSelector from '../../../../components/app/project/project-selector';
+import ProjectSelector from '../../../../components/pages/project/widgets/ProjectSelector';
 import { selectState as globalSelectState } from '../../../../framework/redux/GlobalSlice';
 
 interface TopbarContainerProps extends WithTranslation {

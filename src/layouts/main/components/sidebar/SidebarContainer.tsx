@@ -5,6 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import HomeIcon from '@material-ui/icons/Home';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
@@ -47,19 +48,28 @@ const SidebarContainer = React.memo<
         icon: <HomeIcon />,
         onClick: () => history.push(`/${projectID}/dashboard`),
       });
-
-      pages.push({
-        key: 'edge-cluster',
-        title: t('edgeCluster.label'),
-        icon: <BlurOnIcon />,
-        onClick: () => history.push(`/${projectID}/edgecluster`),
-      });
     } else {
       pages.push({
         key: 'dashboard',
         title: t('dashboard.label'),
         icon: <HomeIcon />,
         onClick: () => history.push(`/dashboard`),
+      });
+    }
+
+    pages.push({
+      key: 'project',
+      title: t('project.label'),
+      icon: <AccountTreeIcon />,
+      onClick: () => history.push(`/project`),
+    });
+
+    if (projectID) {
+      pages.push({
+        key: 'edge-cluster',
+        title: t('edgeCluster.label'),
+        icon: <BlurOnIcon />,
+        onClick: () => history.push(`/${projectID}/edgecluster`),
       });
     }
 
