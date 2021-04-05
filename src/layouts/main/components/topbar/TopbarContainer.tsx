@@ -56,7 +56,7 @@ const TopbarContainer = React.memo<
 
     const handleProjectSelectorSelectedProject = (id: string) => {
       handleSelectProjectCloseClick();
-      history.push(`/${id}/dashboard`);
+      history.push(`/${id}/edgecluster`);
     };
 
     const handleNewProjectClick = () => {
