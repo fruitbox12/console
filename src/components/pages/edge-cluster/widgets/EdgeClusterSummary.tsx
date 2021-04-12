@@ -62,17 +62,21 @@ interface EdgeClustersSummaryProps {
 }
 
 export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
-  ({ edgeCluster: { id, name, clusterType, clusterSecret, provisionDetail } }) => {
+  ({ edgeCluster: { id, name, clusterType, clusterSecret, provisionDetails } }) => {
     const classes = styles();
     const { t } = useTranslation();
     const [openEditName, setOpenEditName] = useState(false);
     const [openEditClusterSecret, setOpenEditClusterSecret] = useState(false);
 
     // @ts-ignore: Object is possibly 'undefined'.
-    const ip = provisionDetail?.ingress?.length > 0 ? provisionDetail?.ingress[0].ip : '';
-    // @ts-ignore: Object is possibly 'undefined'.
-    const port = provisionDetail?.ports?.length > 0 ? provisionDetail?.ports[0].port : '';
-    const kubeconfig = provisionDetail?.kubeconfigContent ? provisionDetail?.kubeconfigContent : '';
+    const ip = provisionDetails.loadBalancer?.ingress.length > 0 ? provisionDetails.loadBalancer.ingress[0].ip : '';
+    const port =
+      // @ts-ignore: Object is possibly 'undefined'.
+      provisionDetails.loadBalancer?.ingress.length > 0 && provisionDetails.loadBalancer?.ingress[0].portStatus.length > 0
+        ? // @ts-ignore: Object is possibly 'undefined'.
+          provisionDetails.loadBalancer?.ingress[0].portStatus[0].port
+        : '';
+    const kubeconfig = provisionDetails?.kubeconfigContent ? provisionDetails?.kubeconfigContent : '';
 
     const handleDownloadKubeconfigFile = () => {
       const file = new File([kubeconfig], `${ip}.config`, { type: 'text/plain' });
@@ -204,12 +208,15 @@ export default createFragmentContainer(EdgeClustersSummary, {
       name
       clusterType
       clusterSecret
-      provisionDetail {
-        ingress {
-          ip
-        }
-        ports {
-          port
+      provisionDetails {
+        loadBalancer {
+          ingress {
+            ip
+            hostname
+            portStatus {
+              port
+            }
+          }
         }
         kubeconfigContent
       }
