@@ -57,11 +57,11 @@ const Header = React.memo(() => {
   );
 });
 
-interface EdgeClustersNodeRowProps {
+interface EdgeClusterNodeRowProps {
   node: EdgeClusterNodes_node;
 }
 
-const EdgeClustersNodeRow = React.memo<EdgeClustersNodeRowProps>(
+const EdgeClusterNodeRow = React.memo<EdgeClusterNodeRowProps>(
   ({
     node: {
       metadata: { name },
@@ -96,7 +96,7 @@ const EdgeClustersNodeRow = React.memo<EdgeClustersNodeRowProps>(
   },
 );
 
-const EdgeClustersNodeRowRelayed = createFragmentContainer(EdgeClustersNodeRow, {
+const EdgeClusterNodeRowRelayed = createFragmentContainer(EdgeClusterNodeRow, {
   node: graphql`
     fragment EdgeClusterNodes_node on EdgeClusterNode {
       metadata {
@@ -121,11 +121,11 @@ const EdgeClustersNodeRowRelayed = createFragmentContainer(EdgeClustersNodeRow, 
   `,
 });
 
-interface EdgeClustersNodesProps {
+interface EdgeClusterNodesProps {
   edgeCluster: EdgeClusterNodes_edgeCluster;
 }
 
-const EdgeClustersNodes = React.memo<EdgeClustersNodesProps>(({ edgeCluster: { nodes } }) => {
+const EdgeClusterNodes = React.memo<EdgeClusterNodesProps>(({ edgeCluster: { nodes } }) => {
   const classes = styles();
 
   return (
@@ -134,7 +134,7 @@ const EdgeClustersNodes = React.memo<EdgeClustersNodesProps>(({ edgeCluster: { n
         <Header />
         <TableBody>
           {nodes.map((node) => (
-            <EdgeClustersNodeRowRelayed key={node.metadata.id} node={node} />
+            <EdgeClusterNodeRowRelayed key={node.metadata.id} node={node} />
           ))}
         </TableBody>
       </Table>
@@ -142,7 +142,7 @@ const EdgeClustersNodes = React.memo<EdgeClustersNodesProps>(({ edgeCluster: { n
   );
 });
 
-export default createFragmentContainer(EdgeClustersNodes, {
+export default createFragmentContainer(EdgeClusterNodes, {
   edgeCluster: graphql`
     fragment EdgeClusterNodes_edgeCluster on EdgeCluster {
       nodes {

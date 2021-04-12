@@ -15,6 +15,7 @@ import { enNZTranslation as enNZEdgeClusterNodes } from '../components/pages/edg
 import { enNZTranslation as enNZEdgeClusterWorkloads } from '../components/pages/edge-cluster/widgets/EdgeClusterWorkloads';
 import { enNZTranslation as enNZEdgeClusterEditName } from '../components/pages/edge-cluster/widgets/EdgeClusterEditName';
 import { enNZTranslation as enNZEdgeClusterEditClusterSecret } from '../components/pages/edge-cluster/widgets/EdgeClusterEditClusterSecret';
+import { enNZTranslation as enNZEdgeClusterServices } from '../components/pages/edge-cluster/widgets/EdgeClusterServices';
 
 i18next.use(LanguageDetector).init({
   interpolation: {
@@ -54,6 +55,7 @@ i18next.use(LanguageDetector).init({
         summary: { title: 'Summary' },
         nodes: { title: 'Nodes' },
         workloads: { title: 'Workloads' },
+        services: { title: 'Services' },
 
         projectCreate: enNZProjectCreate,
         projectList: enNZProjectList,
@@ -69,6 +71,7 @@ i18next.use(LanguageDetector).init({
         edgeClusterWorkloads: enNZEdgeClusterWorkloads,
         edgeClusterEditName: enNZEdgeClusterEditName,
         edgeClusterEditClusterSecret: enNZEdgeClusterEditClusterSecret,
+        edgeClusterServices: enNZEdgeClusterServices,
       },
     },
   },

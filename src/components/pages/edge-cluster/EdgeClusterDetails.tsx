@@ -16,6 +16,7 @@ import GenericErrorContainer from '../../common/generic-error';
 import EdgeClusterSummary from './widgets/EdgeClusterSummary';
 import EdgeClusterNodes from './widgets/EdgeClusterNodes';
 import EdgeClusterWorkloads from './widgets/EdgeClusterWorkloads';
+import EdgeClusterServices from './widgets/EdgeClusterServices';
 
 interface EdgeClusterDetailsContainerProps {
   user: EdgeClusterDetails_user;
@@ -35,10 +36,12 @@ const EdgeClusterDetailsContainer = React.memo<EdgeClusterDetailsContainerProps>
         <Tab label={t('summary.title')} />
         <Tab label={t('nodes.title')} />
         <Tab label={t('workloads.title')} />
+        <Tab label={t('services.title')} />
       </Tabs>
       {user.edgeCluster && selectedTab === 0 && <EdgeClusterSummary edgeCluster={user.edgeCluster} />}
       {user.edgeCluster && selectedTab === 1 && <EdgeClusterNodes edgeCluster={user.edgeCluster} />}
       {user.edgeCluster && selectedTab === 2 && <EdgeClusterWorkloads edgeCluster={user.edgeCluster} />}
+      {user.edgeCluster && selectedTab === 3 && <EdgeClusterServices edgeCluster={user.edgeCluster} />}
     </React.Fragment>
   );
 });
@@ -50,6 +53,7 @@ const EdgeClusterDetailsContainerRelayed = createFragmentContainer(EdgeClusterDe
         ...EdgeClusterSummary_edgeCluster
         ...EdgeClusterNodes_edgeCluster
         ...EdgeClusterWorkloads_edgeCluster
+        ...EdgeClusterServices_edgeCluster
       }
     }
   `,

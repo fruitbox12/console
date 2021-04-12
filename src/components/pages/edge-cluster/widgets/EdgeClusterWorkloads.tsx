@@ -47,11 +47,11 @@ const Header = React.memo(() => {
   );
 });
 
-interface EdgeClustersWorkloadRowProps {
+interface EdgeClusterWorkloadRowProps {
   pod: EdgeClusterWorkloads_pod;
 }
 
-const EdgeClustersWorkloadRow = React.memo<EdgeClustersWorkloadRowProps>(
+const EdgeClusterWorkloadRow = React.memo<EdgeClusterWorkloadRowProps>(
   ({
     pod: {
       metadata: { name, namespace },
@@ -73,7 +73,7 @@ const EdgeClustersWorkloadRow = React.memo<EdgeClustersWorkloadRowProps>(
   },
 );
 
-const EdgeClustersWorkloadRowRelayed = createFragmentContainer(EdgeClustersWorkloadRow, {
+const EdgeClusterWorkloadRowRelayed = createFragmentContainer(EdgeClusterWorkloadRow, {
   pod: graphql`
     fragment EdgeClusterWorkloads_pod on EdgeClusterPod {
       metadata {
@@ -104,7 +104,7 @@ const EdgeClustersNodes = React.memo<EdgeClustersNodesProps>(({ edgeCluster: { p
         <Header />
         <TableBody>
           {pods.map((pod) => (
-            <EdgeClustersWorkloadRowRelayed key={pod.metadata.id} pod={pod} />
+            <EdgeClusterWorkloadRowRelayed key={pod.metadata.id} pod={pod} />
           ))}
         </TableBody>
       </Table>

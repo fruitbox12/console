@@ -31,8 +31,8 @@ export const enNZTranslation = {
   type: 'Type',
   secret: 'Secret',
   networking: 'Networking',
-  ip: 'IP',
-  port: 'Port',
+  ips: 'IP(s)',
+  ports: 'Port(s)',
   kubeconfig: 'Kubeconfig',
   copyToClipboard: 'Copy to clipboard',
   download: 'Download',
@@ -68,18 +68,40 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
     const [openEditName, setOpenEditName] = useState(false);
     const [openEditClusterSecret, setOpenEditClusterSecret] = useState(false);
 
-    // @ts-ignore: Object is possibly 'undefined'.
-    const ip = provisionDetails.loadBalancer?.ingress.length > 0 ? provisionDetails.loadBalancer.ingress[0].ip : '';
-    const port =
-      // @ts-ignore: Object is possibly 'undefined'.
-      provisionDetails.loadBalancer?.ingress.length > 0 && provisionDetails.loadBalancer?.ingress[0].portStatus.length > 0
-        ? // @ts-ignore: Object is possibly 'undefined'.
-          provisionDetails.loadBalancer?.ingress[0].portStatus[0].port
-        : '';
+    let ips = '';
+    let ports = '';
+
+    if (provisionDetails.loadBalancer !== null) {
+      ips = provisionDetails.loadBalancer.ingress
+        .reduce((reduction, value) => {
+          if (value.ip === '') {
+            return '';
+          }
+
+          return `${reduction}, ${value.ip}`;
+        }, '')
+        .replace(',', '')
+        .trim();
+
+      ports = provisionDetails.loadBalancer.ingress
+        .flatMap((item) => item.portStatus)
+        .reduce((reduction, value) => {
+          let finalValue = value.toString().replace('0', '');
+
+          if (finalValue === '') {
+            return '';
+          }
+
+          return `${reduction}, ${finalValue}`;
+        }, '')
+        .replace(',', '')
+        .trim();
+    }
     const kubeconfig = provisionDetails?.kubeconfigContent ? provisionDetails?.kubeconfigContent : '';
 
     const handleDownloadKubeconfigFile = () => {
-      const file = new File([kubeconfig], `${ip}.config`, { type: 'text/plain' });
+      // @ts-ignore: Object is possibly 'undefined'.
+      const file = new File([kubeconfig], `${provisionDetails.loadBalancer.ingress[0].ip}.config`, { type: 'text/plain' });
 
       FileSaver.saveAs(file);
     };
@@ -172,13 +194,13 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
                 </TableCell>
               </TableRow>
               <TableRow className={classes.row}>
-                <TableCell>{t('edgeClusterSummary.ip')}</TableCell>
-                <TableCell>{ip}</TableCell>
+                <TableCell>{t('edgeClusterSummary.ips')}</TableCell>
+                <TableCell>{ips}</TableCell>
                 <TableCell />
               </TableRow>
               <TableRow className={classes.row}>
-                <TableCell>{t('edgeClusterSummary.port')}</TableCell>
-                <TableCell>{port}</TableCell>
+                <TableCell>{t('edgeClusterSummary.ports')}</TableCell>
+                <TableCell>{ports}</TableCell>
                 <TableCell />
               </TableRow>
             </TableBody>
