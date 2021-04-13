@@ -82,21 +82,21 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
         }, '')
         .replace(',', '')
         .trim();
-
-      ports = provisionDetails.loadBalancer.ingress
-        .flatMap((item) => item.portStatus)
-        .reduce((reduction, value) => {
-          let finalValue = value.toString().replace('0', '');
-
-          if (finalValue === '') {
-            return '';
-          }
-
-          return `${reduction}, ${finalValue}`;
-        }, '')
-        .replace(',', '')
-        .trim();
     }
+
+    ports = provisionDetails.ports
+      .reduce((reduction, value) => {
+        let finalValue = value.toString().replace('0', '');
+
+        if (finalValue === '') {
+          return '';
+        }
+
+        return `${reduction}, ${finalValue}`;
+      }, '')
+      .replace(',', '')
+      .trim();
+
     const kubeconfig = provisionDetails?.kubeconfigContent ? provisionDetails?.kubeconfigContent : '';
 
     const handleDownloadKubeconfigFile = () => {
@@ -241,6 +241,7 @@ export default createFragmentContainer(EdgeClustersSummary, {
           }
         }
         kubeconfigContent
+        ports
       }
     }
   `,
