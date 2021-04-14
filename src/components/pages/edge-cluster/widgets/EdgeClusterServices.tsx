@@ -73,20 +73,20 @@ const EdgeClusterServiceRow = React.memo<EdgeClusterServiceRowProps>(
         .reduce((reduction, value) => `${reduction}, ${value.ip}`, '')
         .replace(',', '')
         .trim();
-
-      ports = specPorts
-        .reduce((reduction, value) => {
-          let finalValue = value.port.toString().replace('0', '');
-
-          if (finalValue === '') {
-            return '';
-          }
-
-          return `${reduction}, ${finalValue}`;
-        }, '')
-        .replace(',', '')
-        .trim();
     }
+
+    ports = specPorts
+      .reduce((reduction, value) => {
+        const valueStr = value.port.toString();
+
+        if (valueStr === '' || valueStr === '0') {
+          return '';
+        }
+
+        return `${reduction}, ${valueStr}`;
+      }, '')
+      .replace(',', '')
+      .trim();
 
     const clusterIPs = specClusterIPs
       .reduce((reduction, value) => {

@@ -86,13 +86,13 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
 
     ports = provisionDetails.ports
       .reduce((reduction, value) => {
-        let finalValue = value.toString().replace('0', '');
+        const valueStr = value.toString();
 
-        if (finalValue === '') {
+        if (valueStr === '' || valueStr === '0') {
           return '';
         }
 
-        return `${reduction}, ${finalValue}`;
+        return `${reduction}, ${valueStr}`;
       }, '')
       .replace(',', '')
       .trim();

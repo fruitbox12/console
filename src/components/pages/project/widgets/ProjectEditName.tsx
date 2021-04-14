@@ -138,6 +138,7 @@ const View = React.memo<ViewProps>(
 const ViewRelayed = createFragmentContainer(View, {
   user: graphql`
     fragment ProjectEditName_user on User {
+      id
       project(projectID: $projectID) {
         id
         name

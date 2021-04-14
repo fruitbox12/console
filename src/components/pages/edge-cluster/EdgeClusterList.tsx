@@ -102,6 +102,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
 const EdgeClusterListContainerRelayed = createFragmentContainer(connect()(withRouter(EdgeClusterListContainer)), {
   user: graphql`
     fragment EdgeClusterList_user on User {
+      id
       edgeClusters(first: 1000, projectIDs: [$projectID]) @connection(key: "User_edgeClusters") {
         edges {
           node {

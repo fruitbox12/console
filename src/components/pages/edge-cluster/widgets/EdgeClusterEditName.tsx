@@ -147,6 +147,7 @@ const View = React.memo<ViewProps>(
 const ViewRelayed = createFragmentContainer(View, {
   user: graphql`
     fragment EdgeClusterEditName_user on User {
+      id
       edgeCluster(edgeClusterID: $edgeClusterID) {
         id
         name

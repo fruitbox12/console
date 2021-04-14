@@ -102,6 +102,7 @@ const ProjectListContainer = React.memo<ProjectListContainerProps>(
 const ProjectListContainerRelayed = createFragmentContainer(connect()(withRouter(ProjectListContainer)), {
   user: graphql`
     fragment ProjectList_user on User {
+      id
       projects(first: 1000) @connection(key: "User_projects") {
         edges {
           node {
