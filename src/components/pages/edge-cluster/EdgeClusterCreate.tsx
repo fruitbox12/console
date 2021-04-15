@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RelayEnvironment } from '../../../framework/relay';
@@ -163,4 +163,4 @@ const CreateEdgeClusterContainer: React.FC<CreateEdgeClusterContainerProps> = ({
   return <View onSubmit={setEdgeCluster} onCancelButtonClick={cancel} />;
 };
 
-export default connect()(withRouter(CreateEdgeClusterContainer));
+export default withRouter(CreateEdgeClusterContainer);

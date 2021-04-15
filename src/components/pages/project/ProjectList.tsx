@@ -32,72 +32,60 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-interface ProjectListContainerProps
-  extends RouteComponentProps<{
-    projectID?: string;
-  }> {
+interface ProjectListContainerProps extends RouteComponentProps {
   user: ProjectList_user;
   readonly relay: {
     environment: Environment;
   };
 }
 
-const ProjectListContainer = React.memo<ProjectListContainerProps>(
-  ({
-    history,
-    user,
-    relay: { environment },
-    match: {
-      params: { projectID },
-    },
-  }) => {
-    const classes = styles();
-    const dispatch = useDispatch();
-    const { t } = useTranslation();
+const ProjectListContainer = React.memo<ProjectListContainerProps>(({ history, user, relay: { environment } }) => {
+  const classes = styles();
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
-    const createProject = () => {
-      history.push(`/project/create`);
-    };
+  const createProject = () => {
+    history.push(`/project/create`);
+  };
 
-    const handleProjectClick = (id: string) => {
-      history.push(`/project/${id}`);
-    };
+  const handleProjectClick = (id: string) => {
+    history.push(`/project/${id}`);
+  };
 
-    const handleDeleteIconClick = (projectIDs: string[]) => {
-      projectIDs.forEach((projectID) => {
-        DeleteProject(
-          environment,
-          {
-            projectID,
+  const handleDeleteIconClick = (projectIDs: string[]) => {
+    projectIDs.forEach((projectID) => {
+      DeleteProject(
+        environment,
+        {
+          projectID,
+        },
+        user,
+        {
+          onSuccess: () => {
+            const notification: Notification = { type: NotificationType.Success, message: t('projectList.deletionSuccessMesssage') };
+
+            dispatch(add(notification));
           },
-          user,
-          {
-            onSuccess: () => {
-              const notification: Notification = { type: NotificationType.Success, message: t('projectList.deletionSuccessMesssage') };
+          onError: (errorMessage: string) => {
+            const notification: Notification = { type: NotificationType.Error, message: errorMessage };
 
-              dispatch(add(notification));
-            },
-            onError: (errorMessage: string) => {
-              const notification: Notification = { type: NotificationType.Error, message: errorMessage };
-
-              dispatch(add(notification));
-            },
+            dispatch(add(notification));
           },
-        );
-      });
-    };
+        },
+      );
+    });
+  };
 
-    return (
-      <React.Fragment>
-        <ProjectsTable user={user} onProjectClick={handleProjectClick} showCheckbox={true} onDeleteIconClick={handleDeleteIconClick} />
+  return (
+    <React.Fragment>
+      <ProjectsTable user={user} onProjectClick={handleProjectClick} showCheckbox={true} onDeleteIconClick={handleDeleteIconClick} />
 
-        <Fab color="primary" aria-label="add" className={classes.fab} size="medium" onClick={createProject}>
-          <AddIcon />
-        </Fab>
-      </React.Fragment>
-    );
-  },
-);
+      <Fab color="primary" aria-label="add" className={classes.fab} size="medium" onClick={createProject}>
+        <AddIcon />
+      </Fab>
+    </React.Fragment>
+  );
+});
 
 const ProjectListContainerRelayed = createFragmentContainer(connect()(withRouter(ProjectListContainer)), {
   user: graphql`

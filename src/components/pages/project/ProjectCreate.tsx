@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RelayEnvironment } from '../../../framework/relay';
@@ -128,4 +128,4 @@ const CreateProjectContainer: React.FC<CreateProjectContainerProps> = ({ history
   return <View onSubmit={setProject} onCancelButtonClick={cancel} />;
 };
 
-export default connect()(withRouter(CreateProjectContainer));
+export default withRouter(CreateProjectContainer);
