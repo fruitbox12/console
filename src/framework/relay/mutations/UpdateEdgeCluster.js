@@ -19,14 +19,12 @@ const mutation = graphql`
 `;
 
 const getOptimisticResponse = (id, { projectID, name, clusterType, clusterSecret }, user) => {
-  if (!user) {
-    return {};
-  }
+  const userId = user ? user.id : undefined;
 
   return {
     updateEdgeCluster: {
       user: {
-        id: user.id,
+        id: userId,
         edgeCluster: {
           node: {
             id,

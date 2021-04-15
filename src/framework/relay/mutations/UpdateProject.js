@@ -17,14 +17,12 @@ const mutation = graphql`
 `;
 
 const getOptimisticResponse = (id, { name }, user) => {
-  if (!user) {
-    return {};
-  }
+  const userId = user ? user.id : undefined;
 
   return {
     updateProject: {
       user: {
-        id: user.id,
+        id: userId,
         project: {
           node: {
             id,
