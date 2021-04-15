@@ -71,6 +71,7 @@ const EdgeClusterListContainer = React.memo<EdgeClusterListContainerProps>(
             edgeClusterID,
           },
           user,
+          projectID,
           {
             onSuccess: () => {
               const notification: Notification = { type: NotificationType.Success, message: t('edgeClusterList.deletionSuccessMesssage') };
