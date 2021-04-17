@@ -195,12 +195,38 @@ export const EdgeClustersSummary = React.memo<EdgeClustersSummaryProps>(
               </TableRow>
               <TableRow className={classes.row}>
                 <TableCell>{t('edgeClusterSummary.ips')}</TableCell>
-                <TableCell>{ips}</TableCell>
+                <TableCell>
+                  {ips !== '' && (
+                    <React.Fragment>
+                      {ips}
+                      <Tooltip title={<React.Fragment>{t('edgeClusterSummary.copyToClipboard')}</React.Fragment>}>
+                        <CopyToClipboard text={ips}>
+                          <IconButton color="inherit">
+                            <FileCopyIcon />
+                          </IconButton>
+                        </CopyToClipboard>
+                      </Tooltip>
+                    </React.Fragment>
+                  )}
+                </TableCell>
                 <TableCell />
               </TableRow>
               <TableRow className={classes.row}>
                 <TableCell>{t('edgeClusterSummary.ports')}</TableCell>
-                <TableCell>{ports}</TableCell>
+                <TableCell>
+                  {ports !== '' && (
+                    <React.Fragment>
+                      {ports}
+                      <Tooltip title={<React.Fragment>{t('edgeClusterSummary.copyToClipboard')}</React.Fragment>}>
+                        <CopyToClipboard text={ports}>
+                          <IconButton color="inherit">
+                            <FileCopyIcon />
+                          </IconButton>
+                        </CopyToClipboard>
+                      </Tooltip>
+                    </React.Fragment>
+                  )}
+                </TableCell>
                 <TableCell />
               </TableRow>
             </TableBody>
