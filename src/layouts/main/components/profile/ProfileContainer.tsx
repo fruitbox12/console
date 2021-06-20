@@ -15,6 +15,7 @@ export default withTranslation()(
   React.memo<WithTranslation>(({ t }) => {
     const classes = styles();
     const { user, logout } = useAuth0();
+    // @ts-ignore: Object is possibly 'undefined'.
     const { name, email, picture } = user;
 
     const signOut = () => {

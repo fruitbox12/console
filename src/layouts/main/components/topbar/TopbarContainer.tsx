@@ -36,6 +36,7 @@ const TopbarContainer = React.memo<
   }) => {
     const classes = styles();
     const { user } = useAuth0();
+    // @ts-ignore: Object is possibly 'undefined'.
     const { picture } = user;
     const [openSelectProject, setSelectProjectOpen] = useState(false);
     let { currentSelectedProject } = useSelector(globalSelectState);
