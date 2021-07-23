@@ -6,7 +6,7 @@ ARG VERSION
 
 ADD . /src
 WORKDIR /src
-RUN yarn install
+RUN yarn install --frozen-lockfile
 RUN yarn run relay
 RUN yarn run build
 
